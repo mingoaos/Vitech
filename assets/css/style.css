@@ -821,19 +821,19 @@ h6 {
   flex-grow: 0;
 }
 
-.dashboard .sales-card .card-icon {
-  color: #4154f1;
-  background: #f6f6fe;
+.dashboard .pendentes-card .card-icon {
+  color: #f0cc00;
+  background: #fffbe9;
 }
 
-.dashboard .revenue-card .card-icon {
+.dashboard .abertos-card .card-icon {
   color: #2eca6a;
-  background: #e0f8e9;
+  background: #edfff4;
 }
 
-.dashboard .customers-card .card-icon {
-  color: #ff771d;
-  background: #ffecdf;
+.dashboard .naoatribuidos-card .card-icon {
+  color: #4154f1;
+  background: #efefff;
 }
 
 /* Activity */
@@ -916,24 +916,24 @@ h6 {
   margin-left: 95px;
 }
 
-/* Recent Sales */
-.dashboard .recent-sales {
+/* Recent pendentes */
+.dashboard .recent-pendentes {
   font-size: 14px;
 }
 
-.dashboard .recent-sales .table thead {
+.dashboard .recent-pendentes .table thead {
   background: #f6f6fe;
 }
 
-.dashboard .recent-sales .table thead th {
+.dashboard .recent-pendentes .table thead th {
   border: 0;
 }
 
-.dashboard .recent-sales .dataTable-top {
+.dashboard .recent-pendentes .dataTable-top {
   padding: 0 0 10px 0;
 }
 
-.dashboard .recent-sales .dataTable-bottom {
+.dashboard .recent-pendentes .dataTable-bottom {
   padding: 10px 0 0 0;
 }
 
