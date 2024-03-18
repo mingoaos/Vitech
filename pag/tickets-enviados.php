@@ -14,9 +14,10 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Name</th>
-                                <th>Department</th>
-                                <th>Action</th>
+                                <th>Reportado Por</th>
+                                <th>Assunto</th>
+                                <th>Data</th>
+                                <th>Ações</th>
                             </tr>
                             <tbody>
                   <tr>
