@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">    
-<body>
+
 <div class="pagetitle">
       <h1>Página inicial</h1>
 
@@ -284,5 +282,3 @@
 
       </div>
     </section>
-</body>
-</html>

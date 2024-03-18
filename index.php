@@ -265,7 +265,7 @@
 
   <main id="main" class="main">
 
-    <?php require "pag/dashboard.php"; ?>
+    <?php require "pag/tickets-enviados.php"; ?>
 
   </main><!-- End #main -->
 
