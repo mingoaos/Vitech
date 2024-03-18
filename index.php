@@ -38,7 +38,7 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
+      <a href="index.php?op=1" class="logo d-flex align-items-center">
         <img src="assets/img/logo.png" alt="">
         <span class="d-none d-lg-block">Vitech</span>
       </a>
@@ -181,7 +181,7 @@
         </a>
         <ul id="tickets-enviados-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="components-accordion.html">
+            <a href="index.php?op=2&x=1">
               <i class="bi bi-circle-fill" style="color:red;"></i><span>Pendente</span>
             </a>
           </li>
@@ -204,7 +204,7 @@
         </a>
         <ul id="tickets-recebidos-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="components-accordion.html">
+            <a href="">
             <i class="bi bi-circle-fill" style="color:red;"></i><span>Pendente</span>
             </a>
           </li>
@@ -265,7 +265,29 @@
 
   <main id="main" class="main">
 
-    <?php require "pag/tickets-enviados.php"; ?>
+    <?php 
+      if(isset($_GET['op'])) {
+          $op = $_GET['op'];
+          switch ($op) {
+              case 1:
+                  require "pag/dashboard.php";
+                  break;
+              case 2:
+                  require "pag/tickets-enviados.php";
+                  break;
+              case 3:
+                  require "../user/user.php";
+                  break;
+              default:
+                  require "404.php";
+                  break;
+          }
+      }
+      else
+      {
+          require "erro-404.php";
+      }
+    ?>
 
   </main><!-- End #main -->
 
