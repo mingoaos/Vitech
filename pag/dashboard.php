@@ -1,3 +1,8 @@
+<?php
+
+require 'verificarlogin.php';
+?>
+
 
 <div class="pagetitle">
       <h1>Página inicial</h1>

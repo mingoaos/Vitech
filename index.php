@@ -1,3 +1,8 @@
+<?php
+
+require 'pag/verificarlogin.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,6 +33,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
+  <link href="assets/css/mystyle.css" rel="stylesheet">
 
 
 </head>
@@ -170,8 +176,8 @@
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
 
+    <button class="btn btn-outline-primary btn" style="margin-bottom: 12px; width: 100%" >Criar Notícia</button>
     <button class="btn btn-outline-success btn" style="margin-bottom: 12px; width: 100%" >Criar Ticket</button>
-
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
