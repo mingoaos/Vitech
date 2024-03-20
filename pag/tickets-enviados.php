@@ -10,12 +10,12 @@ if(isset($_GET['x'])) {
       break;
     case 2:
       $status = "Abertos";
-      $status_color = "rgb(204, 204, 0)";
+      $status_color = "#FFD700";
       $s = "A";
       break;
     case 3:
       $status = "Fechados";
-      $status_color = "greenyellow";
+      $status_color = "#32CD32";
       $s = "F";
       break;
   }

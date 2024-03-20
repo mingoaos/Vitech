@@ -192,12 +192,12 @@ require 'pag/verificarlogin.php';
           </li>
           <li>
             <a href="index.php?op=2&x=2">
-              <i class="bi bi-circle-fill" style="color:rgb(243, 235, 0);"></i><span>Aberto</span>
+              <i class="bi bi-circle-fill" style="color:#FFD700;"></i><span>Aberto</span>
             </a>
           </li>
           <li>
             <a href="index.php?op=2&x=3">
-              <i class="bi bi-circle-fill" style="color:greenyellow;"></i><span>Fechado</span>
+              <i class="bi bi-circle-fill" style="color:#32CD32;"></i><span>Fechado</span>
             </a>
           </li>
         </ul>
@@ -215,12 +215,12 @@ require 'pag/verificarlogin.php';
           </li>
           <li>
             <a href="components-alerts.html">
-              <i class="bi bi-circle-fill" style="color:rgb(243, 235, 0);"></i><span>Aberto</span>
+              <i class="bi bi-circle-fill" style="color:#FFD700	;"></i><span>Aberto</span>
             </a>
           </li>
           <li>
             <a href="components-badges.html">
-              <i class="bi bi-circle-fill" style="color:greenyellow;"></i><span>Fechado</span>
+              <i class="bi bi-circle-fill" style="color:#32CD32;"></i><span>Fechado</span>
             </a>
           </li>
         </ul>
@@ -240,7 +240,7 @@ require 'pag/verificarlogin.php';
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="tables-general.html">
+            <a href="index.php?op=5">
               <i class="bi bi-circle"></i><span>Utilizadores</span>
             </a>
           </li>
@@ -283,8 +283,14 @@ require 'pag/verificarlogin.php';
               case 3:
                   require "../user/user.php";
                   break;
+              case 4:
+                  require "../user/user.php";
+                  break;
+              case 5:
+                  require "pag/users/user.php";
+                  break;    
               default:
-                  require "404.php";
+                  require "pag/error-404.html";
                   break;
           }
       }
@@ -317,7 +323,7 @@ require 'pag/verificarlogin.php';
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  
+
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
