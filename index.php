@@ -1,5 +1,4 @@
 <?php
-
 require 'pag/verificarlogin.php';
 ?>
 
@@ -147,19 +146,19 @@ require 'pag/verificarlogin.php';
         <li class="nav-item dropdown pe-5">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <span class="d-none d-md-block dropdown-toggle ps-0">Antonio Novo</span>
+            <span class="d-none d-md-block dropdown-toggle ps-0"> <?php echo $_SESSION['nome']; ?> </span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
-              <span>Web Designer</span>
+              <h6><?php echo $_SESSION['nome']; ?></h6>
+              <span>Bem vindo!</span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="pag/login/logout.php">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>
@@ -192,12 +191,12 @@ require 'pag/verificarlogin.php';
             </a>
           </li>
           <li>
-            <a href="components-alerts.html">
+            <a href="index.php?op=2&x=2">
               <i class="bi bi-circle-fill" style="color:rgb(243, 235, 0);"></i><span>Aberto</span>
             </a>
           </li>
           <li>
-            <a href="components-badges.html">
+            <a href="index.php?op=2&x=3">
               <i class="bi bi-circle-fill" style="color:greenyellow;"></i><span>Fechado</span>
             </a>
           </li>
@@ -315,9 +314,21 @@ require 'pag/verificarlogin.php';
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script>
+    // Make table rows clickable
+    $(document).ready(function(){
+      $('tbody tr[data-href]').addClass('clickable').click(function(){
+        window.location = $(this).attr('data-href');
+      });
+    });
+  </script>
 
 </body>
 

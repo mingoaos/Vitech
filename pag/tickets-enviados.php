@@ -36,53 +36,34 @@ if(isset($_GET['x'])) {
             </div>
             <div class="card-body py-4">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Reportado Por</th>
-                                <th>Assunto</th>
-                                <th>Data</th>
-                                <th>Ações</th>
-                            </tr>
-                            <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
-                    <td>2016-05-25</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Bridie Kessler</td>
-                    <td>Developer</td>
-                    <td>35</td>
-                    <td>2014-12-05</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Ashleigh Langosh</td>
-                    <td>Finance</td>
-                    <td>45</td>
-                    <td>2011-08-12</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Angus Grady</td>
-                    <td>HR</td>
-                    <td>34</td>
-                    <td>2012-06-11</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td>Raheem Lehner</td>
-                    <td>Dynamic Division Officer</td>
-                    <td>47</td>
-                    <td>2011-04-19</td>
-                  </tr>
-                </tbody>
-              </table>
+                <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Reportado Por</th>
+                      <th>Assunto</th>
+                      <th>Data</th>
+                      <th>Urgência</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-href="index.php?op=1">
+                      <td>1</td>
+                      <td>Brandon Jacob</td>
+                      <td>Sala A0.05</td>
+                      <td>2016-05-25</td>
+                      <td><span class="badge bg-danger">Urgente</span></td>
+                    </tr>
+                    <tr data-href="https://example.com/report/2">
+                      <td>2</td>
+                      <td>Bridie Kessler</td>
+                      <td>Não consigo entrar no inovar o que faco?</td>
+                      <td>2014-12-05</td>
+                      <td><span class="badge bg-danger">Urgente</span></td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                  </tbody>
+                </table>
 
 
 

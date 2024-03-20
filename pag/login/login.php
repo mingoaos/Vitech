@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,10 +55,18 @@
                   <div class="pt-4 pb-2">
                     <h5 class="card-title text-center pb-0 fs-4">Login</h5>
                     <p class="text-center small">Insira o seu Utilizador e Password</p>
-                  </div>
+                    <?php
+                        session_start();
 
-                  <form class="row g-3 needs-validation" novalidate>
+                        if (isset($_SESSION['error']) && $_SESSION['error'] === 'credenciais') {
+                            echo '<p class="text-center small" style="color:red">Credenciais Erradas!</p>';
 
+                            unset($_SESSION['error']);
+                        }
+                        ?>
+                    </div>
+
+                  <form class="row g-3 needs-validation" id="loginForm" action="logincode.php" method="POST" novalidate>
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Utilizador</label>
                       <div class="input-group has-validation">
