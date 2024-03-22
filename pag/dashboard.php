@@ -1,7 +1,4 @@
-<?php
 
-require 'verificarlogin.php';
-?>
 
 
 <div class="pagetitle">
