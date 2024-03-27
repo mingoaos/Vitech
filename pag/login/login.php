@@ -1,3 +1,10 @@
+<?php
+
+session_start();
+
+?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -56,7 +63,7 @@
                     <h5 class="card-title text-center pb-0 fs-4">Login</h5>
                     <p class="text-center small">Insira o seu Utilizador e Password</p>
                     <?php
-                        session_start();
+                       
 
                         if (isset($_SESSION['error']) && $_SESSION['error'] === 'credenciais') {
                             echo '<p class="text-center small" style="color:red">Credenciais Erradas!</p>';

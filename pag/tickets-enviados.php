@@ -4,19 +4,13 @@ if(isset($_GET['x'])) {
   $x = $_GET['x'];
   switch ($x) {
     case 1:
-      $status = "Pendente";
-      $status_color = "red";
-      $s = "P";
+      $pendente = true;
       break;
     case 2:
-      $status = "Abertos";
-      $status_color = "#FFD700";
-      $s = "A";
+      $aberto = true;
       break;
     case 3:
-      $status = "Fechados";
-      $status_color = "#32CD32";
-      $s = "F";
+      $fechado = true;
       break;
   }
 }
@@ -26,14 +20,26 @@ if(isset($_GET['x'])) {
 ?>
 
 <div class="card shadow mb-4">
-            <div class="card-header py-4 px-4 ">
-                <div class="d-flex justify-content-between align-items-center">
-                  <h6 class="m-0" style="font-weight: 800;">
-                      <span style="color: #012970;">Tickets Enviados - </span>
-                      <span style="color: <?php echo $status_color; ?>"><?php echo $status; ?></span>
-                  </h6>
-                </div>
-            </div>
+<div class="card-header py-4 px-4">
+    <div class="d-flex justify-content-between align-items-center">
+      <h6 class="m-0" style="font-weight: 800;">
+        <span style="color: #012970;">Tickets Enviados - </span>
+        <a href="#" style="color: <?php echo ($pendente ? '#ff0000' : 'grey'); ?>;" role="button" onclick="changeColor(this, '#ff0000')">
+            Pendente
+        </a>
+        <span style="color: #012970;"> - </span>
+        <a href="#" style="color: <?php echo ($aberto ? '#FFD700' : 'grey'); ?>;" role="button" onclick="changeColor(this, '#FFD700')">
+            Aberto
+        </a>
+        <span style="color: #012970;"> - </span>
+        <a href="#" style="color: <?php echo ($fechado ? '#32CD32' : 'grey'); ?>;" role="button" onclick="changeColor(this, '#32CD32')">
+            Fechado
+        </a>
+      </h6>
+
+    </div>
+</div>
+
             <div class="card-body py-4">
                 <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
@@ -64,6 +70,35 @@ if(isset($_GET['x'])) {
                     <!-- Add more rows as needed -->
                   </tbody>
                 </table>
+
+
+<script>
+  function changeColor(link, color) {
+      
+    var csscolor = hexToCssColor(color);
+
+      if (link.style.color === csscolor) {
+          link.style.color = 'grey';
+      } else {
+          link.style.color = csscolor;
+      }
+  }
+
+  function hexToCssColor(hex) {
+    switch(hex) {
+        case '#FFD700':
+            return 'gold';
+        case '#32CD32':
+            return 'limegreen';
+        case '#ff0000':
+            return 'red';
+        default:
+            return 'grey'; 
+    }
+}
+
+</script>
+
 
 
 
