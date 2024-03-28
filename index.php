@@ -329,15 +329,8 @@ require 'pag/verificarlogin.php';
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-
-  <script>
-    // Make table rows clickable
-    $(document).ready(function(){
-      $('tbody tr[data-href]').addClass('clickable').click(function(){
-        window.location = $(this).attr('data-href');
-      });
-    });
-  </script>
+  <script src="assets/js/mymain.js"></script>
+  
 
 </body>
 
