@@ -31,7 +31,7 @@ function changeColor(link, color) {
   
   
   $(document).ready(function(){
-    $('tbody tr[data-href]').addClass('clickable').click(function(){
+    $('#datatable tbody').on('click', 'tr[data-href]', function(){
       window.location = $(this).attr('data-href');
     });
   });
