@@ -26,12 +26,33 @@ function changeColor(link, color) {
   
   /* Chama datatable */
   document.addEventListener('DOMContentLoaded', function () {
-          new simpleDatatables.DataTable('#datatable');
+    var dataTable = new simpleDatatables.DataTable('#datatable');
+    //dataTable.column(0).visible(false);
+
+    document.querySelector('#datatable tbody').addEventListener('click', function (event) {
+      tr = event.target.closest('tr');
+      var firstTd = tr.querySelector('td:first-child');
+      TdText = firstTd.textContent.trim();
+      if(TdText){
+        var href = './?op=2&id=' + TdText;
+          console.log(href);
+          if (href) {
+              window.location = href;
+          }
+      }
+      
+      // If a row with data-href attribute is found
+      if (row) {
+          var href = row.getAttribute('data-href');
+          console.log(href);
+          if (href) {
+              window.location = href;
+          }
+      }
   });
+});
+
+
+
+
   
-  
-  $(document).ready(function(){
-    $('#datatable tbody').on('click', 'tr[data-href]', function(){
-      window.location = $(this).attr('data-href');
-    });
-  });

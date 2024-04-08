@@ -43,7 +43,7 @@ require 'pag/verificarlogin.php';
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="index.php?op=1" class="logo d-flex align-items-center">
+      <a href="./?op=1" class="logo d-flex align-items-center">
         <img src="assets/img/logo.png" alt="">
         <span class="d-none d-lg-block">Vitech</span>
       </a>
@@ -186,17 +186,17 @@ require 'pag/verificarlogin.php';
         </a>
         <ul id="tickets-enviados-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="index.php?op=2&x=1">
+            <a href="./?op=2&x=1">
               <i class="bi bi-circle-fill" style="color:red;"></i><span>Pendente</span>
             </a>
           </li>
           <li>
-            <a href="index.php?op=2&x=2">
+            <a href="./?op=2&x=2">
               <i class="bi bi-circle-fill" style="color:#FFD700;"></i><span>Aberto</span>
             </a>
           </li>
           <li>
-            <a href="index.php?op=2&x=3">
+            <a href="./?op=2&x=3">
               <i class="bi bi-circle-fill" style="color:#32CD32;"></i><span>Fechado</span>
             </a>
           </li>
@@ -240,7 +240,7 @@ require 'pag/verificarlogin.php';
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="index.php?op=5">
+            <a href="./?op=5">
               <i class="bi bi-circle"></i><span>Utilizadores</span>
             </a>
           </li>

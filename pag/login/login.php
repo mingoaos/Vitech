@@ -73,7 +73,7 @@ session_start();
                         ?>
                     </div>
 
-                  <form class="row g-3 needs-validation" id="loginForm" action="logincode.php" method="POST" novalidate>
+                  <form class="row g-3 needs-validation" id="loginForm" action="../../db/login.php" method="POST" novalidate>
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Utilizador</label>
                       <div class="input-group has-validation">

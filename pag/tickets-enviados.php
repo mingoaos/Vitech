@@ -53,14 +53,14 @@ if(isset($_GET['x'])) {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr data-href="index.php?op=1">
+                    <tr>
                       <td>1</td>
                       <td>Brandon Jacob</td>
-                      <td>Sala A0.05</td>
+                      <td data-href="index.php?op=1">Sala A0.05</td>
                       <td>2016-05-25</td>
                       <td><span class="badge bg-danger">Urgente</span></td>
                     </tr>
-                    <tr data-href="https://example.com/report/2">
+                    <tr id="index.php?op=2" data-href="index.php?op=2">
                       <td>2</td>
                       <td>Bridie Kessler</td>
                       <td>Não consigo entrar no inovar o que faco?</td>
@@ -72,13 +72,7 @@ if(isset($_GET['x'])) {
                 </table>
               </div>
 
-
-<script> 
-
-
-
-</script> 
-              
+  
 
 
 
