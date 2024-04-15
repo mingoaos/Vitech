@@ -27,14 +27,14 @@ function changeColor(link, color) {
   /* Chama datatable */
   document.addEventListener('DOMContentLoaded', function () {
     var dataTable = new simpleDatatables.DataTable('#datatable');
-    //dataTable.column(0).visible(false);
+   
 
     document.querySelector('#datatable tbody').addEventListener('click', function (event) {
       tr = event.target.closest('tr');
       var firstTd = tr.querySelector('td:first-child');
       TdText = firstTd.textContent.trim();
       if(TdText){
-        var href = './?op=2&id=' + TdText;
+        var href = './?id=' + TdText;
           console.log(href);
           if (href) {
               window.location = href;

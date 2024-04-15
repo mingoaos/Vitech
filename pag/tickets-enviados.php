@@ -60,7 +60,7 @@ if(isset($_GET['x'])) {
                       <td>2016-05-25</td>
                       <td><span class="badge bg-danger">Urgente</span></td>
                     </tr>
-                    <tr id="index.php?op=2" data-href="index.php?op=2">
+                    <tr>
                       <td>2</td>
                       <td>Bridie Kessler</td>
                       <td>Não consigo entrar no inovar o que faco?</td>
