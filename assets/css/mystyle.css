@@ -1,0 +1,16 @@
+.arrow{
+    font-size: 40px;
+    margin-right: 15px;
+}
+
+.fs20{
+    font-size: 20px;
+}
+
+.bcc_pendente{
+    background-color: red;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: red;
+  }

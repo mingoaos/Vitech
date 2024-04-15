@@ -32,7 +32,7 @@ require 'pag/verificarlogin.php';
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-
+  <link href="assets/css/mystyle.css" rel="stylesheet">
 
 
 </head>
@@ -294,10 +294,13 @@ require 'pag/verificarlogin.php';
                   break;
           }
       }
-      else
-      {
-          require "pag/error-404.php";
+
+      if(isset($_GET['id'])){
+
+        require "pag/ticketenv.php";
+
       }
+   
     
      
     
