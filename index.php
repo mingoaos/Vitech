@@ -296,7 +296,7 @@ require 'pag/verificarlogin.php';
       }
       else
       {
-          require "erro-404.php";
+          require "pag/error-404.php";
       }
     
      
