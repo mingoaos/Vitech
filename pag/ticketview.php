@@ -1,5 +1,17 @@
 <?php
 $id = $_GET['id'];
+
+require "db/dbcon.php";
+
+require_once "db/ticketbuscar.php";
+
+$row = getTicket($con,$id);
+
+
+
+
+
+
 ?>
 
 <div style="margin-left: 32px">
@@ -11,7 +23,7 @@ $id = $_GET['id'];
     <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button fs20 bcc" type="button" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <button class="accordion-button fs20 bcc_pendente" type="button" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                     <i class="bi bi-person-circle"></i><div class="mx-2">Accordion Item #1</div>
                     </button>
                   </h2>

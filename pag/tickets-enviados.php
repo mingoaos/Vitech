@@ -15,6 +15,12 @@ if(isset($_GET['x'])) {
   }
 }
 
+$id=0;
+if(isset($_GET['id'])) {
+  $id = $_GET['id'];
+}
+else
+{
 
 
 ?>
@@ -56,7 +62,7 @@ if(isset($_GET['x'])) {
                     <tr>
                       <td>1</td>
                       <td>Brandon Jacob</td>
-                      <td data-href="index.php?op=1">Sala A0.05</td>
+                      <td>Sala A0.05</td>
                       <td>2016-05-25</td>
                       <td><span class="badge bg-danger">Urgente</span></td>
                     </tr>
@@ -71,6 +77,13 @@ if(isset($_GET['x'])) {
                   </tbody>
                 </table>
               </div>
+
+
+<?php
+
+}
+
+?>
 
   
 

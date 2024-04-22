@@ -8,9 +8,14 @@
 }
 
 .bcc_pendente{
-    background-color: red;
+    background-color: rgba(252, 82, 82, 0.24) !important;
 }
 
-.accordion-button:not(.collapsed) {
-    background-color: red;
-  }
+.bcc_aberto{
+    background-color: red !important;
+}
+
+.bcc_fechado{
+    background-color: red !important;
+}
+

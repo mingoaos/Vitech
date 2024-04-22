@@ -1,7 +1,13 @@
 <?php
-require 'pag/verificarlogin.php';
-?>
+session_start();
 
+require './db/dbcon.php';
+
+$op = 0;
+if(isset($_GET['op'])) 
+  $op = $_GET['op'];
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,13 +39,23 @@ require 'pag/verificarlogin.php';
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
   <link href="assets/css/mystyle.css" rel="stylesheet">
-
-
 </head>
 
 <body>
+<?php
+if (!isset($_SESSION['user'])) {
 
-  <!-- ======= Header ======= -->
+  include "./pag/login/login.php";
+
+
+  die ("lksdjflsdjflsdjfl");
+
+}
+else
+{
+
+?>
+<!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
@@ -146,12 +162,12 @@ require 'pag/verificarlogin.php';
         <li class="nav-item dropdown pe-5">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <span class="d-none d-md-block dropdown-toggle ps-0"> <?php echo $_SESSION['nome']; ?> </span>
+            <span class="d-none d-md-block dropdown-toggle ps-0"> <?php echo $_SESSION['user']['nome']; ?> </span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6><?php echo $_SESSION['nome']; ?></h6>
+              <h6><?php echo $_SESSION['user']['nome']; ?></h6>
               <span>Bem vindo!</span>
             </li>
             <li>
@@ -186,17 +202,17 @@ require 'pag/verificarlogin.php';
         </a>
         <ul id="tickets-enviados-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="./?op=2&x=1">
+            <a href="./?op=1&x=1">
               <i class="bi bi-circle-fill" style="color:red;"></i><span>Pendente</span>
             </a>
           </li>
           <li>
-            <a href="./?op=2&x=2">
+            <a href="./?op=1&x=2">
               <i class="bi bi-circle-fill" style="color:#FFD700;"></i><span>Aberto</span>
             </a>
           </li>
           <li>
-            <a href="./?op=2&x=3">
+            <a href="./?op=1&x=3">
               <i class="bi bi-circle-fill" style="color:#32CD32;"></i><span>Fechado</span>
             </a>
           </li>
@@ -240,7 +256,7 @@ require 'pag/verificarlogin.php';
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="./?op=5">
+            <a href="./?op=4">
               <i class="bi bi-circle"></i><span>Utilizadores</span>
             </a>
           </li>
@@ -271,39 +287,35 @@ require 'pag/verificarlogin.php';
   <main id="main" class="main">
 
     <?php 
-      if(isset($_GET['op'])) {
-          $op = $_GET['op'];
+          $pag_file = "./index.php";
           switch ($op) {
+              case 0:
+                  $pag_file = "./pag/dashboard.php";
+                  break;
               case 1:
-                  require "pag/dashboard.php";
+                  $pag_file = "./pag/tickets-enviados.php";
                   break;
               case 2:
-                  require "pag/tickets-enviados.php";
+                  $pag_file =  "./pag/ticketview.php";
                   break;
               case 3:
-                  require "../user/user.php";
+                  $pag_file = "./pag/user/user.php";
                   break;
               case 4:
-                  require "../user/user.php";
-                  break;
-              case 5:
-                  require "pag/users/user.php";
+                  $pag_file = "./pag/users/user.php";
                   break;    
+
+
+
+
               default:
-                  require "pag/error-404.html";
+                  $pag_file = "./pag/error-404.html";
                   break;
-          }
-      }
+              }
 
-      if(isset($_GET['id'])){
-
-        require "pag/ticketenv.php";
-
-      }
-   
-    
-     
-    
+      if(!file_exists($pag_file))
+        $pag_file="./pag/error-404.html";
+      require($pag_file);   
     ?>
 
   </main><!-- End #main -->
@@ -337,7 +349,9 @@ require 'pag/verificarlogin.php';
   <script src="assets/js/main.js"></script>
   <script src="assets/js/mymain.js"></script>
   
-
+<?php
+}
+?>
 </body>
 
 </html>

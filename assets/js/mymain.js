@@ -34,7 +34,7 @@ function changeColor(link, color) {
       var firstTd = tr.querySelector('td:first-child');
       TdText = firstTd.textContent.trim();
       if(TdText){
-        var href = './?id=' + TdText;
+        var href = './?op=2&id=' + TdText;
           console.log(href);
           if (href) {
               window.location = href;
