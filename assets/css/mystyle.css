@@ -7,15 +7,25 @@
     font-size: 20px;
 }
 
+table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
+    background-color: initial; /* Override default hover color */
+}
+
 .bcc_pendente{
-    background-color: rgba(252, 82, 82, 0.24) !important;
+    background-color: rgba(255, 3, 3, 0.205) !important;
 }
 
 .bcc_aberto{
-    background-color: red !important;
+    background-color: rgba(211, 211, 0, 0.226) !important;
 }
 
 .bcc_fechado{
-    background-color: red !important;
+    background-color: rgba(0, 128, 0, 0.26) !important;
+}
+
+.id_ticket{
+    color:gray;
+    margin-top: 15px; 
+    margin-left:5px;
 }
 

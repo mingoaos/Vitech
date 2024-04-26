@@ -19,8 +19,7 @@ $id=0;
 if(isset($_GET['id'])) {
   $id = $_GET['id'];
 }
-else
-{
+
 
 
 ?>
@@ -59,31 +58,55 @@ else
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Brandon Jacob</td>
-                      <td>Sala A0.05</td>
-                      <td>2016-05-25</td>
-                      <td><span class="badge bg-danger">Urgente</span></td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>Bridie Kessler</td>
-                      <td>Não consigo entrar no inovar o que faco?</td>
-                      <td>2014-12-05</td>
-                      <td><span class="badge bg-danger">Urgente</span></td>
-                    </tr>
-                    <!-- Add more rows as needed -->
+                    <?php
+                      $query = "SELECT t.*, u.nome AS nome_user
+                      FROM ticket t
+                      JOIN user u ON t.id_user = u.id_user
+                      WHERE t.id_user_atribuido = {$_SESSION['user']['id_user']}";
+            
+                      $query_exec = mysqli_query($con, $query);
+
+
+                      
+                      if(mysqli_num_rows($query_exec) > 0)
+                      {
+                          foreach($query_exec as $ticket)
+                          {
+                            $status_class = '';
+                            switch ($ticket['status']) {
+                                case 'P':
+                                    $status_class = 'bcc_pendente';
+                                    break;
+                                case 'A':
+                                    $status_class = 'bcc-aberto';
+                                    break;
+                                case 'F':
+                                    $status_class = 'bcc_fechado';
+                                    break;
+                               
+                                default:
+                                    $status_class = ''; 
+                                    break;
+                                  }
+                              ?>
+                              <tr class="<?= $status_class ?>">
+                                  <td><?= $ticket['id_ticket'] ?></td>
+                                  <td><?= $ticket['nome_user'] ?></td>     
+                                  <td><?= $ticket['assunto_local'] ?></td>
+                                  <td><?= $ticket['data'] ?></td>
+                                  <td><?php if($ticket['urgencia']) echo("<span class='badge bg-danger'>Urgente</span>") ?></td>
+                                
+                              </tr>
+                              <?php
+                          }
+                      }
+                    ?>
                   </tbody>
                 </table>
               </div>
 
 
-<?php
 
-}
-
-?>
 
   
 

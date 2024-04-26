@@ -48,8 +48,6 @@ if (!isset($_SESSION['user'])) {
   include "./pag/login/login.php";
 
 
-  die ("lksdjflsdjflsdjfl");
-
 }
 else
 {
@@ -59,7 +57,7 @@ else
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="./?op=1" class="logo d-flex align-items-center">
+      <a href="./" class="logo d-flex align-items-center">
         <img src="assets/img/logo.png" alt="">
         <span class="d-none d-lg-block">Vitech</span>
       </a>
@@ -304,8 +302,6 @@ else
               case 4:
                   $pag_file = "./pag/users/user.php";
                   break;    
-
-
 
 
               default:

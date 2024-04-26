@@ -17,4 +17,6 @@ function getTicket($con,$idticket)
     return null;
 }
 
+
+
 ?>

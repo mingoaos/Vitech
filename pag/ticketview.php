@@ -1,9 +1,7 @@
 <?php
 $id = $_GET['id'];
 
-require "db/dbcon.php";
-
-require_once "db/ticketbuscar.php";
+require_once "db/libphp.php";
 
 $row = getTicket($con,$id);
 
@@ -18,7 +16,7 @@ $row = getTicket($con,$id);
     <div style="display:flex;align-items:center">
         <a href="./?op=2"> <i  class="bi bi-arrow-left-square-fill arrow"></i> </a>
         <h1 style="margin-top: 10px">Nao gosto de ti</h1>
-        <h2 style = "color:gray; margin-top: 15px; margin-left:5px">#<?php echo($id) ?></h2>
+        <h2 class="id_ticket">#<?php echo($id) ?></h2>
     </div>
     <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
