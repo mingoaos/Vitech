@@ -15,7 +15,7 @@
 
             <!-- abertos Card -->
             <div class="col-xxl-4 col-md-6">
-              <div class="card info-card abertos-card">
+              <div class="card info-card abertos-card" data-card-type="abertos">
 
                 <div class="filter">
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -46,7 +46,7 @@
 
             <!-- pendentes Card -->
             <div class="col-xxl-4 col-md-6">
-              <div class="card info-card pendentes-card">
+              <div class="card info-card pendentes-card" data-card-type="pendentes">
 
                 <div class="filter">
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -77,7 +77,7 @@
 
             <!-- n/atribuidos Card -->
             <div class="col-xxl-4 col-md-6">
-              <div class="card info-card naoatribuidos-card">
+              <div class="card info-card naoatribuidos-card" data-card-type="naoatribuidos">
                 <div class="card-body">
                   <h5 class="card-title">Não Atribuídos <span>| Todos</span></h5>
 

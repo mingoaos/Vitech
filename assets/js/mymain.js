@@ -53,6 +53,28 @@ function changeColor(link, color) {
 });
 
 
+$(document).ready(function(){
+    $(".info-card .dropdown-item").click(function(){
+        var filter = $(this).text().toLowerCase();
+        var cardType = $(this).closest('.info-card').attr('data-card-type');
+        var cardBody = $(this).closest('.info-card').find('.card-body');
+        $.ajax({
+            url: "./db/libphp.php",
+            type: "POST",
+            data: { filter: filter, cardType: cardType },
+            success: function(response) {
+
+                cardBody.find('h6').text(response);
+            },
+            error: function(xhr, status, error) {
+
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+
+
 
 
   
