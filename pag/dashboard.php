@@ -119,11 +119,13 @@ require "./db/cards.php"
 
                         ?>
                       <tr>
-                        <th><?=$row['id_ticket'] ?></th>
+                        <th>
+                          <a href="?op=2&id=<?=$row['id_ticket'] ?>"><?=$row['id_ticket'] ?></a>
+                        </th>
                         <td><?=$row['nome_user'] ?></td>
-                        <td class="text-primary"><?=$row['assunto_local'] ?></a></td>
+                        <td class="fw-bold text-dark"><?=$row['assunto_local'] ?></a></td>
                         <td><?=$row['data_acao'] ?></td>
-                        <td><span class="<?= $row['badge_status']?>"><?= $row['status']?></span></td>
+                        <td><span class="badge bg-<?= $row['badge_status']?>"><?= $row['status']?></span></td>
                       </tr>
                       <?php
                       }
@@ -152,54 +154,26 @@ require "./db/cards.php"
 
               <div class="activity">
 
+              <?php
+                  $acoes = atualizarRecentes($con);
+
+                  foreach($acoes as $row){
+
+                  ?>
+
                 <div class="activity-item d-flex">
-                  <div class="activite-label">32 min</div>
+                  <div class="activite-label"><?= $row['tempo_decorrido'] ?></div>
                   <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
                   <div class="activity-content">
-                    Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
+                    <?= $row['acao'] ?> <a class="fw-bold text-dark" href="?op=2&id=<?=$row['id_ticket']?>">#<?=$row['id_ticket']?></a>
                   </div>
                 </div><!-- End activity item-->
 
-                <div class="activity-item d-flex">
-                  <div class="activite-label">56 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                  <div class="activity-content">
-                    Voluptatem blanditiis blanditiis eveniet
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 hrs</div>
-                  <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                  <div class="activity-content">
-                    Voluptates corrupti molestias voluptatem
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">1 day</div>
-                  <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                  <div class="activity-content">
-                    Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 days</div>
-                  <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                  <div class="activity-content">
-                    Est sit eum reiciendis exercitationem
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">4 weeks</div>
-                  <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-                  <div class="activity-content">
-                    Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-                  </div>
-                </div><!-- End activity item-->
-
+                <?php
+                  }
+                
+                ?>
+               
               </div>
 
             </div>
