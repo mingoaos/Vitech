@@ -2,9 +2,6 @@
 $id = $_GET['id'];
 
 
-require_once "db/libphp.php";
-
-
 print_r("pi");
 
 ?>

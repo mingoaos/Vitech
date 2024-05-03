@@ -1,7 +1,7 @@
 
 <?php 
 
-require "./db/pi.php"
+require "./db/cards.php"
 
 ?>
 <div class="pagetitle">
@@ -99,7 +99,7 @@ require "./db/pi.php"
               <div class="card recent-abertos overflow-auto">
 
                 <div class="card-body">
-                  <h5 class="card-title">Abertos Recentemente</h5>
+                  <h5 class="card-title">Alterações de estado</h5>
 
                   <table class="table table-borderless datatable">
                     <thead>
@@ -108,45 +108,26 @@ require "./db/pi.php"
                         <th scope="col">Técnico</th>
                         <th scope="col">Assunto</th>
                         <th scope="col">Data</th>
-                        <th scope="col">Status</th>
+                        <th scope="col">Estado</th>
                       </tr>
                     </thead>
                     <tbody>
+                    <?php
+                        $acoes = atualizarRecentes($con);
+
+                        foreach($acoes as $row){
+
+                        ?>
                       <tr>
-                        <th scope="row"><a href="#">#2457</a></th>
-                        <td>Brandon Jacob</td>
-                        <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                        <td>$64</td>
-                        <td><span class="badge bg-success">Approved</span></td>
+                        <th><?=$row['id_ticket'] ?></th>
+                        <td><?=$row['nome_user'] ?></td>
+                        <td class="text-primary"><?=$row['assunto_local'] ?></a></td>
+                        <td><?=$row['data_acao'] ?></td>
+                        <td><span class="<?= $row['badge_status']?>"><?= $row['status']?></span></td>
                       </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2147</a></th>
-                        <td>Bridie Kessler</td>
-                        <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                        <td>$47</td>
-                        <td><span class="badge bg-warning">Pending</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2049</a></th>
-                        <td>Ashleigh Langosh</td>
-                        <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                        <td>$147</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Angus Grady</td>
-                        <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                        <td>$67</td>
-                        <td><span class="badge bg-danger">Rejected</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Raheem Lehner</td>
-                        <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                        <td>$165</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
+                      <?php
+                      }
+                      ?>
                     </tbody>
                   </table>
 

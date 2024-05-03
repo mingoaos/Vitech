@@ -24,11 +24,15 @@
                             
                             require "db/dbcon.php";
                             
-                            $query = "SELECT u.id_user, u.nome, d.nome AS nome_departamento, t.nome AS nome_tipo
+                            $query = "SELECT u.id_user, u.nome, 
+                                            GROUP_CONCAT(d.nome SEPARATOR ', ') AS departamentos,
+                                            GROUP_CONCAT(t.nome SEPARATOR ', ') AS tipos
                                     FROM user u
                                     INNER JOIN user_departamento_tipo udt ON u.id_user = udt.id_user
                                     INNER JOIN departamento d ON udt.id_departamento = d.id_departamento
-                                    INNER JOIN tipo_user t ON udt.id_tipo = t.id_tipo_user";
+                                    INNER JOIN tipo_user t ON udt.id_tipo = t.id_tipo_user
+                                    GROUP BY u.id_user, u.nome;
+                     ";
 
                             $query_run = mysqli_query($con, $query);
 
@@ -40,8 +44,8 @@
                                     <tr>
                                         <td><?= $user['id_user'] ?></td>
                                         <td><?= $user['nome'] ?></td>
-                                        <td><?= $user['nome_departamento'] ?></td>
-                                        <td><?= $user['nome_tipo'] ?></td>
+                                        <td><?= $user['departamentos'] ?></td>
+                                        <td><?= $user['tipos'] ?></td>
                                         <td>
                                             
                                             <button type="button" value="<?=$user['id_user'];?>" class="editUserBtn btn btn-outline-warning btn-sm"> <i class="bi bi-pencil-square"></i> </button>
