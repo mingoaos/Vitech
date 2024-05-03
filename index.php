@@ -337,17 +337,17 @@ else
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  
 <script src="https://cdn.datatables.net/v/bs4/dt-2.0.3/b-3.0.1/r-3.0.1/rg-1.5.0/sc-2.4.1/sb-1.7.0/sp-2.3.0/datatables.min.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/mymain.js"></script>
+  
   
 <?php
 }
 ?>
 </body>
-
+<script src="assets/js/main.js"></script>
+  <script src="assets/js/mymain.js"></script>
 </html>

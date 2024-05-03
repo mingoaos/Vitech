@@ -822,13 +822,13 @@ h6 {
 }
 
 .dashboard .pendentes-card .card-icon {
-  color: #f0cc00;
-  background: #fffbe9;
+  color: #ff0000;
+  background: #fdefef;
 }
 
 .dashboard .abertos-card .card-icon {
-  color: #2eca6a;
-  background: #edfff4;
+  color: #f0cc00;
+  background: #fffbe9;
 }
 
 .dashboard .naoatribuidos-card .card-icon {

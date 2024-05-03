@@ -1,6 +1,9 @@
 
+<?php 
 
+require "./db/pi.php"
 
+?>
 <div class="pagetitle">
       <h1>Página inicial</h1>
 
@@ -23,20 +26,18 @@
                     <li class="dropdown-header text-start">
                       <h6>Filtro</h6>
                     </li>
-                    <li><a class="dropdown-item" href="#">Meus</a></li>
-                    <li><a class="dropdown-item" href="#">Todos</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Tickets Abertos <span>| Todos</span></h5>
-
+                    <li><a class="dropdown-item" href="#" onclick="updateFiltro('Meus', '1')">Meus</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="updateFiltro('Todos', '1')">Todos</a></li>
+                </ul>
+              </div>
+              <div id="card-body-1" class="card-body">
+                  <h5 class="card-title">Abertos <span id="textoFiltro1">| Todos</span></h5>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="ri-mail-open-line"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>12</h6>
+                      <h6><?= getCount($con,"SELECT COUNT(*) FROM ticket WHERE status = 'A'")?></h6>
                     </div>
                   </div>
                 </div>
@@ -51,27 +52,24 @@
                 <div class="filter">
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filtro</h6>
-                    </li>
-                    <li><a class="dropdown-item" href="#">Meus</a></li>
-                    <li><a class="dropdown-item" href="#">Todos</a></li>
+                      <li class="dropdown-header text-start">
+                          <h6>Filtro</h6>
+                      </li>
+                      <li><a class="dropdown-item" href="#" onclick="updateFiltro('Meus', '2')">Meus</a></li>
+                      <li><a class="dropdown-item" href="#" onclick="updateFiltro('Todos', '2')">Todos</a></li>
                   </ul>
                 </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Tickets Pendentes <span>| Todos</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="ri-mail-settings-line"></i>
+                  <div id="card-body-2" class="card-body">
+                  <h5 class="card-title">Pendentes <span id="textoFiltro2">| Todos </span></h5>
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="ri-mail-settings-line"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6><?= getCount($con,"SELECT COUNT(*) FROM ticket WHERE status = 'P'")?></h6>
+                      </div>
                     </div>
-                    <div class="ps-3">
-                      <h6>18</h6>
-                    </div>
-                  </div>
                 </div>
-
               </div>
             </div><!-- End pendentes Card -->
 
@@ -86,7 +84,7 @@
                       <i class="ri-mail-close-line"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>35</h6>
+                      <h6><?= getCount($con,"SELECT COUNT(*) FROM ticket WHERE id_user_atribuido IS NULL")?></h6>
                     </div>
                   </div>
                 </div>
@@ -284,3 +282,6 @@
 
       </div>
     </section>
+
+
+    

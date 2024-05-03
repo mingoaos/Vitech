@@ -1,14 +1,11 @@
 <?php
 $id = $_GET['id'];
 
+
 require_once "db/libphp.php";
 
-$row = getTicket($id);
 
-
-
-
-
+print_r("pi");
 
 ?>
 

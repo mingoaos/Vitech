@@ -26,8 +26,10 @@ function changeColor(link, color) {
   
   /* Chama datatable */
   document.addEventListener('DOMContentLoaded', function () {
-    var dataTable = new simpleDatatables.DataTable('#datatable');
-   
+    // Check if the page URL contains a specific string
+    if (window.location.href.includes('tickets-enviados')) {
+        var dataTable = new simpleDatatables.DataTable('#datatable');
+    }
 
     document.querySelector('#datatable tbody').addEventListener('click', function (event) {
       tr = event.target.closest('tr');
@@ -40,39 +42,27 @@ function changeColor(link, color) {
               window.location = href;
           }
       }
-      
-      // If a row with data-href attribute is found
-      if (row) {
-          var href = row.getAttribute('data-href');
-          console.log(href);
-          if (href) {
-              window.location = href;
-          }
-      }
   });
 });
 
 
-$(document).ready(function(){
-    $(".info-card .dropdown-item").click(function(){
-        var filter = $(this).text().toLowerCase();
-        var cardType = $(this).closest('.info-card').attr('data-card-type');
-        var cardBody = $(this).closest('.info-card').find('.card-body');
-        $.ajax({
-            url: "./db/libphp.php",
-            type: "POST",
-            data: { filter: filter, cardType: cardType },
-            success: function(response) {
+function updateFiltro(filtro,cardId){
+    $('#textoFiltro' + cardId).text('| ' + filtro); 
 
-                cardBody.find('h6').text(response);
-            },
-            error: function(xhr, status, error) {
-
-                console.error(xhr.responseText);
-            }
-        });
+    $.ajax({
+        url: "./db/pi.php",
+        type: "POST",
+        data: { filtro: filtro, cardId: cardId },
+        success: function(response) {
+            $('#card-body-' + cardId + ' h6').text(response); 
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
     });
-});
+    
+}
+
 
 
 
