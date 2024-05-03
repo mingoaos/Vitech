@@ -25,10 +25,16 @@ function atualizarRecentes($con)
             FROM acoes AS a
             INNER JOIN ticket AS t ON a.id_ticket = t.id_ticket
             INNER JOIN user AS u ON a.id_user = u.id_user
-            WHERE t.tipo_ticket = 'A' AND (a.id_user = {$_SESSION['user']['id_user']} OR t.id_user_atribuido = {$_SESSION['user']['id_user']})
+            INNER JOIN user_departamento_tipo AS udt ON u.id_user = udt.id_user
+            WHERE t.tipo_ticket = 'A' AND (
+                a.id_user = {$_SESSION['user']['id_user']} OR 
+                t.id_user_atribuido = {$_SESSION['user']['id_user']} OR 
+                (udt.id_tipo = 'G' AND udt.id_departamento = t.id_departamento_destino) OR 
+                udt.id_tipo = 'A'
+            )
             ORDER BY a.data_acao ASC
             LIMIT 5";
-            
+
     $query_exec = mysqli_query($con,$query);
 
     if($query_exec && mysqli_num_rows($query_exec) > 0)
@@ -37,24 +43,24 @@ function atualizarRecentes($con)
 
             switch ($row['ticket_status']) {
                 case 'P':
-                    $badge_status = 'danger';
+                    $color = 'danger';
                     $status = 'Pendente';
                     break;
                 case 'A':
-                    $badge_status = 'warning';
+                    $color = 'warning';
                     $status = 'Aberto';
                     break;
                 case 'F':
-                    $badge_status = 'success';
+                    $color = 'success';
                     $status = 'Fechado';
                     break;
                 default:
-                    $badge_status = 'dark';
+                    $color = 'dark';
             }
 
             $tempo_decorrido = tempoDecorrido($row['data_acao']);
 
-            $row['badge_status'] = $badge_status;
+            $row['color'] = $color;
             $row['status'] = $status;
             $row['tempo_decorrido'] = $tempo_decorrido;
 
@@ -91,5 +97,15 @@ function tempoDecorrido($data_acao)
 
     return $tempo_decorrido;
 }
+
+
+function getTicketsYear()
+{
+
+
+    
+}
+
+
 
 ?>

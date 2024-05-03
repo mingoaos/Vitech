@@ -125,7 +125,7 @@ require "./db/cards.php"
                         <td><?=$row['nome_user'] ?></td>
                         <td class="fw-bold text-dark"><?=$row['assunto_local'] ?></a></td>
                         <td><?=$row['data_acao'] ?></td>
-                        <td><span class="badge bg-<?= $row['badge_status']?>"><?= $row['status']?></span></td>
+                        <td><span class="badge bg-<?= $row['color']?>"><?= $row['status']?></span></td>
                       </tr>
                       <?php
                       }
@@ -163,9 +163,9 @@ require "./db/cards.php"
 
                 <div class="activity-item d-flex">
                   <div class="activite-label"><?= $row['tempo_decorrido'] ?></div>
-                  <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                  <i class='bi bi-circle-fill activity-badge text-<?=$row['color']?> align-self-start'></i>
                   <div class="activity-content">
-                    <?= $row['acao'] ?> <a class="fw-bold text-dark" href="?op=2&id=<?=$row['id_ticket']?>">#<?=$row['id_ticket']?></a>
+                    <?=$row['nome_user']?> <?= $row['acao'] ?> <a class="fw-bold text-dark" href="?op=2&id=<?=$row['id_ticket']?>">#<?=$row['id_ticket']?></a>
                   </div>
                 </div><!-- End activity item-->
 
