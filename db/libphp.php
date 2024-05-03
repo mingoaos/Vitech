@@ -99,12 +99,10 @@ function tempoDecorrido($data_acao)
 }
 
 
-function getTicketsYear()
-{
 
 
-    
-}
+
+
 
 
 

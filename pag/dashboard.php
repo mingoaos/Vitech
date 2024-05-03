@@ -1,7 +1,7 @@
 
 <?php 
 
-require "./db/cards.php"
+require "./db/cardsAjax.php";
 
 ?>
 <div class="pagetitle">
@@ -181,49 +181,70 @@ require "./db/cards.php"
           
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Bar Chart</h5>
+                <h5 class="card-title">Ticket reportados ao longo do ano</h5>
   
                 <!-- Bar Chart -->
                 <canvas id="barChart" style="max-height: 400px;"></canvas>
                 <script>
-                  document.addEventListener("DOMContentLoaded", () => {
-                    new Chart(document.querySelector('#barChart'), {
-                      type: 'bar',
-                      data: {
-                        labels: ['Janeiro', 'Fevereiro', 'Março','Abril','Maio', 'Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-                        datasets: [{
-                          label: 'Bar Chart',
-                          data: [65, 59, 80, 81, 56, 55, 40],
-                          backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(255, 159, 64, 0.2)',
-                            'rgba(255, 205, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(201, 203, 207, 0.2)'
-                          ],
-                          borderColor: [
-                            'rgb(255, 99, 132)',
-                            'rgb(255, 159, 64)',
-                            'rgb(255, 205, 86)',
-                            'rgb(75, 192, 192)',
-                            'rgb(54, 162, 235)',
-                            'rgb(153, 102, 255)',
-                            'rgb(201, 203, 207)'
-                          ],
-                          borderWidth: 1
-                        }]
-                      },
-                      options: {
-                        scales: {
-                          y: {
-                            beginAtZero: true
+                document.addEventListener("DOMContentLoaded", () => {
+                fetch('./db/barAjax.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        const labels = data.map(item => item.mes);
+                        const chartData = data.map(item => item.total); 
+
+
+                      new Chart(document.querySelector('#barChart'), {
+                          type: 'bar',
+                          data: {
+                              labels: labels,
+                              datasets: [{
+                                  label: 'Bar Chart',
+                                  data: chartData,
+                                  backgroundColor: [
+                                      'rgba(255, 99, 132, 0.2)',
+                                      'rgba(255, 159, 64, 0.2)',
+                                      'rgba(255, 205, 86, 0.2)',
+                                      'rgba(75, 192, 192, 0.2)',
+                                      'rgba(54, 162, 235, 0.2)',
+                                      'rgba(153, 102, 255, 0.2)',
+                                      'rgba(255, 99, 132, 0.2)',
+                                      'rgba(255, 159, 64, 0.2)',
+                                      'rgba(255, 205, 86, 0.2)',
+                                      'rgba(75, 192, 192, 0.2)',
+                                      'rgba(54, 162, 235, 0.2)',
+                                      'rgba(153, 102, 255, 0.2)'
+                                  ],
+                                  borderColor: [
+                                      'rgb(255, 99, 132)',
+                                      'rgb(255, 159, 64)',
+                                      'rgb(255, 205, 86)',
+                                      'rgb(75, 192, 192)',
+                                      'rgb(54, 162, 235)',
+                                      'rgb(153, 102, 255)',
+                                      'rgb(255, 99, 132)',
+                                      'rgb(255, 159, 64)',
+                                      'rgb(255, 205, 86)',
+                                      'rgb(75, 192, 192)',
+                                      'rgb(54, 162, 235)',
+                                      'rgb(153, 102, 255)'
+                                  ],
+                                  borderWidth: 1
+                              }]
+                          },
+                          options: {
+                              scales: {
+                                  y: {
+                                      beginAtZero: true
+                                  }
+                              }
                           }
-                        }
-                      }
-                    });
+                      });
+                  })
+                  .catch(error => {
+                      console.error('Error fetching data:', error);
                   });
+          });
                 </script>
                 <!-- End Bar CHart -->
   

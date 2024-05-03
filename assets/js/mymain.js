@@ -52,7 +52,7 @@ function updateFiltro(filtro,cardId){
     $('#textoFiltro' + cardId).text('| ' + filtro); 
 
     $.ajax({
-        url: "./db/cards.php",
+        url: "./db/cardsAjax.php",
         type: "POST",
         data: { filtro: filtro, cardId: cardId },
         success: function(response) {

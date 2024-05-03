@@ -16,7 +16,7 @@ if (isset($_POST['filtro']) && isset($_POST['cardId'])) {
     $filter = $_POST['filtro'];
     $cardId = $_POST['cardId'];
 
-    // Assuming you have established the database connection $con
+    
    
     switch ($cardId) {
         case 1:
@@ -30,16 +30,16 @@ if (isset($_POST['filtro']) && isset($_POST['cardId'])) {
             exit;
     }
 
-    // Append additional conditions for 'Meus' filter
+  
     if ($filter == "Meus") {
-        // Assuming $_SESSION['user']['id'] is properly set
+       
         $query .= " AND id_user_atribuido = {$_SESSION['user']['id_user']}";
     }
 
-    // Get the count based on the query
+    
     $count = getCount($con, $query);
 
-    // Output the count
+    
     if ($count !== false) {
         echo $count;
     } else {
