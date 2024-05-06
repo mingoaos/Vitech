@@ -1,6 +1,14 @@
 <?php 
 
-
+function getCount($con, $query) {
+    $result = mysqli_query($con, $query);
+    if ($result) {
+        $row = mysqli_fetch_row($result);
+        return $row[0];
+    } else {
+        return 0;
+    }
+}   
 
 function getTicket($idticket)
 {
@@ -27,12 +35,12 @@ function atualizarRecentes($con)
             INNER JOIN user AS u ON a.id_user = u.id_user
             INNER JOIN user_departamento_tipo AS udt ON u.id_user = udt.id_user
             WHERE t.tipo_ticket = 'A' AND (
-                a.id_user = {$_SESSION['user']['id_user']} OR 
-                t.id_user_atribuido = {$_SESSION['user']['id_user']} OR 
+                (t.id_user = {$_SESSION['user']['id_user']} OR t.id_user_atribuido = {$_SESSION['user']['id_user']}) OR 
                 (udt.id_tipo = 'G' AND udt.id_departamento = t.id_departamento_destino) OR 
                 udt.id_tipo = 'A'
             )
-            ORDER BY a.data_acao ASC
+            GROUP BY a.id_ticket
+            ORDER BY MAX(a.data_acao) ASC
             LIMIT 5";
 
     $query_exec = mysqli_query($con,$query);
@@ -79,9 +87,9 @@ function tempoDecorrido($data_acao)
     $diferenca_tempo = $data_atual_timestamp - $data_acao_timestamp;
     
     $dias = floor($diferenca_tempo / (60 * 60 * 24));
-    $horas = floor(($diferenca_tempo % (60 * 60 * 24)) / (60 * 60));
-    $minutos = floor(($diferenca_tempo % (60 * 60)) / 60);
-    $segundos = $diferenca_tempo % 60;
+    $horas = floor(($diferenca_tempo / (60 * 60)));
+    $minutos = floor(($diferenca_tempo / (60)));
+    $segundos = $diferenca_tempo;
 
     
     $tempo_decorrido = '';

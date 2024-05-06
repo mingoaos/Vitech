@@ -33,7 +33,7 @@ CREATE TABLE `acoes` (
   `id_user` int(9) DEFAULT NULL,
   `data_acao` timestamp NOT NULL DEFAULT current_timestamp(),
   `acao` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Extraindo dados da tabela `acoes`

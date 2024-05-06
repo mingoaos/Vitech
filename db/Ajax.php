@@ -1,16 +1,10 @@
 <?php 
 require "dbcon.php";
+require "libphp.php";
+
 session_start();
 
-function getCount($con, $query) {
-    $result = mysqli_query($con, $query);
-    if ($result) {
-        $row = mysqli_fetch_row($result);
-        return $row[0];
-    } else {
-        return 0;
-    }
-}
+
 
 if (isset($_POST['filtro']) && isset($_POST['cardId'])) {
     $filter = $_POST['filtro'];

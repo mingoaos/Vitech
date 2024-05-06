@@ -1,7 +1,7 @@
 
 <?php 
 
-require "./db/cardsAjax.php";
+
 
 ?>
 <div class="pagetitle">
