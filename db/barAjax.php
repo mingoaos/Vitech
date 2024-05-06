@@ -29,7 +29,7 @@ if ($resultado) {
 
     header('Content-Type: application/json');
 
-    echo json_encode(array("data" => $dados));
+    $x = json_encode($dados);
 
     
 } else {
