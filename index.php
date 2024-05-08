@@ -363,27 +363,27 @@ else
                     </div>
                  
                     <div class="modal-body">
-                    <form id="criarNoticia">
+                    <form id="criarNoticia" id="noticiasForm" action="./db/form.php" method="POST">
                       <div class="mb-3"> 
-                        <label>Data Início:</label>
-                        <input id="dateInput" name="dataIni"class="flatpickr flatpickr-input form-control" type="text" placeholder="Select Date.." readonly="readonly">
+                        <label class="fw-bold">Data Início:</label>
+                        <input id="dateInput" name="dataIni"class="flatpickr flatpickr-input form-control" type="text" placeholder="Selecione a data.." readonly="readonly">
                       </div>
                       <div class="mb-3"> 
-                        <label>Data Fim:</label>
-                        <input id="dateInput" name="dataFim" class="flatpickr flatpickr-input form-control" type="text" placeholder="Select Date.." readonly="readonly">
+                        <label class="fw-bold">Data Fim:</label>
+                        <input id="dateInput" name="dataFim" class="flatpickr flatpickr-input form-control" type="text" placeholder="Selecione a data.." readonly="readonly">
                       </div>
                       <div class="mb-3">
-                          <label>Assunto:</label>
+                          <label class="fw-bold">Assunto:</label>
                           <input class="form-control" name="assunto" type="text">
                       </div>
                       <div class="mb-3">
-                          <label>Notícia:</label>
-                          <textarea class="form-control input-lg" name="assunto" rows="3"></textarea>
+                          <label class="fw-bold">Notícia:</label>
+                          <textarea class="form-control input-lg" name="noticia" rows="3"></textarea>
                       </div>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                      <button type="button" class="btn btn-primary">Criar Notícia</button>
+                      <button type="submit" class="btn btn-primary">Criar Notícia</button>
                     </div>
                   </form>
                   </div>

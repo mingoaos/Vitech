@@ -182,7 +182,7 @@
           
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Ticket reportados ao longo do ano</h5>
+                <h5 class="card-title">Ticket reportados nos últimos 6 meses</h5>
   
                 <!-- Bar Chart -->
                 <canvas id="barChart" style="max-height: 400px;"></canvas>
