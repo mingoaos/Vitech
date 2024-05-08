@@ -24,28 +24,10 @@ function changeColor(link, color) {
     }
   }
   
-  /* Chama datatable */
-  document.addEventListener('DOMContentLoaded', function () {
-    // Check if the page URL contains a specific string
-    if (window.location.href.includes('tickets-enviados')) {
-        var dataTable = new simpleDatatables.DataTable('#datatable');
 
-        document.querySelector('#datatable tbody').addEventListener('click', function (event) {
-            tr = event.target.closest('tr');
-            var firstTd = tr.querySelector('td:first-child');
-            TdText = firstTd.textContent.trim();
-            if(TdText){
-              var href = './?op=2&id=' + TdText;
-                console.log(href);
-                if (href) {
-                    window.location = href;
-                }
-            }
-        });
-    }
 
-    
-});
+
+
 
 
 function updateFiltro(filtro,cardId){

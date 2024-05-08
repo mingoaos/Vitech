@@ -1,5 +1,5 @@
 <?php
-require " dbcon.php";
+require "./dbcon.php";
 session_start();
 
 
@@ -8,7 +8,7 @@ session_start();
 $meses = array();
 
 for ($mes = 1; $mes <= 12; $mes++) {
-    $nomeMes = strftime('%B', mktime(0, 0, 0, $mes, 1));
+    $nomeMes = ucfirst(strftime('%B', mktime(0, 0, 0, $mes, 1)));
     $meses[$mes] = $nomeMes;
 }
 
@@ -18,7 +18,7 @@ $data_inic = date_format($date,"Y-m-01");
 
 
 $query = "SELECT MONTH(data) AS mes, COUNT(*) AS total FROM ticket
-        WHERE data >= $data_inic 
+        WHERE data >= '$data_inic'
         GROUP BY MONTH(data)
         ORDER BY data DESC
         LIMIT 6
@@ -37,8 +37,6 @@ if ($resultado) {
     }
 
     mysqli_free_result($resultado);
-
-    header('Content-Type: application/json');
 
     echo json_encode($dados);
     

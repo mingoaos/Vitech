@@ -108,10 +108,4 @@ function tempoDecorrido($data_acao)
 
 
 
-
-
-
-
-
-
 ?>

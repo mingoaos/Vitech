@@ -94,17 +94,17 @@
 
             
 
-            <!-- Recent abertos -->
+            <!-- Alterações de estado -->
             <div class="col-12">
               <div class="card recent-abertos overflow-auto">
 
                 <div class="card-body">
                   <h5 class="card-title">Alterações de estado</h5>
 
-                  <table class="table table-borderless datatable">
+                  <table class="table table-borderless table-hover ">
                     <thead>
                       <tr>
-                        <th scope="col">#</th>
+                        <th class="d-none" scope="col">#</th>
                         <th scope="col">Técnico</th>
                         <th scope="col">Assunto</th>
                         <th scope="col">Data</th>
@@ -118,15 +118,16 @@
                         foreach($acoes as $row){
 
                         ?>
-                      <tr>
-                        <th>
-                          <a href="?op=2&id=<?=$row['id_ticket'] ?>"><?=$row['id_ticket'] ?></a>
-                        </th>
+                      <tr class="table-<?= $row['color']?>">
+                        <td class="d-none" href="?op=2&id=<?=$row['id_ticket'] ?>">
+                          <?=$row['id_ticket'] ?>
+                        </td>
                         <td><?=$row['nome_user'] ?></td>
-                        <td class="fw-bold text-dark"><?=$row['assunto_local'] ?></a></td>
+                        <td class="fw-bold text-dark"><?=$row['assunto_local'] ?></td>
                         <td><?=$row['data_acao'] ?></td>
                         <td><span class="badge bg-<?= $row['color']?>"><?= $row['status']?></span></td>
                       </tr>
+
                       <?php
                       }
                       ?>
@@ -185,76 +186,102 @@
   
                 <!-- Bar Chart -->
                 <canvas id="barChart" style="max-height: 400px;"></canvas>
-                <script>
-              document.addEventListener("DOMContentLoaded", () => {
-    $.ajax({
-        url: "./db/barAjax.php",
-        type: "POST",
-        
-        success: function(response) {
-            try {
-                const data = JSON.parse(response);
-                const labels = data.map(item => item.mes);
-                const chartData = data.map(item => item.total);
 
-                new Chart(document.querySelector('#barChart'), {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Bar Chart',
-                            data: chartData,
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(255, 159, 64, 0.2)',
-                                'rgba(255, 205, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(255, 159, 64, 0.2)',
-                                'rgba(255, 205, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(153, 102, 255, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgb(255, 99, 132)',
-                                'rgb(255, 159, 64)',
-                                'rgb(255, 205, 86)',
-                                'rgb(75, 192, 192)',
-                                'rgb(54, 162, 235)',
-                                'rgb(153, 102, 255)',
-                                'rgb(255, 99, 132)',
-                                'rgb(255, 159, 64)',
-                                'rgb(255, 205, 86)',
-                                'rgb(75, 192, 192)',
-                                'rgb(54, 162, 235)',
-                                'rgb(153, 102, 255)'
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                $.ajax({
+                  url: "./db/barAjax.php",
+                  type: "POST",
+                    
+                  success: function(response) {
+                    try {
+                      const data = JSON.parse(response);
+                      const labels = data.map(item => item.mes);
+                      const chartData = data.map(item => item.total);
+
+                      new Chart(document.querySelector('#barChart'), {
+                          type: 'bar',
+                          data: {
+                              labels: labels,
+                              datasets: [{
+                                  label: 'Bar Chart',
+                                  data: chartData,
+                                  backgroundColor: [
+                                      'rgba(255, 99, 132, 0.2)',
+                                      'rgba(255, 159, 64, 0.2)',
+                                      'rgba(255, 205, 86, 0.2)',
+                                      'rgba(75, 192, 192, 0.2)',
+                                      'rgba(54, 162, 235, 0.2)',
+                                      'rgba(153, 102, 255, 0.2)',
+                                      'rgba(255, 99, 132, 0.2)',
+                                      'rgba(255, 159, 64, 0.2)',
+                                      'rgba(255, 205, 86, 0.2)',
+                                      'rgba(75, 192, 192, 0.2)',
+                                      'rgba(54, 162, 235, 0.2)',
+                                      'rgba(153, 102, 255, 0.2)'
+                                  ],
+                                  borderColor: [
+                                      'rgb(255, 99, 132)',
+                                      'rgb(255, 159, 64)',
+                                      'rgb(255, 205, 86)',
+                                      'rgb(75, 192, 192)',
+                                      'rgb(54, 162, 235)',
+                                      'rgb(153, 102, 255)',
+                                      'rgb(255, 99, 132)',
+                                      'rgb(255, 159, 64)',
+                                      'rgb(255, 205, 86)',
+                                      'rgb(75, 192, 192)',
+                                      'rgb(54, 162, 235)',
+                                      'rgb(153, 102, 255)'
+                                  ],
+                                  borderWidth: 1
+                              }]
+                          },
+                          options: {
+                              scales: {
+                                  y: {
+                                      beginAtZero: true
+                                  }
+                              }
+                          }
+                      });
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
                     }
+                  },
+                  error: function(xhr, status, error) {
+                    console.error('AJAX Error:', error);
+                  }
                 });
-            } catch (error) {
-                console.error('Error parsing JSON:', error);
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('AJAX Error:', error);
-        }
-    });
-});
+
+                
+                // Fazer as table rows clicaveis
+
+                const rows = document.querySelectorAll(".table tbody tr");
+
+                rows.forEach(row => {
+                  row.addEventListener("click", function() {
+                    
+                    const href = this.querySelector("td:first-child").getAttribute("href");
+
+                    if (href && href !== "") {
+                      
+                      window.location.href = href;
+                    }
+                  });
+                });
+
+
+
+            });     
 
           
-                </script>
+
+
+
+
+
+          </script>
                 <!-- End Bar CHart -->
   
               </div>

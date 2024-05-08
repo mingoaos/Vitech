@@ -24,6 +24,7 @@ if(isset($_GET['id'])) {
 
 ?>
 
+
 <div class="card shadow mb-4">
 <div class="card-header py-4 px-4">
     <div class="d-flex justify-content-between align-items-center">
@@ -47,7 +48,7 @@ if(isset($_GET['id'])) {
 
             <div class="card-body py-4">
                
-                <table class="table table-hover" id="datatable" width="100%" cellspacing="0">
+                <table class="table table-hover datatable" id="datatable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>#</th>
@@ -104,6 +105,31 @@ if(isset($_GET['id'])) {
                   </tbody>
                 </table>
               </div>
+
+              <script>
+
+                 
+                document.addEventListener('DOMContentLoaded', function () {
+                  
+                  
+                  var dataTable = new simpleDatatables.DataTable('#datatable');
+
+                  document.querySelector('#datatable tbody').addEventListener('click', function (event) {
+                      tr = event.target.closest('tr');
+                      var firstTd = tr.querySelector('td:first-child');
+                      TdText = firstTd.textContent.trim();
+                      if(TdText){
+                        var href = './?op=2&id=' + TdText;
+                          console.log(href);
+                          if (href) {
+                              window.location = href;
+                          }
+                      }
+                  });
+
+
+              });
+              </script>
 
 
 

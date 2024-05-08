@@ -1,6 +1,6 @@
 <?php
 $id = $_GET['id'];
-$row = getTicket($id);
+
 
 print_r("pi");
 
