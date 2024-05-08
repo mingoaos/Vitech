@@ -26,6 +26,12 @@ function changeColor(link, color) {
   
 
 
+    // Open the popup form when the button is clicked
+    $('#btnCriarNoticia').click(function() {
+        $('#NoticiaModal').modal('show');
+    });
+
+
 
 
 

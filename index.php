@@ -37,6 +37,9 @@ if(isset($_GET['op']))
   <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
@@ -191,7 +194,7 @@ else
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
 
-    <button class="btn btn-outline-primary btn" style="margin-bottom: 12px; width: 100%" >Criar Notícia</button>
+    <button class="btn btn-outline-primary btn" data-bs-toggle="modal" data-bs-target="#NoticiaModal" style="margin-bottom: 12px; width: 100%" >Criar Notícia</button>
     <button class="btn btn-outline-success btn" style="margin-bottom: 12px; width: 100%" >Criar Ticket</button>
 
     <ul class="sidebar-nav" id="sidebar-nav">
@@ -340,7 +343,8 @@ else
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
- 
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 <script src="https://cdn.datatables.net/v/bs4/dt-2.0.3/b-3.0.1/r-3.0.1/rg-1.5.0/sc-2.4.1/sb-1.7.0/sp-2.3.0/datatables.min.js"></script>
 
   <!-- Template Main JS File -->
@@ -349,7 +353,61 @@ else
 <?php
 }
 ?>
+
+<div class="modal fade" id="NoticiaModal" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title fw-bold">Criar Notícia</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                 
+                    <div class="modal-body">
+                    <form id="criarNoticia">
+                      <div class="mb-3"> 
+                        <label>Data Início:</label>
+                        <input id="dateInput" name="dataIni"class="flatpickr flatpickr-input form-control" type="text" placeholder="Select Date.." readonly="readonly">
+                      </div>
+                      <div class="mb-3"> 
+                        <label>Data Fim:</label>
+                        <input id="dateInput" name="dataFim" class="flatpickr flatpickr-input form-control" type="text" placeholder="Select Date.." readonly="readonly">
+                      </div>
+                      <div class="mb-3">
+                          <label>Assunto:</label>
+                          <input class="form-control" name="assunto" type="text">
+                      </div>
+                      <div class="mb-3">
+                          <label>Notícia:</label>
+                          <textarea class="form-control input-lg" name="assunto" rows="3"></textarea>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                      <button type="button" class="btn btn-primary">Criar Notícia</button>
+                    </div>
+                  </form>
+                  </div>
+                </div>
+              </div>
+
 </body>
+
+<script> 
+        flatpickr("#dateInput", {
+
+        minDate: "today",
+
+
+        altInput: true,
+        altFormat: "F j, Y H:i",
+
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        time_24hr: true,
+        minTime: "7:00",
+        maxTime: "23:00"
+      });
+    </script>
 <script src="assets/js/main.js"></script>
   <script src="assets/js/mymain.js"></script>
 </html>
