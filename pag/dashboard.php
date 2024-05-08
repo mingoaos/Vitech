@@ -204,7 +204,7 @@
                           data: {
                               labels: labels,
                               datasets: [{
-                                  label: 'Bar Chart',
+                                  label: 'Tickets Reportados',
                                   data: chartData,
                                   backgroundColor: [
                                       'rgba(255, 99, 132, 0.2)',

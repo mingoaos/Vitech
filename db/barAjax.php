@@ -4,6 +4,7 @@ session_start();
 
 
 
+$resultadosReais = array(); 
 
 $meses = array();
 
@@ -13,7 +14,7 @@ for ($mes = 1; $mes <= 12; $mes++) {
 }
 
 $date=date_create(date("Y-m-d"));
-date_sub($date,date_interval_create_from_date_string("11 month"));
+date_sub($date,date_interval_create_from_date_string("5 month"));
 $data_inic = date_format($date,"Y-m-01");
 
 
@@ -36,7 +37,13 @@ if ($resultado) {
         );
     }
 
+    
+
     mysqli_free_result($resultado);
+
+
+
+    
 
     echo json_encode($dados);
     
