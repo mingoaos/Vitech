@@ -189,6 +189,24 @@ else
       </ul>
     </nav><!-- End Icons Navigation -->
 
+    <?php if(isset($_SESSION['alert'])): ?>
+      <?php
+        $alertClass = '';
+        if (strpos($_SESSION['alert'], 'Erro') === 0) {
+            $alertClass = 'alert-danger';
+        } elseif (strpos($_SESSION['alert'], 'Insira todos os detalhes') !== false) {
+            $alertClass = 'alert-warning';
+        } else {
+            $alertClass = 'alert-success';
+        }
+        ?>
+        <div class="alert <?php echo $alertClass; ?> alert-dismissible fade show position-fixed top-0 end-0 m-3" role="alert">
+            <?php echo $_SESSION['alert']; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <?php unset($_SESSION['alert']); ?>
+    <?php endif; ?>
+
   </header><!-- End Header -->
 
   <!-- ======= Sidebar ======= -->
@@ -288,6 +306,8 @@ else
   </aside><!-- End Sidebar-->
 
   <main id="main" class="main">
+
+ 
 
     <?php 
           $pag_file = "./index.php";
@@ -393,7 +413,20 @@ else
 </body>
 
 <script> 
-        
+        flatpickr("#dateInput", {
+
+        minDate: "today",
+
+
+        altInput: true,
+        altFormat: "F j, Y H:i",
+
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        time_24hr: true,
+        minTime: "7:00",
+        maxTime: "23:00"
+      });
     </script>
 <script src="assets/js/main.js"></script>
   <script src="assets/js/mymain.js"></script>

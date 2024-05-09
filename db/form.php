@@ -31,24 +31,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $assunto = mysqli_real_escape_string($con,$_POST['assunto']);
         $noticia = mysqli_real_escape_string($con,$_POST['noticia']);
 
+        if(!empty($dataini) && !empty($datafim) && !empty($assunto) && !empty($noticia)) {
 
-        $query = "INSERT INTO `noticia`(`Data_inicio`, `Data_fim`, `Assunto`, `Noticia`, `Status`) VALUES ('$dataini','$datafim','$assunto','$noticia','A');";
+            $query = "INSERT INTO `noticia`(`Data_inicio`, `Data_fim`, `Assunto`, `Noticia`, `Status`) VALUES ('$dataini','$datafim','$assunto','$noticia','A');";
 
-        $query_exec = mysqli_query($con,$query);
+            $query_exec = mysqli_query($con,$query);
 
-        if($query_exec)
-        {
-            $_SESSION['alert'] = "Data inserted successfully";
-        } else {
-            $_SESSION['alert'] = "Error: " . mysqli_error($con);
+            if($query_exec)
+            {
+                $_SESSION['alert'] = "Notícia inserida com sucesso";
+            } else {
+                $_SESSION['alert'] = "Erro: " . mysqli_error($con);
+            }
+            
+            header("Location: ../");
+            exit();
         }
-        
-        header("Location: ../");
-        exit();
+        else
+        {
+            $_SESSION['alert'] = "Insira todos os detalhes";
+            header("Location: ../");
+            exit();
+        }
+    
     }
-    
-    
-    
 }
 
 ?>
