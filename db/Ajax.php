@@ -78,25 +78,30 @@ if ($_POST['type'] == 'barAjax') {
         echo json_encode($dados);
         
     } else {
-        $erro = array('erro' => 'Falha ao buscar dados do banco de dados');
+        $erro = array('erro' => 'Falha ao buscar na base de dados');
         echo json_encode($erro);
     }
 }
 
 
-if(isset($_POST['noticiaID']) && $_POST['type'] == 'deleteNoticia'){
+if(isset($_POST['noticiaId']) && $_POST['type'] == 'deleteNoticia'){
 
-    $noticiaID = mysqli_real_escape_string($con,$_POST['noticiaID']);
+    $noticiaId = mysqli_real_escape_string($con,$_POST['noticiaId']);
 
-    $query = "DELETE FROM noticia WHERE id_noticia = $noticiaID";
+    $query = "DELETE FROM noticia WHERE id_noticia = $noticiaId";
 
     $query_exec = mysqli_query($con,$query);
 
     if($query_exec){
 
-        $_SESSION['alert'] = "Noticia apagada com successo";
+        $_SESSION['alert'] = 'Notícia apagada com sucesso';
         $_SESSION['alertClass'] = "success";
+
         exit();
+    }else{
+
+        $_SESSION['alert'] = 'Erro ao apagar a Notícia';
+        $_SESSION['alertClass'] = "danger";
     }
 
 }

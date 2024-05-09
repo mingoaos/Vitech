@@ -147,6 +147,9 @@ else
             <?php 
             $noticias = getNoticia($con);
 
+            if($noticias != null){
+
+           
             foreach ($noticias as $row)
             {
               ?>
@@ -168,8 +171,10 @@ else
                 <hr class="dropdown-divider">
               </li>
 
-            <?php }?>
-            
+            <?php }
+            }
+            ?>
+          
           </ul><!-- End Messages Dropdown Items -->
 
         </li><!-- End Messages Nav -->

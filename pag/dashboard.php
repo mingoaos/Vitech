@@ -11,7 +11,6 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
 
     <section class="section dashboard">
       <div class="row">
-
         <!-- Left side columns -->
         <div class="col-lg-8">
           <div class="row">
