@@ -1,7 +1,7 @@
 
 <?php 
-
-
+unset($_SESSION['current_page']);
+$_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
 
 ?>
 <div class="pagetitle">

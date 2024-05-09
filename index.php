@@ -402,7 +402,7 @@ else
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <script src="https://cdn.datatables.net/v/bs4/dt-2.0.3/b-3.0.1/r-3.0.1/rg-1.5.0/sc-2.4.1/sb-1.7.0/sp-2.3.0/datatables.min.js"></script>
+
 
   <script> 
 

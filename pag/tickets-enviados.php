@@ -20,6 +20,8 @@ if(isset($_GET['id'])) {
   $id = $_GET['id'];
 }
 
+unset($_SESSION['current_page']);
+$_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
 
 
 ?>
@@ -60,37 +62,14 @@ if(isset($_GET['id'])) {
                   </thead>
                   <tbody>
                     <?php
-                      $query = "SELECT t.*, u.nome AS nome_user
-                      FROM ticket t
-                      JOIN user u ON t.id_user = u.id_user
-                      WHERE t.id_user_atribuido = {$_SESSION['user']['id_user']}";
-            
-                      $query_exec = mysqli_query($con, $query);
+                     
+                        $resultado = getTicketList($con);
 
-
-                      
-                      if(mysqli_num_rows($query_exec) > 0)
-                      {
-                          foreach($query_exec as $ticket)
+                          foreach($resultado as $ticket)
                           {
-                            $status_class = '';
-                            switch ($ticket['status']) {
-                                case 'P':
-                                    $status_class = 'bcc_pendente';
-                                    break;
-                                case 'A':
-                                    $status_class = 'bcc-aberto';
-                                    break;
-                                case 'F':
-                                    $status_class = 'bcc_fechado';
-                                    break;
-                               
-                                default:
-                                    $status_class = ''; 
-                                    break;
-                                  }
+                            
                               ?>
-                              <tr class="<?= $status_class ?>">
+                              <tr class="table-warning">
                                   <td><?= $ticket['id_ticket'] ?></td>
                                   <td><?= $ticket['nome_user'] ?></td>     
                                   <td><?= $ticket['assunto_local'] ?></td>
@@ -100,7 +79,7 @@ if(isset($_GET['id'])) {
                               </tr>
                               <?php
                           }
-                      }
+                      
                     ?>
                   </tbody>
                 </table>
@@ -112,7 +91,7 @@ if(isset($_GET['id'])) {
                 document.addEventListener('DOMContentLoaded', function () {
                   
                   
-                  var dataTable = new simpleDatatables.DataTable('#datatable');
+            
 
                   document.querySelector('#datatable tbody').addEventListener('click', function (event) {
                       tr = event.target.closest('tr');

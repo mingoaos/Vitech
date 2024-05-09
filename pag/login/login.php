@@ -24,10 +24,11 @@
                     <?php
                        
 
-                        if (isset($_SESSION['error']) && $_SESSION['error'] === 'credenciais') {
-                            echo '<p class="text-center small" style="color:red">Credenciais Erradas!</p>';
+                        if (isset($_SESSION['error'])) {
 
-                            unset($_SESSION['error']);
+                          echo '<p class="text-center small" style="color:red">' . $_SESSION['error'] . '</p>';
+                          unset($_SESSION['error']);
+                          
                         }
                         ?>
                     </div>

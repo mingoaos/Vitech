@@ -58,8 +58,8 @@ $(document).ready(function() {
                     text: 'A notícia foi apagada com sucesso',
                     icon: 'success'
                 }).then(() => {
-                    
-                });
+                    location.reload(); // Refresh the page
+                });     
             },
             error: function(xhr, status, error) {
                

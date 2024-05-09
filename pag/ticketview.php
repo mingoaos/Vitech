@@ -8,7 +8,7 @@ print_r("pi");
 
 <div style="margin-left: 32px">
     <div style="display:flex;align-items:center">
-        <a href="./?op=2"> <i  class="bi bi-arrow-left-square-fill arrow"></i> </a>
+        <a href="<?=$_SESSION['current_page']?>"> <i  class="bi bi-arrow-left-square-fill arrow"></i> </a>
         <h1 style="margin-top: 10px">Nao gosto de ti</h1>
         <h2 class="id_ticket">#<?= $id ?></h2>
     </div>

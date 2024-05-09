@@ -5,12 +5,10 @@ require "./libphp.php";
 session_start();
 
 
-
 if (isset($_POST['filtro']) && isset($_POST['cardId']) && $_POST['type'] == 'cardsAjax') {
     $filter = $_POST['filtro'];
     $cardId = $_POST['cardId'];
 
-    
    
     switch ($cardId) {
         case 1:
@@ -24,24 +22,19 @@ if (isset($_POST['filtro']) && isset($_POST['cardId']) && $_POST['type'] == 'car
             exit;
     }
 
-  
     if ($filter == "Meus") {
        
         $query .= " AND id_user_atribuido = {$_SESSION['user']['id_user']}";
     }
 
-    
     $count = getCount($con, $query);
 
-    
     if ($count !== false) {
         echo $count;
     } else {
         echo "Error retrieving count";
     }
 }
-
-
 
 
 if ($_POST['type'] == 'barAjax') {
@@ -89,6 +82,7 @@ if ($_POST['type'] == 'barAjax') {
         echo json_encode($erro);
     }
 }
+
 
 if(isset($_POST['noticiaID']) && $_POST['type'] == 'deleteNoticia'){
 

@@ -3,6 +3,8 @@ session_start();
 
 require './dbcon.php';
 
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['username']) && isset($_POST['password']))
     {
@@ -17,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($login && mysqli_num_rows($login) == 1) {
             $_SESSION['user'] = mysqli_fetch_assoc($login);
         } else {
-            $_SESSION['error'] = 'credenciais';
+            $_SESSION['error'] = 'Credenciais Erradas!';
         }
         header('Location:../');
         exit(); 
@@ -25,6 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if(isset($_POST['dataIni']) && isset($_POST['dataFim']) && isset($_POST['assunto']) && isset($_POST['noticia']))
     {
+
+        
 
         $dataini = mysqli_real_escape_string($con,$_POST['dataIni']);
         $datafim = mysqli_real_escape_string($con,$_POST['dataFim']);
@@ -39,21 +43,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if($query_exec)
             {
-                $_SESSION['alert'] = "Notícia inserida com sucesso";
+                $_SESSION['alert'] = 'Notícia criada com sucesso';
                 $_SESSION['alertClass'] = "success";
             } else {
                 $_SESSION['alert'] = "Erro: " . mysqli_error($con);
                 $_SESSION['alertClass'] = "danger";
             }
             
-            header("Location: ../");
+            header("Location: ". $_SESSION['current_page']);
             exit();
         }
         else
         {
             $_SESSION['alert'] = "Insira todos os detalhes";
             $_SESSION['alertClass'] = "warning";
-            header("Location: ../");
+            header("Location: ". $_SESSION['current_page']);
             exit();
         }
     
