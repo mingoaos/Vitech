@@ -21,7 +21,7 @@ $data_inic = date_format($date,"Y-m-01");
 $query = "SELECT MONTH(data) AS mes, COUNT(*) AS total FROM ticket
         WHERE data >= '$data_inic'
         GROUP BY MONTH(data)
-        ORDER BY data DESC
+        ORDER BY data ASC
         LIMIT 6
         ";
 
