@@ -4,6 +4,8 @@ session_start();
 require './db/dbcon.php';
 require './db/libphp.php';
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 $op = 0;
 if(isset($_GET['op'])) 
@@ -123,41 +125,53 @@ else
 
         </li><!-- End Notification Nav -->
 
+        <?php              
+             $count = getCount($con,"SELECT COUNT(*) AS total FROM `noticia` WHERE Data_inicio < NOW() AND Data_fim > NOW()");
+              ?>
         <li class="nav-item dropdown">
 
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-newspaper"></i>
-            <span class="badge bg-success badge-number">2</span>
-          </a><!-- End Messages Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
-            <li class="dropdown-header">
-              You have 3 new messages
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+            <span class="badge bg-success badge-number"><?=$count?></span>
+          </a><!-- End noticias Icon -->
+          <style>
+              
+            </style>
+          <ul style="width: 350px;" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+            <li class="dropdown-header fw-bold">
+              Você tem <?=$count?> novas Notícias
+              
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
+            <?php 
+            $noticias = getNoticia($con);
 
-            <li class="message-item">
-              <a href="#">
-               
-                <div class="text-center">
-                  <h4>Anna Nelson</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>6 hrs. ago</p>
-              </div>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+            foreach ($noticias as $row)
+            {
+              ?>
+              <li class="message-item">
+                <div class="message-content position-relative">
+                <!-- Close button -->
+                <a href="#" class="close-icon position-absolute top-0 end-0 m-2 text-danger delete-message" data-noticia-id="<?=$row['id_noticia']?>">
+                    <i class="bi bi-x"></i>
+                  </a>
+                  <!-- Message content -->
+                  <div class="text-center">
+                    <h4 class='fw-bold text-primary'><?=$row['Assunto'] ?></h4>
+                    <p class="text-black"><?=$row['Noticia'] ?></p>
+                    <p>De <?=$row['formatted_Data_inicio']?> a <?=$row['formatted_Data_fim']?></p>
+                 </div>
+                </div>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
 
-
-            <li class="dropdown-footer">
-              <a href="#">Show all messages</a>
-            </li>
-
+            <?php }?>
+            
           </ul><!-- End Messages Dropdown Items -->
 
         </li><!-- End Messages Nav -->
@@ -189,19 +203,10 @@ else
       </ul>
     </nav><!-- End Icons Navigation -->
 
-    <?php if(isset($_SESSION['alert'])): ?>
-      <?php
-        $alertClass = '';
-        if (strpos($_SESSION['alert'], 'Erro') === 0) {
-            $alertClass = 'alert-danger';
-        } elseif (strpos($_SESSION['alert'], 'Insira todos os detalhes') !== false) {
-            $alertClass = 'alert-warning';
-        } else {
-            $alertClass = 'alert-success';
-        }
-        ?>
-        <div class="alert <?php echo $alertClass; ?> alert-dismissible fade show position-fixed top-0 end-0 m-3" role="alert">
-            <?php echo $_SESSION['alert']; ?>
+    <?php if(isset($_SESSION['alert']) && isset($_SESSION['alertClass'])): ?>
+     
+        <div class="alert alert-<?= $_SESSION['alertClass']; ?> alert-dismissible fade show position-fixed top-0 end-0 m-3" role="alert">
+            <?= $_SESSION['alert']; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       <?php unset($_SESSION['alert']); ?>
@@ -341,40 +346,7 @@ else
 
   </main><!-- End #main -->
 
-  <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>Vitech</span></strong>. All Rights Reserved
-    </div>
-  </footer><!-- End Footer -->
-
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-<script src="https://cdn.datatables.net/v/bs4/dt-2.0.3/b-3.0.1/r-3.0.1/rg-1.5.0/sc-2.4.1/sb-1.7.0/sp-2.3.0/datatables.min.js"></script>
-
-  <!-- Template Main JS File -->
-  
-  
-<?php
-}
-?>
-
-<div class="modal fade" id="NoticiaModal" tabindex="-1">
+  <div class="modal fade" id="NoticiaModal" tabindex="-1">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -410,24 +382,61 @@ else
                 </div>
               </div>
 
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>Vitech</span></strong>. All Rights Reserved
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script src="https://cdn.datatables.net/v/bs4/dt-2.0.3/b-3.0.1/r-3.0.1/rg-1.5.0/sc-2.4.1/sb-1.7.0/sp-2.3.0/datatables.min.js"></script>
+
+  <script> 
+
+
+          flatpickr("#dateInput", {
+
+          minDate: "today",
+
+
+          altInput: true,
+          altFormat: "F j, Y H:i",
+
+          enableTime: true,
+          dateFormat: "Y-m-d H:i",
+          time_24hr: true,
+          minTime: "7:00",
+          maxTime: "23:00"
+        });
+      </script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/mymain.js"></script>
+  
+<?php
+}
+?>
+
+
 </body>
 
-<script> 
-        flatpickr("#dateInput", {
 
-        minDate: "today",
-
-
-        altInput: true,
-        altFormat: "F j, Y H:i",
-
-        enableTime: true,
-        dateFormat: "Y-m-d H:i",
-        time_24hr: true,
-        minTime: "7:00",
-        maxTime: "23:00"
-      });
-    </script>
-<script src="assets/js/main.js"></script>
-  <script src="assets/js/mymain.js"></script>
 </html>

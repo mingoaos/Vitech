@@ -7,11 +7,11 @@ function changeColor(link, color) {
       } else {
           link.style.color = csscolor;
       }
-    }
+}
   
   
     /* Muda cor Tickets */
-  function hexToCssColor(hex) {
+function hexToCssColor(hex) {
     switch(hex) {
         case '#FFD700':
             return 'gold';
@@ -22,17 +22,47 @@ function changeColor(link, color) {
         default:
             return 'grey'; 
     }
-  }
-  
+}
 
 
-    // Open the popup form when the button is clicked
-    $('#btnCriarNoticia').click(function() {
-        $('#NoticiaModal').modal('show');
+$('#btnCriarNoticia').click(function() {
+    $('#NoticiaModal').modal('show');
+});
+
+
+$(document).ready(function() {
+    $('.delete-message').on('click', function(e) {
+        e.preventDefault();
+        const noticiaId = $(this).data('noticia-id');
+        Swal.fire({
+        title: 'Apagar',
+        text: 'Tem a certeza que deseja apagar esta notícia',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        confirmButtonText: 'Sim, apague',
+        cancelButtonText: 'Cancelar'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            
+            $.ajax({
+            url: 'Ajax.php',
+            method: 'POST',
+            data: { noticiaId: noticiaId, type: "deleteNoticia" },
+            success: function(response) {
+                
+                $(this).closest('.message-item').remove();
+                Swal.fire('Deleted', 'The message has been deleted', 'success');
+            },
+            error: function(xhr, status, error) {
+               
+                Swal.fire('Error', 'Failed to delete the message', 'error');
+            }
+            });
+        }
+        });
     });
-
-
-
+});
 
 
 
@@ -42,7 +72,7 @@ function updateFiltro(filtro,cardId){
     $.ajax({
         url: "./db/Ajax.php",
         type: "POST",
-        data: { filtro: filtro, cardId: cardId },
+        data: { filtro: filtro, cardId: cardId, type: "cardsAjax"},
         success: function(response) {
             $('#card-body-' + cardId + ' h6').text(response); 
         },

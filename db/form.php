@@ -40,8 +40,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if($query_exec)
             {
                 $_SESSION['alert'] = "Notícia inserida com sucesso";
+                $_SESSION['alertClass'] = "success";
             } else {
                 $_SESSION['alert'] = "Erro: " . mysqli_error($con);
+                $_SESSION['alertClass'] = "danger";
             }
             
             header("Location: ../");
@@ -50,6 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         else
         {
             $_SESSION['alert'] = "Insira todos os detalhes";
+            $_SESSION['alertClass'] = "warning";
             header("Location: ../");
             exit();
         }

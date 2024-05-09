@@ -190,8 +190,9 @@
               <script>
                 document.addEventListener("DOMContentLoaded", () => {
                 $.ajax({
-                  url: "./db/barAjax.php",
+                  url: "./db/Ajax.php",
                   type: "POST",
+                  data: { type: "barAjax"},
                     
                   success: function(response) {
                     try {
