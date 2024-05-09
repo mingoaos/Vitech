@@ -135,7 +135,7 @@ else
           <style>
               
             </style>
-          <ul style="width: 350px;" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+          <ul style="width: 350px; max-height: 650px; overflow-y: auto; " class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
             <li class="dropdown-header fw-bold">
               Você tem <?=$count?> novas Notícias
               
@@ -162,7 +162,7 @@ else
                   <!-- Message content -->
                   <div class="text-center">
                     <h4 class='fw-bold text-primary'><?=$row['Assunto'] ?></h4>
-                    <p class="text-black"><?=$row['Noticia'] ?></p>
+                    <p style='word-wrap: break-word'class="text-black"><?=$row['Noticia'] ?></p>
                     <p>De <?=$row['formatted_Data_inicio']?> a <?=$row['formatted_Data_fim']?></p>
                  </div>
                 </div>
