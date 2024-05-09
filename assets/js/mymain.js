@@ -33,7 +33,9 @@ $('#btnCriarNoticia').click(function() {
 $(document).ready(function() {
     $('.delete-message').on('click', function(e) {
         e.preventDefault();
+
         const noticiaId = $(this).data('noticia-id');
+
         Swal.fire({
         title: 'Apagar',
         text: 'Tem a certeza que deseja apagar esta notícia',
@@ -46,17 +48,22 @@ $(document).ready(function() {
         if (result.isConfirmed) {
             
             $.ajax({
-            url: 'Ajax.php',
+            url: './db/Ajax.php',
             method: 'POST',
             data: { noticiaId: noticiaId, type: "deleteNoticia" },
             success: function(response) {
-                
-                $(this).closest('.message-item').remove();
-                Swal.fire('Deleted', 'The message has been deleted', 'success');
+
+                Swal.fire({
+                    title: 'Apagado',
+                    text: 'A notícia foi apagada com sucesso',
+                    icon: 'success'
+                }).then(() => {
+                    
+                });
             },
             error: function(xhr, status, error) {
                
-                Swal.fire('Error', 'Failed to delete the message', 'error');
+                Swal.fire('Erro', 'Erro ao apagar a notícia', 'error');
             }
             });
         }

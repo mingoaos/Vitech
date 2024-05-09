@@ -94,12 +94,15 @@ if(isset($_POST['noticiaID']) && $_POST['type'] == 'deleteNoticia'){
 
     $noticiaID = mysqli_real_escape_string($con,$_POST['noticiaID']);
 
-    $query = "DELETE FROM `noticia` WHERE id_noticia = '$noticiaID'";
+    $query = "DELETE FROM noticia WHERE id_noticia = $noticiaID";
 
-    $query_exe = mysqli_query($con,$query);
+    $query_exec = mysqli_query($con,$query);
 
-    if($query_exe){
-        
+    if($query_exec){
+
+        $_SESSION['alert'] = "Noticia apagada com successo";
+        $_SESSION['alertClass'] = "success";
+        exit();
     }
 
 }
