@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $noticia = mysqli_real_escape_string($con,$_POST['noticia']);
 
 
-        $query = "INSERT INTO noticia ('Data_inicio','Data_fim','Assunto','Noticia','Status') Values ('$dataini','$datafim','$assunto','$noticia','A');";
+        $query = "INSERT INTO `noticia`(`Data_inicio`, `Data_fim`, `Assunto`, `Noticia`, `Status`) VALUES ('$dataini','$datafim','$assunto','$noticia','A');";
 
         $query_exec = mysqli_query($con,$query);
 
@@ -46,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: ../");
         exit();
     }
+    
     
     
 }

@@ -1,6 +1,6 @@
 <?php 
-require "dbcon.php";
-require "libphp.php";
+require "./dbcon.php";
+require "./libphp.php";
 
 session_start();
 

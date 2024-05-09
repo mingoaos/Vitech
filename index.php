@@ -363,7 +363,7 @@ else
                     </div>
                  
                     <div class="modal-body">
-                    <form id="criarNoticia" id="noticiasForm" action="./db/noticias.php" method="POST">
+                    <form id="criarNoticia" id="noticiasForm" action="./db/form.php" method="POST">
                       <div class="mb-3"> 
                         <label class="fw-bold">Data Início:</label>
                         <input id="dateInput" name="dataIni"class="flatpickr flatpickr-input form-control" type="text" placeholder="Selecione a data.." readonly="readonly">
@@ -393,20 +393,7 @@ else
 </body>
 
 <script> 
-        flatpickr("#dateInput", {
-
-        minDate: "today",
-
-
-        altInput: true,
-        altFormat: "F j, Y H:i",
-
-        enableTime: true,
-        dateFormat: "Y-m-d H:i",
-        time_24hr: true,
-        minTime: "7:00",
-        maxTime: "23:00"
-      });
+        
     </script>
 <script src="assets/js/main.js"></script>
   <script src="assets/js/mymain.js"></script>
