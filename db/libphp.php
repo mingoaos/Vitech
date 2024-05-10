@@ -130,48 +130,10 @@ function getNoticia($con)
 
 }
 
-function getTicketList($con)
+function getTicketList($con,$tipoTicket,$filtros)
 {
-    $query = "SELECT t.*, u.nome AS nome_user
-    FROM ticket t
-    JOIN user u ON t.id_user = u.id_user
-    WHERE t.id_user_atribuido = {$_SESSION['user']['id_user']}";
-
-    $query_exec = mysqli_query($con, $query);
-
-    if(mysqli_num_rows($query_exec) > 0)
-    {
-        $result = array();
-        while ($row = mysqli_fetch_assoc($query_exec)) {
-
-            $status_class = '';
-            switch ($row['status']) {
-                case 'P':
-                    $color = 'danger';
-                    break;
-                case 'A':
-                    $color = 'warning';
-                    break;
-                case 'F':
-                    $color = 'success';
-                    break;
-               
-                default:
-                    $color = 'dark'; 
-                    break;
-                }
-
-            $row['color'] = $color;
-            $result[] = $row;
-        }
-        
-        return $result;
-
-    } else {
-
-        return null;
-    }
-}
+   
+} 
 
 
 

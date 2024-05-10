@@ -254,17 +254,17 @@ else
         </a>
         <ul id="tickets-recebidos-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="">
+            <a href="./?op=2&x=1">
             <i class="bi bi-circle-fill" style="color:red;"></i><span>Pendente</span>
             </a>
           </li>
           <li>
-            <a href="components-alerts.html">
+            <a href="./?op=2&x=2">
               <i class="bi bi-circle-fill" style="color:#FFD700	;"></i><span>Aberto</span>
             </a>
           </li>
           <li>
-            <a href="components-badges.html">
+            <a href="./?op=2&x=3">
               <i class="bi bi-circle-fill" style="color:#32CD32;"></i><span>Fechado</span>
             </a>
           </li>
@@ -273,7 +273,7 @@ else
 
       
       <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-faq.html">
+        <a class="nav-link collapsed" href="./?op=3">
           <i class="bi bi-journal-x"></i>
           <span>Não Atribuídos</span>
         </a>
@@ -285,7 +285,7 @@ else
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="./?op=4">
+            <a href="./?op=5">
               <i class="bi bi-circle"></i><span>Utilizadores</span>
             </a>
           </li>
@@ -318,25 +318,32 @@ else
  
 
     <?php 
+        
+        unset($_SESSION['tipoTicket']);
           $pag_file = "./index.php";
           switch ($op) {
               case 0:
-                  $pag_file = "./pag/dashboard.php";
-                  break;
+                $pag_file = "./pag/dashboard.php";
+                break;
               case 1:
-                  $pag_file = "./pag/tickets-enviados.php";
-                  break;
+                $pag_file =  "./pag/ticketList.php";
+                $_SESSION['tipoTicket'] = "Enviados";
+                break;
               case 2:
-                  $pag_file =  "./pag/ticketview.php";
-                  break;
+                $pag_file = "./pag/ticketList.php";
+                $_SESSION['tipoTicket'] = "Recebidos";
+                break;
               case 3:
-                  $pag_file = "./pag/user/user.php";
-                  break;
+                $pag_file = "./pag/ticketList.php";
+                $_SESSION['tipoTicket'] = "Não atribuidos";
+                break;
               case 4:
-                  $pag_file = "./pag/users/user.php";
-                  break;    
-
-
+                $pag_file = "./pag/ticketview.php";
+                break;    
+              case 5:
+                $pag_file = "./pag/users/user.php";
+                break;
+                
               default:
                   $pag_file = "./pag/error-404.html";
                   break;

@@ -7,9 +7,6 @@
     font-size: 20px;
 }
 
-table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
-    background-color: initial; /* Override default hover color */
-}
 
 .bcc_pendente{
     background-color: rgba(255, 3, 3, 0.205) !important;
@@ -29,5 +26,7 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
     margin-left:5px;
 }
 
-
+.separator_table{
+    color: #012970 !important;
+}
 

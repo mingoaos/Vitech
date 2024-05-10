@@ -104,6 +104,113 @@ if(isset($_POST['noticiaId']) && $_POST['type'] == 'deleteNoticia'){
         $_SESSION['alertClass'] = "danger";
     }
 
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if ($_POST['type'] == 'ticketTablesAjax') {
+
+    $tipoTicket = mysqli_real_escape_string($con, $_POST['tipoTicket']);
+    $filtros = json_decode($_POST['filtro'], true);
+
+    $whereClause = " WHERE 1 ";
+
+    $statusCondicao = []; 
+    if (isset($filtros["1"]) && $filtros["1"]) {
+        $statusCondicao[] = "t.status = 'P'";
+    }
+
+    if (isset($filtros["2"]) && $filtros["2"]) {
+        $statusCondicao[] = "t.status = 'A'";
+    }
+
+    if (isset($filtros["3"]) && $filtros["3"]) {
+        $statusCondicao[] = "t.status = 'F'";
+    }
+
+    
+    if (!empty($statusCondicao)) {
+        $whereClause .= " AND (" . implode(" OR ", $statusCondicao) . ") ";
+    }
+
+   
+    switch (strtolower($tipoTicket)) {
+        case 'enviados':
+            $whereClause .= " AND t.id_user = {$_SESSION['user']['id_user']}";
+            break;
+        case 'recebidos':
+            $whereClause .= " AND t.id_user_atribuido = {$_SESSION['user']['id_user']}";
+            break;
+        case 'não atribuidos':
+            $whereClause .= " AND t.id_user_atribuido IS NULL";
+            break;
+        default:
+            break;
+    }
+
+    $query = "SELECT t.*, 
+                u_reportador.nome AS nome_reportador,
+                u_atribuido.nome AS nome_user_atribuido
+            FROM ticket t
+            JOIN user u_reportador ON t.id_user = u_reportador.id_user
+            LEFT JOIN user u_atribuido ON t.id_user_atribuido = u_atribuido.id_user
+            {$whereClause}";
+
+
+    $query_exec = mysqli_query($con, $query);
+
+    if ($query_exec) {
+        $result = array();
+        while ($row = mysqli_fetch_assoc($query_exec)) {
+            // Add color to the result if needed
+            switch ($row['status']) {
+                case 'P':
+                    $row['color'] = 'danger';
+                    break;
+                case 'A':
+                    $row['color'] = 'warning';
+                    break;
+                case 'F':
+                    $row['color'] = 'success';
+                    break;
+                default:
+                    $row['color'] = 'dark';
+                    break;
+            }
+            $result[] = $row;
+        }
+        echo json_encode($result);
+    } else {
+        // Handle SQL error
+        echo json_encode(['error' => mysqli_error($con)]);
+    }
+} else {
+    // Return an empty array if the request type is not correct
+    echo json_encode([]);
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 ?>
