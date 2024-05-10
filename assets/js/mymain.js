@@ -1,18 +1,18 @@
 function changeFiltro(link, color, filterIndex, tipoTicket) {
     var filtroInput = document.getElementById('filtroInput');
-    var filtro = JSON.parse(filtroInput.value); // Parse the JSON string into an object
+    var filtro = JSON.parse(filtroInput.value);
     var csscolor = hexToCssColor(color);
 
     
 
-    // Toggle the value of the filter
+ 
     filtro[filterIndex] = !filtro[filterIndex];
 
-    // Update the link color based on the filter state
+
     link.style.color = filtro[filterIndex] ? csscolor : 'grey';
 
-    // Update the value of the filters in the hidden input field
-    filtroInput.value = JSON.stringify(filtro); // Convert the object back to a JSON string
+
+    filtroInput.value = JSON.stringify(filtro); 
 
     $.ajax({
         url: "./db/Ajax.php",
@@ -21,13 +21,13 @@ function changeFiltro(link, color, filterIndex, tipoTicket) {
         success: function(response) {
             
            
-            $('#ticketTableBody').empty(); // Clear the table body before adding new rows
+            $('#ticketTableBody').empty(); 
             
             var tickets = JSON.parse(response);
 
             console.log(tickets);
 
-            // Iterate over the array of ticket objects and generate table rows dynamically
+           
             tickets.forEach(function(ticket) {
                 var row = '<tr class="table-warning">';
                 row += '<td>' + ticket.id_ticket + '</td>';
@@ -38,13 +38,33 @@ function changeFiltro(link, color, filterIndex, tipoTicket) {
                 row += '</tr>';
             
                 console.log(row);
-                // Append the row to the table body
-                   // Append the row to the table body
+      
                 $('#ticketTableBody').append(row);
             });
 
-            // Create a new table with updated data
-            var dataTable = new simpleDatatables.DataTable("#datatable");
+            let dataTable = new DataTable("#datatable",{
+                perPageSelect: [5, 10, 15, ["All", -1]],
+                columns: [{
+                    select: 2,
+                    sortSequence: ["desc", "asc"]
+                  },
+                  {
+                    select: 3,
+                    sortSequence: ["desc"]
+                  },
+                  {
+                    select: 4,
+                    cellClass: "green",
+                    headerClass: "red"
+                  }]
+                  
+            });
+            dataTable.insert(tickets);
+
+       
+
+
+           
         },
         error: function(xhr, status, error) {
             console.error(xhr.responseText);

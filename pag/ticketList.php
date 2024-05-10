@@ -22,6 +22,10 @@ if(isset($_GET['x'])) {
   }
 }
 
+if(isset($_POST['tickets'])){
+  $tickets = $_POST['tickets'];
+}
+
 
 unset($_SESSION['current_page']);
 $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
@@ -30,6 +34,7 @@ if(isset($_SESSION['tipoTicket'])){
   $tipoTicket = $_SESSION['tipoTicket'];
 }
 
+print_r($tickets);
 ?>
 
 
@@ -73,14 +78,8 @@ if(isset($_SESSION['tipoTicket'])){
                         <th>Urgência</th>
                     </tr>
                 </thead>
-                <tbody id="ticketTableBody"> 
-                <tr>
-                        <td>#</td>
-                        <td><?= ($tipoTicket == 'Enviados') ? 'Técnico atribuído' : 'Reportado por' ?></td>
-                        <td>Assunto</td>
-                        <td>Data</td>
-                        <td>Urgência</td>
-                    </tr>
+                <tbody id="ticketTableBody">
+                    <!-- Table rows will be dynamically added here -->
                 </tbody>
                 </table>
               </div>
