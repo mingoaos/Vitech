@@ -22,9 +22,7 @@ if(isset($_GET['x'])) {
   }
 }
 
-if(isset($_POST['tickets'])){
-  $tickets = $_POST['tickets'];
-}
+
 
 
 unset($_SESSION['current_page']);
@@ -34,7 +32,7 @@ if(isset($_SESSION['tipoTicket'])){
   $tipoTicket = $_SESSION['tipoTicket'];
 }
 
-print_r($tickets);
+
 ?>
 
 

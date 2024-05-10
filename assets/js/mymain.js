@@ -61,7 +61,9 @@ function changeFiltro(link, color, filterIndex, tipoTicket) {
             });
             dataTable.insert(tickets);
 
-       
+            $(document).ready(function () {
+                var table = $('#example').DataTable();
+                $(table).find('tbody').append(tableData);
 
 
            
