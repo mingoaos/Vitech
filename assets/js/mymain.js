@@ -1,80 +1,77 @@
-function changeFiltro(link, color, filterIndex, tipoTicket) {
-    var filtroInput = document.getElementById('filtroInput');
-    var filtro = JSON.parse(filtroInput.value);
-    var csscolor = hexToCssColor(color);
+// function changeFiltro(link, color, filterIndex, tipoTicket) {
+//     var filtroInput = document.getElementById('filtroInput');
+//     var filtro = JSON.parse(filtroInput.value);
+//     var csscolor = hexToCssColor(color);
 
     
 
  
-    filtro[filterIndex] = !filtro[filterIndex];
+//     filtro[filterIndex] = !filtro[filterIndex];
 
 
-    link.style.color = filtro[filterIndex] ? csscolor : 'grey';
+//     link.style.color = filtro[filterIndex] ? csscolor : 'grey';
 
 
-    filtroInput.value = JSON.stringify(filtro); 
+//     filtroInput.value = JSON.stringify(filtro); 
 
-    $.ajax({
-        url: "./db/Ajax.php",
-        type: "POST",
-        data: { filtro: JSON.stringify(filtro), type: "ticketTablesAjax", tipoTicket: tipoTicket},
-        success: function(response) {
+//     $.ajax({
+//         url: "./db/Ajax.php",
+//         type: "POST",
+//         data: { filtro: JSON.stringify(filtro), type: "ticketTablesAjax", tipoTicket: tipoTicket},
+//         success: function(response) {
             
            
-            $('#ticketTableBody').empty(); 
+//             $('#ticketTableBody').empty(); 
             
-            var tickets = JSON.parse(response);
+//             var tickets = JSON.parse(response);
 
-            console.log(tickets);
+//             console.log(tickets);
 
            
-            tickets.forEach(function(ticket) {
-                var row = '<tr class="table-warning">';
-                row += '<td>' + ticket.id_ticket + '</td>';
-                row += '<td>' + (tipoTicket == 'Enviados' ? (ticket.nome_user_atribuido !== null ? ticket.nome_user_atribuido : 'Nenhum técnico atribuído') : ticket.nome_reportador) + '</td>';
-                row += '<td>' + ticket.assunto_local + '</td>';
-                row += '<td>' + ticket.data + '</td>';
-                row += '<td>' + (ticket.urgencia ? '<span class="badge bg-danger">Urgente</span>' : '') + '</td>';
-                row += '</tr>';
+//             tickets.forEach(function(ticket) {
+//                 var row = '<tr class="table-warning">';
+//                 row += '<td>' + ticket.id_ticket + '</td>';
+//                 row += '<td>' + (tipoTicket == 'Enviados' ? (ticket.nome_user_atribuido !== null ? ticket.nome_user_atribuido : 'Nenhum técnico atribuído') : ticket.nome_reportador) + '</td>';
+//                 row += '<td>' + ticket.assunto_local + '</td>';
+//                 row += '<td>' + ticket.data + '</td>';
+//                 row += '<td>' + (ticket.urgencia ? '<span class="badge bg-danger">Urgente</span>' : '') + '</td>';
+//                 row += '</tr>';
             
-                console.log(row);
+//                 console.log(row);
       
-                $('#ticketTableBody').append(row);
-            });
+//                 $('#ticketTableBody').append(row);
+//             });
 
-            let dataTable = new DataTable("#datatable",{
-                perPageSelect: [5, 10, 15, ["All", -1]],
-                columns: [{
-                    select: 2,
-                    sortSequence: ["desc", "asc"]
-                  },
-                  {
-                    select: 3,
-                    sortSequence: ["desc"]
-                  },
-                  {
-                    select: 4,
-                    cellClass: "green",
-                    headerClass: "red"
-                  }]
+//             let dataTable = new DataTable("#datatable",{
+//                 perPageSelect: [5, 10, 15, ["All", -1]],
+//                 columns: [{
+//                     select: 2,
+//                     sortSequence: ["desc", "asc"]
+//                   },
+//                   {
+//                     select: 3,
+//                     sortSequence: ["desc"]
+//                   },
+//                   {
+//                     select: 4,
+//                     cellClass: "green",
+//                     headerClass: "red"
+//                   }]
                   
-            });
-            dataTable.insert(tickets);
-
-            $(document).ready(function () {
-                var table = $('#example').DataTable();
-                $(table).find('tbody').append(tableData);
-
+//             });
+//             dataTable.insert(tickets);
 
            
-        },
-        error: function(xhr, status, error) {
-            console.error(xhr.responseText);
-        }
-    });
+
+           
+//         },
+//         error: function(xhr, status, error) {
+//             console.error(xhr.responseText);
+//         }
+//     });
 
 
-}
+// }
 
   
   
@@ -101,7 +98,7 @@ $('#btnCriarNoticia').click(function() {
 $(document).ready(function() {
     $('.delete-message').on('click', function(e) {
         e.preventDefault();
-
+        console.log("assa");
         const noticiaId = $(this).data('noticia-id');
 
         Swal.fire({
