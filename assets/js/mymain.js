@@ -113,7 +113,7 @@ $(document).ready(function() {
         if (result.isConfirmed) {
             
             $.ajax({
-            url: './db/Ajax.php',
+            url: './db/noticiasCode.php',
             method: 'POST',
             data: { noticiaId: noticiaId, type: "deleteNoticia" },
             success: function(response) {
@@ -146,6 +146,7 @@ function updateFiltro(filtro,cardId){
         type: "POST",
         data: { filtro: filtro, cardId: cardId, type: "cardsAjax"},
         success: function(response) {
+            
             $('#card-body-' + cardId + ' h6').text(response); 
         },
         error: function(xhr, status, error) {

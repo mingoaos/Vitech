@@ -3,13 +3,13 @@ require "./dbcon.php";
 require "./libphp.php";
 
 session_start();
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 if (isset($_POST['filtro']) && isset($_POST['cardId']) && $_POST['type'] == 'cardsAjax') {
     $filter = $_POST['filtro'];
     $cardId = $_POST['cardId'];
 
-   
     switch ($cardId) {
         case 1:
             $query = "SELECT COUNT(*) FROM ticket WHERE status = 'A'";
@@ -23,18 +23,19 @@ if (isset($_POST['filtro']) && isset($_POST['cardId']) && $_POST['type'] == 'car
     }
 
     if ($filter == "Meus") {
-       
         $query .= " AND id_user_atribuido = {$_SESSION['user']['id_user']}";
     }
 
     $count = getCount($con, $query);
 
     if ($count !== false) {
+        
         echo $count;
     } else {
         echo "Error retrieving count";
     }
 }
+
 
 
 if ($_POST['type'] == 'barAjax') {
@@ -44,9 +45,10 @@ if ($_POST['type'] == 'barAjax') {
     $meses = array();
 
     for ($mes = 1; $mes <= 12; $mes++) {
-        $nomeMes = ucfirst(strftime('%B', mktime(0, 0, 0, $mes, 1)));
+        $nomeMes = ucfirst(date('F', mktime(0, 0, 0, $mes, 1)));
         $meses[$mes] = $nomeMes;
     }
+    
 
     $date=date_create(date("Y-m-d"));
     date_sub($date,date_interval_create_from_date_string("5 month"));
@@ -196,9 +198,6 @@ if ($_POST['type'] == 'ticketTablesAjax') {
         // Handle SQL error
         echo json_encode(['error' => mysqli_error($con)]);
     }
-} else {
-    // Return an empty array if the request type is not correct
-    echo json_encode([]);
 }
 
 

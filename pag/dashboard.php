@@ -16,7 +16,7 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
           <div class="row">
 
             <!-- abertos Card -->
-            <div class="col-xxl-4 col-md-6">
+            <?php $abertosCard = '<div class="col-xxl-4 col-md-6">
               <div class="card info-card abertos-card" data-card-type="abertos">
 
                 <div class="filter">
@@ -42,10 +42,10 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
                 </div>
 
               </div>
-            </div><!-- End abertos Card -->
+            </div>';
 
             <!-- pendentes Card -->
-            <div class="col-xxl-4 col-md-6">
+           $pendentesCard = '<div class="col-xxl-4 col-md-6">
               <div class="card info-card pendentes-card" data-card-type="pendentes">
 
                 <div class="filter">
@@ -70,10 +70,10 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
                     </div>
                 </div>
               </div>
-            </div><!-- End pendentes Card -->
+            </div>';<!-- End pendentes Card -->
 
             <!-- n/atribuidos Card -->
-            <div class="col-xxl-4 col-md-6">
+            $natribuidosCard = '<div class="col-xxl-4 col-md-6">
               <div class="card info-card naoatribuidos-card" data-card-type="naoatribuidos">
                 <div class="card-body">
                   <h5 class="card-title">Não Atribuídos <span>| Todos</span></h5>
@@ -89,8 +89,21 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
                 </div>
 
               </div>
-            </div>
+            </div>';
 
+            switch ($_SESSION['']) {
+              case 'value':
+                # code...
+                break;
+              
+              default:
+                # code...
+                break;
+            }
+
+
+
+          ?>
             
 
             <!-- Alterações de estado -->
@@ -195,6 +208,7 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
                     
                   success: function(response) {
                     try {
+                      console.log(response);
                       const data = JSON.parse(response);
                       const labels = data.map(item => item.mes);
                       const chartData = data.map(item => item.total);
