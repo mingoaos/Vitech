@@ -15,8 +15,8 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
         <div class="col-lg-8">
           <div class="row">
 
-            <!-- abertos Card -->
-            <?php $abertosCard = '<div class="col-xxl-4 col-md-6">
+            
+             <div class="col-xxl-4 col-md-6">
               <div class="card info-card abertos-card" data-card-type="abertos">
 
                 <div class="filter">
@@ -42,10 +42,9 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
                 </div>
 
               </div>
-            </div>';
-
-            <!-- pendentes Card -->
-           $pendentesCard = '<div class="col-xxl-4 col-md-6">
+            </div>
+            
+          <div class="col-xxl-4 col-md-6">
               <div class="card info-card pendentes-card" data-card-type="pendentes">
 
                 <div class="filter">
@@ -70,10 +69,9 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
                     </div>
                 </div>
               </div>
-            </div>';<!-- End pendentes Card -->
+            </div>
 
-            <!-- n/atribuidos Card -->
-            $natribuidosCard = '<div class="col-xxl-4 col-md-6">
+            <div class="col-xxl-4 col-md-6">
               <div class="card info-card naoatribuidos-card" data-card-type="naoatribuidos">
                 <div class="card-body">
                   <h5 class="card-title">Não Atribuídos <span>| Todos</span></h5>
@@ -89,21 +87,12 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
                 </div>
 
               </div>
-            </div>';
-
-            switch ($_SESSION['']) {
-              case 'value':
-                # code...
-                break;
-              
-              default:
-                # code...
-                break;
-            }
+            </div>
+            
 
 
 
-          ?>
+          
             
 
             <!-- Alterações de estado -->

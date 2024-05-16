@@ -195,6 +195,15 @@ else
               <hr class="dropdown-divider">
             </li>
             <li>
+              <a class="dropdown-item d-flex align-items-center" href="./?op=6">
+                <i class="bi bi-pencil-square"></i>
+                <span>Editar Perfil</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
               <a class="dropdown-item d-flex align-items-center" href="pag/login/logout.php">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
@@ -343,6 +352,9 @@ else
                 break;    
               case 5:
                 $pag_file = "./pag/users/user.php";
+                break;
+              case 6:
+                $pag_file = "./pag/editarPerfil.php";
                 break;
                 
               default:
