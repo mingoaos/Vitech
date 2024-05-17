@@ -2,6 +2,32 @@
 
 
 
+if($_SERVER["REQUEST_METHOD"] == "POST")
+{
+
+    require "./dbcon.php";
+    if(isset($_POST['noticiaId']) && $_POST['type'] == 'deleteNoticia'){
+
+        $noticiaId = mysqli_real_escape_string($con,$_POST['noticiaId']);
+
+        $query = "DELETE FROM noticia WHERE id_noticia = $noticiaId";
+
+        $query_exec = mysqli_query($con,$query);
+
+        if ($query_exec) {
+           
+            http_response_code(200); 
+            echo json_encode(array("status" => "success"));
+        } else {
+         
+            http_response_code(500);
+            echo json_encode(array("status" => "error"));
+        }
+
+
+    }
+}
+
 
 function getNoticia($con)
 {
@@ -28,28 +54,6 @@ function getNoticia($con)
 }
 
 
-if(isset($_POST['noticiaId']) && $_POST['type'] == 'deleteNoticia'){
-
-    $noticiaId = mysqli_real_escape_string($con,$_POST['noticiaId']);
-
-    $query = "DELETE FROM noticia WHERE id_noticia = $noticiaId";
-
-    $query_exec = mysqli_query($con,$query);
-
-    if($query_exec){
-
-        $_SESSION['alert'] = 'Notícia apagada com sucesso';
-        $_SESSION['alertClass'] = "success";
-
-        exit();
-    }else{
-
-        $_SESSION['alert'] = 'Erro ao apagar a Notícia';
-        $_SESSION['alertClass'] = "danger";
-    }
-
-
-}
 
 
 ?>

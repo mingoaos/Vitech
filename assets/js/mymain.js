@@ -96,42 +96,40 @@ $('#btnCriarNoticia').click(function() {
 
 
 $(document).ready(function() {
-    $('.delete-message').on('click', function(e) {
+    $(document).on('click', '.delete-message', function(e) {
         e.preventDefault();
         console.log("assa");
         const noticiaId = $(this).data('noticia-id');
-
+        console.log(noticiaId);
+        
         Swal.fire({
-        title: 'Apagar',
-        text: 'Tem a certeza que deseja apagar esta notícia',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: "#d33",
-        confirmButtonText: 'Sim, apague',
-        cancelButtonText: 'Cancelar'
+            title: 'Apagar',
+            text: 'Tem a certeza que deseja apagar esta notícia',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            confirmButtonText: 'Sim, apague',
+            cancelButtonText: 'Cancelar'
         }).then((result) => {
-        if (result.isConfirmed) {
-            
-            $.ajax({
-            url: './db/noticiasCode.php',
-            method: 'POST',
-            data: { noticiaId: noticiaId, type: "deleteNoticia" },
-            success: function(response) {
-
-                Swal.fire({
-                    title: 'Apagado',
-                    text: 'A notícia foi apagada com sucesso',
-                    icon: 'success'
-                }).then(() => {
-                    location.reload(); // Refresh the page
-                });     
-            },
-            error: function(xhr, status, error) {
-               
-                Swal.fire('Erro', 'Erro ao apagar a notícia', 'error');
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: './db/noticiasCode.php',
+                    method: 'POST',
+                    data: { noticiaId: noticiaId, type: "deleteNoticia" },
+                    success: function(response) {
+                        Swal.fire({
+                            title: 'Apagado',
+                            text: 'A notícia foi apagada com sucesso',
+                            icon: 'success'
+                        }).then(() => {
+                            location.reload();
+                        });     
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire('Erro', 'Erro ao apagar a notícia', 'error');
+                    }
+                });
             }
-            });
-        }
         });
     });
 });
