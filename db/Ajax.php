@@ -107,40 +107,45 @@ if ($_POST['type'] == 'ticketTablesAjax') {
 
     $whereClause = " WHERE 1 ";
 
-    $statusCondicao = []; 
-    if (isset($filtros["1"]) && $filtros["1"]) {
-        $statusCondicao[] = "t.status = 'P'";
-    }
 
-    if (isset($filtros["2"]) && $filtros["2"]) {
-        $statusCondicao[] = "t.status = 'A'";
-    }
-
-    if (isset($filtros["3"]) && $filtros["3"]) {
-        $statusCondicao[] = "t.status = 'F'";
-    }
-
-    
-    if (!empty($statusCondicao)) {
-        $whereClause .= " AND (" . implode(" OR ", $statusCondicao) . ") ";
-    } else{
-        echo json_encode("Sem dados");
-    }
-
-   
-    switch (strtolower($tipoTicket)) {
-        case 'enviados':
+    switch ($tipoTicket) {
+        case 'Enviados':
             $whereClause .= " AND t.id_user = {$_SESSION['user']['id_user']}";
             break;
-        case 'recebidos':
+        case 'Recebidos':
             $whereClause .= " AND t.id_user_atribuido = {$_SESSION['user']['id_user']}";
             break;
-        case 'não atribuidos':
+        case 'Não atribuidos':
             $whereClause .= " AND t.id_user_atribuido IS NULL";
             break;
         default:
             break;
     }
+    if($tipoTicket != "Não atribuidos"){
+        $statusCondicao = []; 
+        if (isset($filtros["1"]) && $filtros["1"]) {
+            $statusCondicao[] = "t.status = 'P'";
+        }
+    
+        if (isset($filtros["2"]) && $filtros["2"]) {
+            $statusCondicao[] = "t.status = 'A'";
+        }
+    
+        if (isset($filtros["3"]) && $filtros["3"]) {
+            $statusCondicao[] = "t.status = 'F'";
+        }
+    
+        
+        if (!empty($statusCondicao)) {
+            $whereClause .= " AND (" . implode(" OR ", $statusCondicao) . ") ";
+        } else{
+            echo json_encode("Sem dados");
+        }
+    }
+  
+
+
+    
 
     $query = "SELECT t.*, 
                 u_reportador.nome AS nome_reportador,

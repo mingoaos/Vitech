@@ -28,7 +28,7 @@ function getTickets(filtro,tipoTicket)
         success: function(response) {
             var tableId = document.getElementById('datatable');
             var tBody = tableId.getElementsByTagName('tbody')[0];
-    
+
             // Clear the tbody
             tBody.innerHTML = '';
     

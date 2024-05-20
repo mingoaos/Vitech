@@ -28,16 +28,19 @@ if(isset($_GET['x'])) {
 unset($_SESSION['current_page']);
 $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
 
+$tipoTicket = null; 
+
 if(isset($_SESSION['tipoTicket'])){
-  $tipoTicket = $_SESSION['tipoTicket'];
+    $tipoTicket = $_SESSION['tipoTicket'];
+    unset($_SESSION['tipoTicket']);
 }
+
+
 
 
 ?>
 
-<script>
-  getTickets($filtro,$tipoTicket);
-</script>
+
 <div class="card shadow mb-4">
 <div class="card-header py-4 px-4">
     <div class="d-flex justify-content-between align-items-center">
@@ -87,17 +90,22 @@ if(isset($_SESSION['tipoTicket'])){
               <script>
 
                  
-                document.addEventListener('DOMContentLoaded', function () {
-                  
-                  
-                  
+                    document.addEventListener('DOMContentLoaded', function () {
+                        // Convert PHP variables to JavaScript variables
+                        var filtro = <?= json_encode($filtro) ?>;
+                        var tipoTicket = '<?= $tipoTicket ?>';
+                        getTickets(filtro, tipoTicket);
+                        
+                        // Rest of your JavaScript code...
+                    
+
 
                   document.querySelector('#datatable tbody').addEventListener('click', function (event) {
                       tr = event.target.closest('tr');
                       var firstTd = tr.querySelector('td:first-child');
                       TdText = firstTd.textContent.trim();
                       if(TdText){
-                        var href = './?op=3&id=' + TdText;
+                        var href = './?op=4&id=' + TdText;
                           console.log(href);
                           if (href) {
                               window.location = href;

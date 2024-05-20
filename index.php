@@ -344,6 +344,7 @@ else
                 $_SESSION['tipoTicket'] = "Recebidos";
                 break;
               case 3:
+                
                 $pag_file = "./pag/ticketList.php";
                 $_SESSION['tipoTicket'] = "Não atribuidos";
                 break;
