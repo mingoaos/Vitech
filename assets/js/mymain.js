@@ -1,78 +1,63 @@
-// function changeFiltro(link, color, filterIndex, tipoTicket) {
-//     var filtroInput = document.getElementById('filtroInput');
-//     var filtro = JSON.parse(filtroInput.value);
-//     var csscolor = hexToCssColor(color);
+function changeFiltro(link, color, filterIndex, tipoTicket) {
+    var filtroInput = document.getElementById('filtroInput');
+    var filtro = JSON.parse(filtroInput.value);
+    var csscolor = hexToCssColor(color);
 
     
 
  
-//     filtro[filterIndex] = !filtro[filterIndex];
+    filtro[filterIndex] = !filtro[filterIndex];
 
 
-//     link.style.color = filtro[filterIndex] ? csscolor : 'grey';
+    link.style.color = filtro[filterIndex] ? csscolor : 'grey';
 
 
-//     filtroInput.value = JSON.stringify(filtro); 
+    filtroInput.value = JSON.stringify(filtro); 
 
-//     $.ajax({
-//         url: "./db/Ajax.php",
-//         type: "POST",
-//         data: { filtro: JSON.stringify(filtro), type: "ticketTablesAjax", tipoTicket: tipoTicket},
-//         success: function(response) {
-            
-           
-//             $('#ticketTableBody').empty(); 
-            
-//             var tickets = JSON.parse(response);
-
-//             console.log(tickets);
-
-           
-//             tickets.forEach(function(ticket) {
-//                 var row = '<tr class="table-warning">';
-//                 row += '<td>' + ticket.id_ticket + '</td>';
-//                 row += '<td>' + (tipoTicket == 'Enviados' ? (ticket.nome_user_atribuido !== null ? ticket.nome_user_atribuido : 'Nenhum técnico atribuído') : ticket.nome_reportador) + '</td>';
-//                 row += '<td>' + ticket.assunto_local + '</td>';
-//                 row += '<td>' + ticket.data + '</td>';
-//                 row += '<td>' + (ticket.urgencia ? '<span class="badge bg-danger">Urgente</span>' : '') + '</td>';
-//                 row += '</tr>';
-            
-//                 console.log(row);
-      
-//                 $('#ticketTableBody').append(row);
-//             });
-
-//             let dataTable = new DataTable("#datatable",{
-//                 perPageSelect: [5, 10, 15, ["All", -1]],
-//                 columns: [{
-//                     select: 2,
-//                     sortSequence: ["desc", "asc"]
-//                   },
-//                   {
-//                     select: 3,
-//                     sortSequence: ["desc"]
-//                   },
-//                   {
-//                     select: 4,
-//                     cellClass: "green",
-//                     headerClass: "red"
-//                   }]
-                  
-//             });
-//             dataTable.insert(tickets);
-
-           
-
-           
-//         },
-//         error: function(xhr, status, error) {
-//             console.error(xhr.responseText);
-//         }
-//     });
+    getTickets(filtro,tipoTicket);
+    
+}
 
 
-// }
-
+function getTickets(filtro,tipoTicket)
+{
+    $.ajax({
+        url: "./db/Ajax.php",
+        type: "POST",
+        data: { filtro: JSON.stringify(filtro), type: "ticketTablesAjax", tipoTicket: tipoTicket},
+        success: function(response) {
+            var tableId = document.getElementById('datatable');
+            var tBody = tableId.getElementsByTagName('tbody')[0];
+    
+            // Clear the tbody
+            tBody.innerHTML = '';
+    
+            // Parse the JSON response
+            var tickets = JSON.parse(response);
+    
+            console.log(tickets);
+    
+            // Append new rows and cells based on the data received
+            tickets.forEach(function(ticket) {
+                var row = '<tr class="table-'+ticket.color+'">';
+                row += '<td>' + ticket.id_ticket + '</td>';
+                row += '<td>' + (tipoTicket == 'Enviados' ? (ticket.nome_user_atribuido !== null ? ticket.nome_user_atribuido : 'Nenhum técnico atribuído') : ticket.nome_reportador) + '</td>';
+                row += '<td>' + ticket.assunto_local + '</td>';
+                row += '<td>' + ticket.data + '</td>';
+                row += '<td>' + (ticket.urgencia ? '<span class="badge bg-danger">Urgente</span>' : '') + '</td>';
+                row += '</tr>';
+    
+                console.log(row);
+    
+                // Append the prepared row to the tbody
+                tBody.insertAdjacentHTML('beforeend', row);
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
+}
   
   
     /* Muda cor Tickets */
@@ -98,9 +83,9 @@ $('#btnCriarNoticia').click(function() {
 $(document).ready(function() {
     $(document).on('click', '.delete-message', function(e) {
         e.preventDefault();
-        console.log("assa");
+   
         const noticiaId = $(this).data('noticia-id');
-        console.log(noticiaId);
+
         
         Swal.fire({
             title: 'Apagar',

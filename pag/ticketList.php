@@ -35,7 +35,9 @@ if(isset($_SESSION['tipoTicket'])){
 
 ?>
 
-
+<script>
+  getTickets($filtro,$tipoTicket);
+</script>
 <div class="card shadow mb-4">
 <div class="card-header py-4 px-4">
     <div class="d-flex justify-content-between align-items-center">

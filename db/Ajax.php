@@ -86,28 +86,6 @@ if ($_POST['type'] == 'barAjax') {
 }
 
 
-if(isset($_POST['noticiaId']) && $_POST['type'] == 'deleteNoticia'){
-
-    $noticiaId = mysqli_real_escape_string($con,$_POST['noticiaId']);
-
-    $query = "DELETE FROM noticia WHERE id_noticia = $noticiaId";
-
-    $query_exec = mysqli_query($con,$query);
-
-    if($query_exec){
-
-        $_SESSION['alert'] = 'Notícia apagada com sucesso';
-        $_SESSION['alertClass'] = "success";
-
-        exit();
-    }else{
-
-        $_SESSION['alert'] = 'Erro ao apagar a Notícia';
-        $_SESSION['alertClass'] = "danger";
-    }
-
-
-}
 
 
 
@@ -145,6 +123,8 @@ if ($_POST['type'] == 'ticketTablesAjax') {
     
     if (!empty($statusCondicao)) {
         $whereClause .= " AND (" . implode(" OR ", $statusCondicao) . ") ";
+    } else{
+        echo json_encode("Sem dados");
     }
 
    

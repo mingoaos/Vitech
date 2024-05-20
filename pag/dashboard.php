@@ -120,7 +120,7 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
 
                         ?>
                       <tr class="table-<?= $row['color']?>">
-                        <td class="d-none" href="?op=2&id=<?=$row['id_ticket'] ?>">
+                        <td class="d-none" href="?op=4&id=<?=$row['id_ticket'] ?>">
                           <?=$row['id_ticket'] ?>
                         </td>
                         <td><?=$row['nome_user'] ?></td>
