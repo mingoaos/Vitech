@@ -21,36 +21,48 @@ function changeFiltro(link, color, filterIndex, tipoTicket) {
 
 function getTickets(filtro,tipoTicket)
 {
+    
+    if (!$.fn.DataTable.isDataTable('#datatable')) {
+        table = $('#datatable').DataTable({
+            "columnDefs": [
+                {"className": "dt-center", "targets": "_all"}
+              ],
+              order: [[4, 'desc']]
+        });
+    }
+
+    table.clear().draw();
+
     $.ajax({
         url: "./db/Ajax.php",
         type: "POST",
-        data: { filtro: JSON.stringify(filtro), type: "ticketTablesAjax", tipoTicket: tipoTicket},
+        data: { 
+            filtro: JSON.stringify(filtro), 
+            type: "ticketTablesAjax", 
+            tipoTicket: tipoTicket 
+        },
         success: function(response) {
-            var tableId = document.getElementById('datatable');
-            var tBody = tableId.getElementsByTagName('tbody')[0];
-
-            // Clear the tbody
-            tBody.innerHTML = '';
-    
-            // Parse the JSON response
             var tickets = JSON.parse(response);
-    
             console.log(tickets);
-    
+
+            // Clear DataTable
+            
+
             // Append new rows and cells based on the data received
             tickets.forEach(function(ticket) {
-                var row = '<tr class="table-'+ticket.color+'">';
-                row += '<td>' + ticket.id_ticket + '</td>';
-                row += '<td>' + (tipoTicket == 'Enviados' ? (ticket.nome_user_atribuido !== null ? ticket.nome_user_atribuido : 'Nenhum técnico atribuído') : ticket.nome_reportador) + '</td>';
-                row += '<td>' + ticket.assunto_local + '</td>';
-                row += '<td>' + ticket.data + '</td>';
-                row += '<td>' + (ticket.urgencia ? '<span class="badge bg-danger">Urgente</span>' : '') + '</td>';
-                row += '</tr>';
-    
-                console.log(row);
-    
-                // Append the prepared row to the tbody
-                tBody.insertAdjacentHTML('beforeend', row);
+                var row = [
+                    ticket.id_ticket,
+                    (tipoTicket == 'Enviados' ? (ticket.nome_user_atribuido !== null ? ticket.nome_user_atribuido : 'Nenhum técnico atribuído') : ticket.nome_reportador),
+                    ticket.assunto_local,
+                    ticket.data,
+                    (ticket.urgencia =='1' ? '<span class="badge bg-danger">Urgente</span>' : '')
+                ];
+
+                // Add row to DataTable
+                var newRow = table.row.add(row).draw().node();
+
+                // Set row color based on ticket color
+                $(newRow).addClass('table-'+ticket.color);
             });
         },
         error: function(xhr, status, error) {

@@ -89,15 +89,16 @@ if(isset($_SESSION['tipoTicket'])){
 
               <script>
 
-                 
+
                     document.addEventListener('DOMContentLoaded', function () {
                         // Convert PHP variables to JavaScript variables
                         var filtro = <?= json_encode($filtro) ?>;
                         var tipoTicket = '<?= $tipoTicket ?>';
+                        // Rest of your JavaScript code...
+                        
                         getTickets(filtro, tipoTicket);
                         
-                        // Rest of your JavaScript code...
-                    
+                        
 
 
                   document.querySelector('#datatable tbody').addEventListener('click', function (event) {
