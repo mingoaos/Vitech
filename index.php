@@ -75,12 +75,7 @@ else
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
-    <div class="search-bar">
-      <form class="search-form d-flex align-items-center" method="POST" action="#">
-        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-      </form>
-    </div><!-- End Search Bar -->
+  
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
@@ -89,7 +84,7 @@ else
           <a class="nav-link nav-icon search-bar-toggle " href="#">
             <i class="bi bi-search"></i>
           </a>
-        </li><!-- End Search Icon-->
+        </li>
 
         <li class="nav-item dropdown">
 
@@ -236,7 +231,7 @@ else
   <aside id="sidebar" class="sidebar">
 
     <button class="btn btn-outline-primary btn" data-bs-toggle="modal" data-bs-target="#NoticiaModal" style="margin-bottom: 12px; width: 100%" >Criar Notícia</button>
-    <button class="btn btn-outline-success btn" style="margin-bottom: 12px; width: 100%" >Criar Ticket</button>
+    <a class="btn btn-outline-success btn" style="margin-bottom: 12px; width: 100%" href="./?op=7">Criar Ticket</a>
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
@@ -361,6 +356,9 @@ else
                 break;
               case 6:
                 $pag_file = "./pag/editarPerfil.php";
+                break;
+              case 7:
+                $pag_file = "./pag/inserirTicketForm.php";
                 break;
                 
               default:
