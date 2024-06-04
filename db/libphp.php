@@ -28,7 +28,7 @@ function getTicket($idticket)
 
 function atualizarRecentes($con)
 {
-
+   
     $query = "SELECT a.*, t.status AS ticket_status, t.assunto_local AS assunto_local, u.nome AS nome_user
             FROM acoes AS a
             INNER JOIN ticket AS t ON a.id_ticket = t.id_ticket
@@ -73,10 +73,11 @@ function atualizarRecentes($con)
             $row['tempo_decorrido'] = $tempo_decorrido;
 
             $acoes[] = $row;
+            return $acoes;
         }
     }
-
-    return $acoes;
+return null;
+    
 
 }
 
