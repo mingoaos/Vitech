@@ -177,16 +177,16 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
                   <i class='bi bi-circle-fill activity-badge text-<?= $row['color'] ?> align-self-start'></i>
                   <div class="activity-content">
                     <?= $row['nome_user'] ?>     <?= $row['acao'] ?> <a class="fw-bold text-dark"
-                      href="?op=2&id=<?= $row['id_ticket'] ?>">#<?= $row['id_ticket'] ?></a>
+                      href="?op=4&id=<?= $row['id_ticket'] ?>">#<?= $row['id_ticket'] ?></a>
                   </div>
                 </div><!-- End activity item-->
 
                 <?php
               }
-            }else {
+            } else {
               echo '<div style="background-color: #EEEEEE; display: flex; align-items: center; justify-content: center; border-radius: 10px; padding: 5px" class="fw-bold">Não foram encontrados dados...</div>';
             }
-            
+
 
             ?>
 
@@ -278,15 +278,7 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
                 });
               });
 
-
-
             });
-
-
-
-
-
-
 
           </script>
           <!-- End Bar CHart -->

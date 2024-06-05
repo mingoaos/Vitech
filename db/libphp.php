@@ -10,10 +10,28 @@ function getCount($con, $query) {
     }
 }   
 
-function getTicket($idticket)
+function getTicket($con,$idticket)
 {
-    $query = "SELECT * FROM ticket where id_ticket = '$idticket'";
-
+    $query = " SELECT 
+        t.id_ticket,
+        u1.nome AS user_criado,
+        t.data,
+        t.tipo_ticket,
+        t.assunto_local,
+        t.mensagem_sintomas,
+        d.nome AS nome_departamento,
+        t.urgencia,
+        t.status,
+        u2.nome AS user_atribuido,
+        t.data_atribuido
+    FROM
+        ticket t
+        LEFT JOIN user u1 ON t.id_user = u1.id_user
+        LEFT JOIN user u2 ON t.id_user_atribuido = u2.id_user
+        LEFT JOIN departamento d ON t.id_departamento_destino = d.id_departamento
+    WHERE
+        t.id_ticket = $idticket
+    ";
     $query_exec = mysqli_query($con,$query);
 
     if($query_exec && mysqli_num_rows($query_exec) == 1)
