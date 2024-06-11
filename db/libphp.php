@@ -1,6 +1,7 @@
-<?php 
+<?php
 
-function getCount($con, $query) {
+function getCount($con, $query)
+{
     $result = mysqli_query($con, $query);
     if ($result) {
         $row = mysqli_fetch_row($result);
@@ -8,11 +9,30 @@ function getCount($con, $query) {
     } else {
         return null;
     }
-}   
+}
 
-function getTicket($con,$idticket)
+function verificarData($datainicio, $datafim)
 {
-    $query = " SELECT 
+    // Converter os valores das datas para timestamps
+    $datainicio_timestamp = strtotime($datainicio);
+    $datafim_timestamp = strtotime($datafim);
+
+
+    // validar se existem valores
+    if ($datainicio_timestamp !== false && $datafim_timestamp !== false) {
+        // Comparar os timestamps
+        if ($datafim_timestamp >= $datainicio_timestamp) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+function getTicket($con, $idticket)
+{
+    $query = "
+    SELECT 
         t.id_ticket,
         u1.nome AS user_criado,
         t.data,
@@ -30,23 +50,59 @@ function getTicket($con,$idticket)
         LEFT JOIN user u2 ON t.id_user_atribuido = u2.id_user
         LEFT JOIN departamento d ON t.id_departamento_destino = d.id_departamento
     WHERE
-        t.id_ticket = $idticket
-    ";
-    $query_exec = mysqli_query($con,$query);
+        t.id_ticket = '$idticket'
+";
 
-    if($query_exec && mysqli_num_rows($query_exec) == 1)
-    {
+$query_exec = mysqli_query($con, $query);
 
-       return $row = mysqli_fetch_assoc($query_exec);
+if ($query_exec && mysqli_num_rows($query_exec) == 1) {
+    $row = mysqli_fetch_assoc($query_exec);
+
+    switch ($row['status']) {
+        case 'P':
+            $row['statusText'] = 'Pendente';
+            $row['statusColor'] = 'red';
+            break;
+        case 'A':
+            $row['statusText'] = 'Aberto';
+            $row['statusColor'] = '#FFD700';
+            break;
+        case 'F':
+            $row['statusText'] = 'Fechado';
+            $row['statusColor'] = '#32CD32';
+            break;
+        default:
+            $row['statusText'] = 'Desconhecido';
+            $row['statusColor'] = 'black';
+            break;
     }
 
-    return null;
+    // Fetch latest action date
+    $queryacoes = "
+        SELECT data_acao 
+        FROM acoes 
+        WHERE id_ticket = '$idticket' 
+        ORDER BY data_acao DESC 
+        LIMIT 1
+    ";
+
+    $queryacoes_exec = mysqli_query($con, $queryacoes);
+
+    if ($queryacoes_exec && mysqli_num_rows($queryacoes_exec) == 1) {
+        $data_acao = mysqli_fetch_assoc($queryacoes_exec);
+        $row["data_acao"] = $data_acao["data_acao"];
+    }
+
+    return $row;
+}
+
+return null;
 }
 
 
 function atualizarRecentes($con)
 {
-   
+
     $query = "SELECT a.*, t.status AS ticket_status, t.assunto_local AS assunto_local, u.nome AS nome_user
             FROM acoes AS a
             INNER JOIN ticket AS t ON a.id_ticket = t.id_ticket
@@ -61,11 +117,10 @@ function atualizarRecentes($con)
             ORDER BY MAX(a.data_acao) ASC
             LIMIT 5";
 
-    $query_exec = mysqli_query($con,$query);
+    $query_exec = mysqli_query($con, $query);
 
-    if($query_exec && mysqli_num_rows($query_exec) > 0)
-    {
-        while ($row = mysqli_fetch_assoc($query_exec)){
+    if ($query_exec && mysqli_num_rows($query_exec) > 0) {
+        while ($row = mysqli_fetch_assoc($query_exec)) {
 
             switch ($row['ticket_status']) {
                 case 'P':
@@ -94,8 +149,8 @@ function atualizarRecentes($con)
             return $acoes;
         }
     }
-return null;
-    
+    return null;
+
 
 }
 
@@ -104,13 +159,13 @@ function tempoDecorrido($data_acao)
     $data_acao_timestamp = strtotime($data_acao);
     $data_atual_timestamp = time();
     $diferenca_tempo = $data_atual_timestamp - $data_acao_timestamp;
-    
+
     $dias = floor($diferenca_tempo / (60 * 60 * 24));
     $horas = floor(($diferenca_tempo / (60 * 60)));
     $minutos = floor(($diferenca_tempo / (60)));
     $segundos = $diferenca_tempo;
 
-    
+
     $tempo_decorrido = '';
     if ($dias > 0) {
         $tempo_decorrido = "$dias dias";
@@ -127,10 +182,10 @@ function tempoDecorrido($data_acao)
 
 
 
-function getTicketList($con,$tipoTicket,$filtros)
+function getTicketList($con, $tipoTicket, $filtros)
 {
-   
-} 
+
+}
 
 
 

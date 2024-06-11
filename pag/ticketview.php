@@ -59,7 +59,7 @@ $ticket = getTicket($con, $id);
     </style>
 
     <script>
-        function aparecerlocalresposder() {
+        function aparecerlocalresponder() {
             var responseDiv = document.getElementById("responseDiv");
             if (responseDiv.style.display === "none") {
                 responseDiv.style.display = "block";
@@ -76,6 +76,8 @@ $ticket = getTicket($con, $id);
                 respostasDadas.style.display = "none";
             }
         }
+
+       
     </script>
 
 </head>
@@ -108,9 +110,7 @@ $ticket = getTicket($con, $id);
                                                     style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                     <?= $ticket['user_criado'] ?>
                                                 </div>
-                                                <span
-                                                    style="color: gray; font-size: 15px; display:flex; align-items: last baseline; margin-bottom: 3px; margin-left: 1px;">Data
-                                                    criada: <?= $ticket['data'] ?></span>
+
                                             </div>
                                             <a href=""
                                                 style="margin-left: auto; margin-right: 20px; font-size: 15px; text-decoration: none; color: gray;"
@@ -144,10 +144,11 @@ $ticket = getTicket($con, $id);
                             <div style="margin-top: 20px; display: flex; gap: 5px; margin-top: -4px;">
                                 <button class="btn btn-success"
                                     style="height: 35px; display: flex; align-items: center;"
-                                    onclick="aparecerlocalresposder()">
+                                    onclick="aparecerlocalresponder()">
                                     <i class="bi bi-arrow-left-right" style="margin-right: 8px;"></i>Responder
                                 </button>
-                                <button class="btn btn-danger" style="height: 35px; display: flex; align-items: center;">
+                                <button class="btn btn-danger"
+                                    style="height: 35px; display: flex; align-items: center;">
                                     <i class="bi bi-check2-square" style="margin-right: 8px;"></i>Fechar Ticket
                                 </button>
                             </div>
@@ -208,20 +209,24 @@ $ticket = getTicket($con, $id);
                                                     <i class="mx-2 bi bi-circle-fill"
                                                         style="font-size: 12px;color:#32CD32; margin-top: 3px;"></i>
                                                     <div>
-                                                        <h6 style="font-weight: bold; text-transform: uppercase;">coisa
+                                                        <h6 style="font-weight: bold; text-transform: uppercase;">
+                                                            <?= $ticket['data'] ?>
                                                         </h6>
                                                         <span
-                                                            style="font-size: 15px; color: gray; position: relative; top: -7px;">subcoisa</span>
+                                                            style="font-size: 15px; color: gray; position: relative; top: -7px;">Data
+                                                            Criado</span>
                                                     </div>
                                                 </div>
                                                 <div style="display: flex; font-size: 15px; margin-top: 10px;">
                                                     <i class="mx-2 bi bi-circle-fill"
                                                         style="font-size: 12px;color:#32CD32; margin-top: 3px;"></i>
                                                     <div>
-                                                        <h6 style="font-weight: bold; text-transform: uppercase;">coisa
+                                                        <h6 style="font-weight: bold; text-transform: uppercase;">
+                                                            <?= !empty($ticket['data_acao']) ? $ticket['data_acao'] : 'Nenhuma Alteração Feita' ?>
                                                         </h6>
                                                         <span
-                                                            style="font-size: 15px; color: gray; position: relative; top: -7px;">subcoisa</span>
+                                                            style="font-size: 15px; color: gray; position: relative; top: -7px;">Última
+                                                            alteração</span>
                                                     </div>
                                                 </div>
                                                 <hr style="border-width: 0.01em; width: 100%; margin: 0px;">
@@ -233,41 +238,63 @@ $ticket = getTicket($con, $id);
                                         <div class="accordion-body" style="overflow: hidden; text-overflow: ellipsis;">
                                             <div>
                                                 <div style="display:flex;">
-                                                    <span>Item</span>
-                                                    <a href=""
-                                                        style="margin-left: auto; text-decoration: none; color: black;"
-                                                        class="grandão"><i class="bi bi-gear-fill"></i></a>
+                                                    <span>Estado</span>
+
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                            id="dropdownMenuButton" data-toggle="dropdown"
+                                                            aria-haspopup="true" aria-expanded="false">
+                                                            Status
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                            <a class="dropdown-item" href="#"
+                                                                onclick="setStatus('P', 'Pendente')">Pendente</a>
+                                                            <a class="dropdown-item" href="#"
+                                                                onclick="setStatus('A', 'Aberto')">Aberto</a>
+                                                            <a class="dropdown-item" href="#"
+                                                                onclick="setStatus('F', 'Fechado')">Fechado</a>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
-                                                <div style="display: flex; align-items: center; margin-top: 3px;">
-                                                    <i class="bi bi-intersect"
-                                                        style="margin-right: 10px; font-size: 25px;"></i>
-                                                    <span>coisa item</span>
+
+                                            </div>
+                                            <div style="display: flex; align-items: center; margin-top: 3px;">
+                                                <i class="mx-2 bi bi-circle-fill"
+                                                    style="font-size: 12px;color:<?= $ticket['statusColor'] ?>; "></i>
+                                                <div>
+                                                    <h6
+                                                        style="font-weight: bold; text-transform: uppercase; margin-top: 10px">
+                                                        <?= $ticket['statusText'] ?>
+                                                    </h6>
+
                                                 </div>
                                             </div>
                                         </div>
-                                        <hr style="border-width: 0.01em; width: 100%; margin: 0px;">
-                                        <div class="accordion-body" style="overflow: hidden; text-overflow: ellipsis;">
-                                            <div>
-                                                <div style="display:flex;">
-                                                    <span>Técnico</span>
-                                                </div>
-                                                <div style="display: flex; align-items: center; margin-top: 3px;">
-                                                    <i class="bi bi-person-circle"
-                                                        style="margin-right: 10px; font-size: 25px;"></i>
-                                                    <span><?= !empty($ticket['user_atribuido']) ? $ticket['user_atribuido'] : 'Nenhum Técnico atribuído' ?></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <hr style="border-width: 0.01em; width: 100%; margin: 0px;">
                                     </div>
+                                    <hr style="border-width: 0.01em; width: 100%; margin: 0px;">
+                                    <div class="accordion-body" style="overflow: hidden; text-overflow: ellipsis;">
+                                        <div>
+                                            <div style="display:flex;">
+                                                <span>Técnico atribuído</span>
+                                            </div>
+                                            <div style="display: flex; align-items: center; margin-top: 3px;">
+                                                <i class="bi bi-person-circle"
+                                                    style="margin-right: 10px; font-size: 25px;"></i>
+                                                <span><?= !empty($ticket['user_atribuido']) ? $ticket['user_atribuido'] : 'Nenhum Técnico atribuído' ?></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr style="border-width: 0.01em; width: 100%; margin: 0px;">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
+
+    </div>
 </body>
 
 </html>
