@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit();
             }
         }else {
-            $_SESSION['alert'] = "A data de Fim tem que ser depois da data de início";
+            $_SESSION['alert'] = "A data de fim tem que ser depois da data de início";
             $_SESSION['alertClass'] = "warning";
             header("Location: " . $_SESSION['current_page']);
             exit();
