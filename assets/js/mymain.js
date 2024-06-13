@@ -146,29 +146,25 @@ function updateFiltro(filtro, cardId) {
 
 }
 
-
 function setStatus(id_status, status, color, id_ticket) {
     $.ajax({
         url: "./db/ticketsCode.php",
         type: "POST",
         data: {
             id_status: id_status,
-            status: status,
-            color: color,
             id_ticket: id_ticket,
             type: "setStatus"
         },
         success: function (response) {
-
             $("#estadoBola").css('color', color);
             $("#estadoText").text(status);
-
         },
         error: function (xhr, status, error) {
             console.error("AJAX Error:", status, error);
         }
     });
 }
+
 
 
 

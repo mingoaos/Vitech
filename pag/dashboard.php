@@ -112,6 +112,7 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
                       <th scope="col">Técnico</th>
                       <th scope="col">Assunto</th>
                       <th scope="col">Data</th>
+                      <th scope="col">Tipo Ticket</th>
                       <th scope="col">Estado</th>
                     </tr>
                   </thead>
@@ -120,19 +121,23 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
 
 
                     foreach ($acoes as $row) {
+                      if (!empty($row['status_change'])) {
 
-                      ?>
-                      <tr class="table-<?= $row['color'] ?>">
-                        <td class="d-none" href="?op=4&id=<?= $row['id_ticket'] ?>">
-                          <?= $row['id_ticket'] ?>
-                        </td>
-                        <td><?= $row['nome_user'] ?></td>
-                        <td class="fw-bold text-dark"><?= $row['assunto_local'] ?></td>
-                        <td><?= $row['data_acao'] ?></td>
-                        <td><span class="badge bg-<?= $row['color'] ?>"><?= $row['status'] ?></span></td>
-                      </tr>
 
-                      <?php
+                        ?>
+                        <tr class="table-<?= $row['color'] ?>">
+                          <td class="d-none" href="?op=4&id=<?= $row['id_ticket'] ?>">
+                            <?= $row['id_ticket'] ?>
+                          </td>
+                          <td><?= $row['nome_user'] ?></td>
+                          <td class="fw-bold text-dark"><?= $row['assunto_local'] ?></td>
+                          <td><?= $row['data_acao'] ?></td>
+                          <td><?=  ($row['tipo_ticket'] == 'I') ? 'Informação' : 'Avaria'  ?></td>
+                          <td><span class="badge bg-<?= $row['color'] ?>"><?= $row['status'] ?></span></td>
+                        </tr>
+                        
+                        <?php
+                      }
                     }
 
                     ?>
@@ -211,7 +216,7 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
 
                 success: function (response) {
                   try {
-                    console.log(response);
+                 
                     const data = JSON.parse(response);
                     const labels = data.map(item => item.mes);
                     const chartData = data.map(item => item.total);

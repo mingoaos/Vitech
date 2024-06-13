@@ -29,6 +29,25 @@ function verificarData($datainicio, $datafim)
 }
 
 
+function addAcoes($id_ticket, $acao, $status_change, $con)
+{
+    $id_user = $_SESSION['user']['id_user'];
+    $acao = mysqli_real_escape_string($con, $acao);
+   
+
+    $query = "INSERT INTO acoes (id_ticket, id_user, status_change, acao) 
+              VALUES ('$id_ticket', '$id_user', '$status_change', '$acao')";
+    
+    $result = mysqli_query($con, $query);
+
+    if ($result) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 function getTicket($con, $idticket)
 {
     $query = "
@@ -53,32 +72,32 @@ function getTicket($con, $idticket)
         t.id_ticket = '$idticket'
 ";
 
-$query_exec = mysqli_query($con, $query);
+    $query_exec = mysqli_query($con, $query);
 
-if ($query_exec && mysqli_num_rows($query_exec) == 1) {
-    $row = mysqli_fetch_assoc($query_exec);
+    if ($query_exec && mysqli_num_rows($query_exec) == 1) {
+        $row = mysqli_fetch_assoc($query_exec);
 
-    switch ($row['status']) {
-        case 'P':
-            $row['statusText'] = 'Pendente';
-            $row['statusColor'] = 'red';
-            break;
-        case 'A':
-            $row['statusText'] = 'Aberto';
-            $row['statusColor'] = '#FFD700';
-            break;
-        case 'F':
-            $row['statusText'] = 'Fechado';
-            $row['statusColor'] = '#32CD32';
-            break;
-        default:
-            $row['statusText'] = 'Desconhecido';
-            $row['statusColor'] = 'black';
-            break;
-    }
+        switch ($row['status']) {
+            case 'P':
+                $row['statusText'] = 'Pendente';
+                $row['statusColor'] = 'red';
+                break;
+            case 'A':
+                $row['statusText'] = 'Aberto';
+                $row['statusColor'] = '#FFD700';
+                break;
+            case 'F':
+                $row['statusText'] = 'Fechado';
+                $row['statusColor'] = '#32CD32';
+                break;
+            default:
+                $row['statusText'] = 'Desconhecido';
+                $row['statusColor'] = 'black';
+                break;
+        }
 
-    // Fetch latest action date
-    $queryacoes = "
+        // Fetch latest action date
+        $queryacoes = "
         SELECT data_acao 
         FROM acoes 
         WHERE id_ticket = '$idticket' 
@@ -86,43 +105,44 @@ if ($query_exec && mysqli_num_rows($query_exec) == 1) {
         LIMIT 1
     ";
 
-    $queryacoes_exec = mysqli_query($con, $queryacoes);
+        $queryacoes_exec = mysqli_query($con, $queryacoes);
 
-    if ($queryacoes_exec && mysqli_num_rows($queryacoes_exec) == 1) {
-        $data_acao = mysqli_fetch_assoc($queryacoes_exec);
-        $row["data_acao"] = $data_acao["data_acao"];
+        if ($queryacoes_exec && mysqli_num_rows($queryacoes_exec) == 1) {
+            $data_acao = mysqli_fetch_assoc($queryacoes_exec);
+            $row["data_acao"] = $data_acao["data_acao"];
+        }
+
+        return $row;
     }
 
-    return $row;
-}
-
-return null;
+    return null;
 }
 
 
 function atualizarRecentes($con)
 {
 
-    $query = "SELECT a.*, t.status AS ticket_status, t.assunto_local AS assunto_local, u.nome AS nome_user
-            FROM acoes AS a
-            INNER JOIN ticket AS t ON a.id_ticket = t.id_ticket
-            INNER JOIN user AS u ON a.id_user = u.id_user
-            INNER JOIN user_departamento_tipo AS udt ON u.id_user = udt.id_user
-            WHERE t.tipo_ticket = 'A' AND (
-                (t.id_user = {$_SESSION['user']['id_user']} OR t.id_user_atribuido = {$_SESSION['user']['id_user']}) OR 
-                (udt.id_tipo = 'G' AND udt.id_departamento = t.id_departamento_destino) OR 
-                udt.id_tipo = 'A'
-            )
-            GROUP BY a.id_ticket
-            ORDER BY MAX(a.data_acao) ASC
-            LIMIT 5";
+    $query = "SELECT a.*,t.tipo_ticket as tipo_ticket, t.assunto_local AS assunto_local, u.nome AS nome_user
+FROM acoes AS a
+INNER JOIN ticket AS t ON a.id_ticket = t.id_ticket
+INNER JOIN user AS u ON a.id_user = u.id_user
+INNER JOIN user_departamento_tipo AS udt ON u.id_user = udt.id_user
+WHERE 
+    (t.id_user = {$_SESSION['user']['id_user']} OR t.id_user_atribuido = {$_SESSION['user']['id_user']}) OR 
+    (udt.id_tipo = 'G' AND udt.id_departamento = t.id_departamento_destino) OR 
+    udt.id_tipo = 'A'
+
+GROUP BY a.id_acao  
+ORDER BY MAX(a.data_acao) DESC
+LIMIT 5;";
 
     $query_exec = mysqli_query($con, $query);
 
     if ($query_exec && mysqli_num_rows($query_exec) > 0) {
+        $acoes = []; // Initialize empty array to store results
         while ($row = mysqli_fetch_assoc($query_exec)) {
 
-            switch ($row['ticket_status']) {
+            switch ($row['status_change']) {
                 case 'P':
                     $color = 'danger';
                     $status = 'Pendente';
@@ -145,11 +165,14 @@ function atualizarRecentes($con)
             $row['status'] = $status;
             $row['tempo_decorrido'] = $tempo_decorrido;
 
-            $acoes[] = $row;
-            return $acoes;
+            $acoes[] = $row; // Add current row to $acoes array
         }
+
+        return $acoes; // Return all rows fetched
     }
-    return null;
+
+    return null; // Return null if no rows were fetched or query failed
+
 
 
 }
@@ -182,10 +205,6 @@ function tempoDecorrido($data_acao)
 
 
 
-function getTicketList($con, $tipoTicket, $filtros)
-{
-
-}
 
 
 
