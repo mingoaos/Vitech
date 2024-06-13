@@ -179,15 +179,18 @@ LIMIT 5;";
 
 function tempoDecorrido($data_acao)
 {
-    $data_acao_timestamp = strtotime($data_acao);
-    $data_atual_timestamp = time();
-    $diferenca_tempo = $data_atual_timestamp - $data_acao_timestamp;
+    $timezone = new DateTimeZone('Europe/Lisbon');
+    $data_acao_datetime = new DateTime($data_acao, $timezone);
+    $data_atual_datetime = new DateTime('now', $timezone);
 
-    $dias = floor($diferenca_tempo / (60 * 60 * 24));
-    $horas = floor(($diferenca_tempo / (60 * 60)));
-    $minutos = floor(($diferenca_tempo / (60)));
-    $segundos = $diferenca_tempo;
+ 
+    $diferenca = $data_atual_datetime->diff($data_acao_datetime);
 
+    
+    $dias = $diferenca->days;
+    $horas = $diferenca->h;
+    $minutos = $diferenca->i;
+    $segundos = $diferenca->s;
 
     $tempo_decorrido = '';
     if ($dias > 0) {

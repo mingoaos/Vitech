@@ -23,7 +23,7 @@ if (isset($_POST['filtro']) && isset($_POST['cardId']) && $_POST['type'] == 'car
     }
 
     if ($filter == "Meus") {
-        $query .= " AND id_user_atribuido = {$_SESSION['user']['id_user']}";
+        $query .= " AND (id_user_atribuido = {$_SESSION['user']['id_user']} OR id_user = {$_SESSION['user']['id_user']})";
     }
 
     $count = getCount($con, $query);

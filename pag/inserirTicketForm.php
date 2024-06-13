@@ -45,8 +45,15 @@
                     echo '</select>';
                     echo '</div>';
                 } else {
-                    echo "Nenhum departamento encontrado.";
+                    // Cria o menu suspenso com a opção de nenhum departamento encontrado
+                    echo '<div class="col-md-6">';
+                    echo '<label for="id_departamento_destino" class="form-label fw-bold">Departamento de Destino</label>';
+                    echo '<select class="form-select" id="id_departamento_destino" name="id_departamento_destino" required disabled>';
+                    echo '<option value="">Nenhum departamento encontrado</option>';
+                    echo '</select>';
+                    echo '</div>';
                 }
+                
 
                 
                 ?>
