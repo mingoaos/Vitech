@@ -77,7 +77,7 @@ $ticket = getTicket($con, $id);
             }
         }
 
-       
+
     </script>
 
 </head>
@@ -233,43 +233,49 @@ $ticket = getTicket($con, $id);
                                             </div>
                                         </div>
                                     </h2>
+
                                     <div class="accordion-collapse collapse show" aria-labelledby="headingOne"
                                         data-bs-parent="#accordionExample">
-                                        <div class="accordion-body" style="overflow: hidden; text-overflow: ellipsis;">
+                                        <div class="accordion-body" style="overflow: visible; position: relative;">
                                             <div>
                                                 <div style="display:flex;">
                                                     <span>Estado</span>
 
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                            id="dropdownMenuButton" data-toggle="dropdown"
+                                                    <div class="dropdown" style="margin-left: auto;">
+                                                        <a style=" text-decoration: none; color: black;" type="button"
+                                                            id="dropdownMenuButton" data-bs-toggle="dropdown"
                                                             aria-haspopup="true" aria-expanded="false">
-                                                            Status
-                                                        </button>
-                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                            <i class="bi bi-gear-fill"></i>
+                                                        </a>
+                                                        <div class="dropdown-menu" style="z-index: 1050;"
+                                                            aria-labelledby="dropdownMenuButton">
                                                             <a class="dropdown-item" href="#"
-                                                                onclick="setStatus('P', 'Pendente')">Pendente</a>
+                                                                onclick="setStatus('P', 'Pendente','red','<?=$ticket['id_ticket']?>')"><i
+                                                                    class="mx-2 bi bi-circle-fill"
+                                                                    style="font-size: 12px;color:red; "></i>Pendente</a>
                                                             <a class="dropdown-item" href="#"
-                                                                onclick="setStatus('A', 'Aberto')">Aberto</a>
+                                                                onclick="setStatus('A', 'Aberto','#FFD700','<?=$ticket['id_ticket']?>')"> <i
+                                                                    class="mx-2 bi bi-circle-fill"
+                                                                    style="font-size: 12px;color:#FFD700; "></i>Aberto</a>
                                                             <a class="dropdown-item" href="#"
-                                                                onclick="setStatus('F', 'Fechado')">Fechado</a>
+                                                                onclick="setStatus('F', 'Fechado','#32CD32','<?=$ticket['id_ticket']?>')"><i
+                                                                    class="mx-2 bi bi-circle-fill"
+                                                                    style="font-size: 12px;color:#32CD32; "></i>Fechado</a>
                                                         </div>
                                                     </div>
-
                                                 </div>
-
                                             </div>
                                             <div style="display: flex; align-items: center; margin-top: 3px;">
-                                                <i class="mx-2 bi bi-circle-fill"
-                                                    style="font-size: 12px;color:<?= $ticket['statusColor'] ?>; "></i>
+                                                <i id="estadoBola" class="mx-2 bi bi-circle-fill"
+                                                    style="font-size: 12px; color: <?= $ticket['statusColor'] ?>;"></i>
                                                 <div>
-                                                    <h6
-                                                        style="font-weight: bold; text-transform: uppercase; margin-top: 10px">
+                                                    <h6 id="estadoText"
+                                                        style="font-weight: bold; text-transform: uppercase; margin-top: 10px;">
                                                         <?= $ticket['statusText'] ?>
                                                     </h6>
-
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                     <hr style="border-width: 0.01em; width: 100%; margin: 0px;">
@@ -285,6 +291,7 @@ $ticket = getTicket($con, $id);
                                             </div>
                                         </div>
                                     </div>
+
                                     <hr style="border-width: 0.01em; width: 100%; margin: 0px;">
                                 </div>
                             </div>

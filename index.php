@@ -24,8 +24,7 @@ if (isset($_GET['op']))
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ 
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -428,23 +427,21 @@ if (isset($_GET['op']))
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
         class="bi bi-arrow-up-short"></i></a>
 
+        
     <!-- Vendor JS Files -->
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"></script>
     <script src="assets/vendor/chart.js/chart.umd.js"></script>
-
 
 
     <!-- Popper.js for Bootstrap tooltips and popovers -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 
+     <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"></script>
-
 
     <!-- Flatpickr for date picking -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
