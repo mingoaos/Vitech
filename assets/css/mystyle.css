@@ -1,32 +1,33 @@
-.arrow{
+.arrow {
     font-size: 40px;
     margin-right: 15px;
 }
 
-.fs20{
+.fs20 {
     font-size: 20px;
 }
 
 
-.bcc_pendente{
+.bcc_pendente {
     background-color: rgba(255, 3, 3, 0.205) !important;
 }
 
-.bcc_aberto{
+.bcc_aberto {
     background-color: rgba(211, 211, 0, 0.226) !important;
 }
 
-.bcc_fechado{
+.bcc_fechado {
     background-color: rgba(0, 128, 0, 0.26) !important;
 }
 
-.id_ticket{
-    color:gray;
-    margin-top: 15px; 
-    margin-left:5px;
+.id_ticket {
+    color: gray;
+    margin-top: 15px;
+    margin-left: 5px;
 }
 
-.separator_table{
+.separator_table {
     color: #012970 !important;
 }
+
 

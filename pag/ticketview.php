@@ -9,6 +9,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : 0;
 
 $ticket = getTicket($con, $id);
 
+$resposta = getRespostas($con, $id);
+
 
 ?>
 
@@ -48,14 +50,7 @@ $ticket = getTicket($con, $id);
                 margin-top: 20px;
             }
         }
-
-        .grandão {
-            transition: transform 0.3s ease;
-        }
-
-        .grandão:hover {
-            transform: scale(1.2);
-        }
+        
     </style>
 
     <script>
@@ -112,11 +107,7 @@ $ticket = getTicket($con, $id);
                                                 </div>
 
                                             </div>
-                                            <a href=""
-                                                style="margin-left: auto; margin-right: 20px; font-size: 15px; text-decoration: none; color: gray;"
-                                                class="grandão">
-                                                <i class="bi bi-pencil-fill"></i>
-                                            </a>
+                                           
                                         </div>
                                     </h2>
                                     <div class="accordion-collapse collapse show" aria-labelledby="headingOne"
@@ -130,15 +121,19 @@ $ticket = getTicket($con, $id);
 
                             <hr style="width: 100%; margin-top: 25px; border-width: 0.01em;">
                             <div id="responseDiv" style="width: 100%; margin-bottom: 20px; display: none;">
-                                <div style="display: flex; gap: 10px; margin-top: 10px;">
-                                    <textarea placeholder="escreva a resposta" class="form-control"
-                                        id="exampleFormControlTextarea1" rows="5"
-                                        style="border: none; border-bottom: 1px solid gray; border-radius: 0%;"></textarea>
-                                    <button class="btn btn-primary grandão"
-                                        style="display: flex; height: 30px; width: 30px; align-items: center; justify-content: center;">
-                                        <i class="bi bi-arrow-up-short" style="font-size: 20px;"></i>
-                                    </button>
-                                </div>
+                                <form action="./db/respostasCode.php" method="POST">
+                                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                                        <textarea placeholder="Escreva a sua resposta" name="resposta"
+                                            class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                            style="border: none; border-bottom: 1px solid gray; border-radius: 0%;"></textarea>
+                                        <input type="hidden" id="id_ticket" name="id_ticket"
+                                            value="<?= $ticket['id_ticket'] ?>" />
+                                        <button type="submit" class="btn btn-primary grandão"
+                                            style="display: flex; height: 150px; width: 70px; align-items: center; justify-content: center;">
+                                            <i class="bi bi-arrow-up-short" style="font-size: 50px;"></i>
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
 
                             <div style="margin-top: 20px; display: flex; gap: 5px; margin-top: -4px;">
@@ -147,10 +142,7 @@ $ticket = getTicket($con, $id);
                                     onclick="aparecerlocalresponder()">
                                     <i class="bi bi-arrow-left-right" style="margin-right: 8px;"></i>Responder
                                 </button>
-                                <button class="btn btn-danger"
-                                    style="height: 35px; display: flex; align-items: center;">
-                                    <i class="bi bi-check2-square" style="margin-right: 8px;"></i>Fechar Ticket
-                                </button>
+
                             </div>
                             <hr style="width: 100%; margin-top: 15px; border-width: 0.01em;">
                             <div style="display: flex; align-items: center; gap: 10px; margin-top: -5px;">
@@ -163,39 +155,43 @@ $ticket = getTicket($con, $id);
                             </div>
 
                             <div id="respostasDadas" style="display: none;">
-                                <div style="display: flex; margin-top: 20px;">
-                                    <i class="bi bi-person-circle" style="font-size: 50px; margin-right: 15px;"></i>
-                                    <div class="accordion" id="accordionExample" style="width: 100%">
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="headingOne">
-                                                <div class="fs20"
-                                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: flex; height: 40px; align-items: center; padding-left: 10px; background-color: transparent; border-bottom: 1px solid gray;">
-                                                    <div style="display: flex;">
-                                                        <div class="mx-2"
-                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                            username</div>
+                                <?php foreach ($resposta as $index => $row) { ?>
+                                    <div style="display: flex; margin-top: 20px;">
+                                        <i class="bi bi-person-circle" style="font-size: 50px; margin-right: 15px;"></i>
+                                        <div class="accordion" id="accordionExample" style="width: 100%">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="heading<?= $index ?>">
+                                                    <div class="fs20"
+                                                        style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: flex; height: 40px; align-items: center; padding-left: 10px; background-color: transparent; border-bottom: 1px solid gray;">
+                                                        <div style="display: flex;">
+                                                            <div class="mx-2"
+                                                                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                                <?= $row['nome'] ?>
+                                                            </div>
+                                                            <span
+                                                                style="color: gray; font-size: 15px; display:flex; align-items: last baseline; margin-bottom: 2px; margin-left: 10px;">
+                                                                hora criada: <?= $row['data'] ?>
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </h2>
-                                            <div class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                                                data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
-                                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates
-                                                    fuga
-                                                    provident tenetur numquam! Possimus, ducimus corporis quibusdam
-                                                    reprehenderit, soluta est velit nobis modi veniam mollitia ipsum
-                                                    amet rerum
-                                                    quia voluptates?
+                                                </h2>
+                                                <div id="collapse<?= $index ?>" class="accordion-collapse collapse show"
+                                                    aria-labelledby="heading<?= $index ?>"
+                                                    data-bs-parent="#accordionExample">
+                                                    <div class="accordion-body">
+                                                        <?= $row['resposta'] ?>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                <?php } ?>
                             </div>
 
-
                             <hr style="border-width: 0.01em; width: 100%; margin-top: 15px;">
+
                         </div>
+
                         <div class="V3">
                             <div class="accordion" id="accordionExample">
                                 <div class="accordion-item"
@@ -250,15 +246,15 @@ $ticket = getTicket($con, $id);
                                                         <div class="dropdown-menu" style="z-index: 1050;"
                                                             aria-labelledby="dropdownMenuButton">
                                                             <a class="dropdown-item" href="#"
-                                                                onclick="setStatus('P', 'Pendente','red','<?=$ticket['id_ticket']?>')"><i
+                                                                onclick="setStatus('P', 'Pendente','red','<?= $ticket['id_ticket'] ?>')"><i
                                                                     class="mx-2 bi bi-circle-fill"
                                                                     style="font-size: 12px;color:red; "></i>Pendente</a>
                                                             <a class="dropdown-item" href="#"
-                                                                onclick="setStatus('A', 'Aberto','#FFD700','<?=$ticket['id_ticket']?>')"> <i
-                                                                    class="mx-2 bi bi-circle-fill"
+                                                                onclick="setStatus('A', 'Aberto','#FFD700','<?= $ticket['id_ticket'] ?>')">
+                                                                <i class="mx-2 bi bi-circle-fill"
                                                                     style="font-size: 12px;color:#FFD700; "></i>Aberto</a>
                                                             <a class="dropdown-item" href="#"
-                                                                onclick="setStatus('F', 'Fechado','#32CD32','<?=$ticket['id_ticket']?>')"><i
+                                                                onclick="setStatus('F', 'Fechado','#32CD32','<?= $ticket['id_ticket'] ?>')"><i
                                                                     class="mx-2 bi bi-circle-fill"
                                                                     style="font-size: 12px;color:#32CD32; "></i>Fechado</a>
                                                         </div>

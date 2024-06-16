@@ -207,7 +207,33 @@ function tempoDecorrido($data_acao)
 }
 
 
+function getRespostas($con, $id_ticket) {
+    
+    $id_ticket = mysqli_real_escape_string($con, $id_ticket);
 
+    $query = "
+        SELECT r.*, u.nome 
+        FROM resposta AS r 
+        INNER JOIN resposta_ticket AS rt
+        ON rt.id_resposta = r.id_resposta 
+        INNER JOIN user AS u 
+        ON u.id_user = r.id_user 
+        WHERE rt.id_ticket = $id_ticket
+    ";
+
+    $result = mysqli_query($con, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+     
+        $responses = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $responses[] = $row;
+        }
+        return $responses;
+    } else {
+        return "Error: " . mysqli_error($con);
+    }
+}
 
 
 
