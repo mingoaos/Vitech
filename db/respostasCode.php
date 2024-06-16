@@ -36,7 +36,7 @@ if (isset($_POST['resposta'], $_POST['id_ticket'])) {
     }
 
 
-    header("Location: " . $_SESSION['current_page']);
+    header("Location: .././?op=4&id=".$id_ticket);
     exit();
 }
 
