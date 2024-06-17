@@ -62,13 +62,18 @@ $resposta = getRespostas($con, $id);
         }
 
         function aparecerlocalrespostas() {
-            var respostasDadas = document.getElementById("respostasDadas");
-            if (respostasDadas.style.display === "none") {
-                respostasDadas.style.display = "block";
-            } else {
-                respostasDadas.style.display = "none";
-            }
-        }
+    var respostasDadas = document.getElementById("respostasDadas");
+    var iconBtnAparecer = $("#iconBtnAparecer");
+
+    if (respostasDadas.style.display === "none") {
+        iconBtnAparecer.removeClass("bi-plus-lg").addClass("bi-dash-lg");
+        respostasDadas.style.display = "block";
+    } else {
+        iconBtnAparecer.removeClass("bi-dash-lg").addClass("bi-plus-lg");
+        respostasDadas.style.display = "none";
+    }
+}
+
 
 
     </script>
@@ -144,16 +149,21 @@ $resposta = getRespostas($con, $id);
                             </div>
                             <hr style="width: 100%; margin-top: 15px; border-width: 0.01em;">
                             <div style="display: flex; align-items: center; gap: 10px; margin-top: -5px;">
-                                <button class="btn grandão"
+                                <button class="btn grandão" 
                                     style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background-color: #EEEEEE; color: black"
                                     onclick="aparecerlocalrespostas()">
-                                    <i class="bi bi-plus-lg"></i>
+                                    <i id="iconBtnAparecer" class="bi bi-plus-lg"></i>
                                 </button>
                                 <span>Exibir todas as respostas</span>
                             </div>
 
                             <div id="respostasDadas" style="display: none;">
-                                <?php foreach ($resposta as $index => $row) { ?>
+                            
+                                <?php 
+                                if (!empty($resposta) && is_array($resposta)){
+
+                                
+                                foreach ($resposta as $index => $row) { ?>
                                     <div style="display: flex; margin-top: 20px;">
                                         <i class="bi bi-person-circle" style="font-size: 50px; margin-right: 15px;"></i>
                                         <div class="accordion" id="accordionExample" style="width: 100%">
@@ -167,9 +177,12 @@ $resposta = getRespostas($con, $id);
                                                                 <?= $row['nome'] ?>
                                                             </div>
                                                             <span
-                                                                style="color: gray; font-size: 15px; display:flex; align-items: last baseline; margin-bottom: 2px; margin-left: 10px;">
-                                                                hora criada: <?= $row['data'] ?>
+                                                                style="color: gray; font-size: 15px; display:flex; align-items: last baseline; margin-bottom: 3px;">
+                                                                 <?= $row['data'] ?>
                                                             </span>
+                                                        </div>
+                                                        <div style="margin-left: auto; margin-right: 13px;">
+                                                            <button style="font-size: 20px; color:red;" class="btn"><i class="bi bi-trash-fill"></i></button>
                                                         </div>
                                                     </div>
                                                 </h2>
@@ -183,7 +196,7 @@ $resposta = getRespostas($con, $id);
                                             </div>
                                         </div>
                                     </div>
-                                <?php } ?>
+                                <?php } }?>
                             </div>
 
                             <hr style="border-width: 0.01em; width: 100%; margin-top: 15px;">

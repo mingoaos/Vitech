@@ -54,7 +54,7 @@ function getTicket($con, $idticket)
     SELECT 
         t.id_ticket,
         u1.nome AS user_criado,
-        t.data,
+        DATE_FORMAT(t.data  , '%W, %e de %M %Y, %H:%i ','pt_PT') AS data,
         t.tipo_ticket,
         t.assunto_local,
         t.mensagem_sintomas,
@@ -98,7 +98,7 @@ function getTicket($con, $idticket)
 
         // Fetch latest action date
         $queryacoes = "
-        SELECT data_acao 
+        SELECT DATE_FORMAT(data_acao, '%W, %e de %M %Y, %H:%i ','pt_PT') AS data_acao
         FROM acoes 
         WHERE id_ticket = '$idticket' 
         ORDER BY data_acao DESC 
@@ -122,7 +122,7 @@ function getTicket($con, $idticket)
 function atualizarRecentes($con)
 {
 
-    $query = "SELECT a.*,t.tipo_ticket as tipo_ticket, t.assunto_local AS assunto_local, u.nome AS nome_user
+    $query = "SELECT a.*, DATE_FORMAT(a.data_acao, '%e %b %Y, %H:%i', 'pt_PT') AS data_formated ,t.tipo_ticket as tipo_ticket, t.assunto_local AS assunto_local, u.nome AS nome_user
 FROM acoes AS a
 INNER JOIN ticket AS t ON a.id_ticket = t.id_ticket
 INNER JOIN user AS u ON a.id_user = u.id_user
@@ -212,7 +212,7 @@ function getRespostas($con, $id_ticket) {
     $id_ticket = mysqli_real_escape_string($con, $id_ticket);
 
     $query = "
-        SELECT r.*, u.nome 
+        SELECT r.*,DATE_FORMAT(r.data, '%W, %e %M,  %H:%i','pt_PT') as data, u.nome 
         FROM resposta AS r 
         INNER JOIN resposta_ticket AS rt
         ON rt.id_resposta = r.id_resposta 

@@ -131,7 +131,7 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
                           </td>
                           <td><?= $row['nome_user'] ?></td>
                           <td class="fw-bold text-dark"><?= $row['assunto_local'] ?></td>
-                          <td><?= $row['data_acao'] ?></td>
+                          <td><?= $row['data_formated'] ?></td>
                           <td><?=  ($row['tipo_ticket'] == 'I') ? 'Informação' : 'Avaria'  ?></td>
                           <td><span class="badge bg-<?= $row['color'] ?>"><?= $row['status'] ?></span></td>
                         </tr>
