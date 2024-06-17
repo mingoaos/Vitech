@@ -184,7 +184,7 @@ if (isset($_GET['op']))
           <li class="nav-item dropdown pe-5">
 
             <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-              <span class="d-none d-md-block dropdown-toggle ps-0"> <?php echo $_SESSION['user']['nome']; ?> </span>
+              <span class="d-none d-md-block dropdown-toggle ps-0"> <?= $_SESSION['user']['nome']; ?> </span>
             </a><!-- End Profile Iamge Icon -->
 
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">

@@ -87,19 +87,6 @@ if ($_POST['type'] == 'barAjax') {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 if ($_POST['type'] == 'ticketTablesAjax') {
 
     $tipoTicket = mysqli_real_escape_string($con, $_POST['tipoTicket']);
@@ -144,10 +131,7 @@ if ($_POST['type'] == 'ticketTablesAjax') {
     }
   
 
-
-    
-
-    $query = "SELECT t.*, 
+    $query = "SELECT t.*, DATE_FORMAT(t.data, '%e %b %Y, %H:%i', 'pt_PT') as data,
                 u_reportador.nome AS nome_reportador,
                 u_atribuido.nome AS nome_user_atribuido
             FROM ticket t
