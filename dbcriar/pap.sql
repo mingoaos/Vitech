@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Tempo de geração: 03-Maio-2024 às 16:18
--- Versão do servidor: 10.4.27-MariaDB
--- versão do PHP: 8.2.0
+-- Host: 127.0.0.1
+-- Generation Time: Jun 17, 2024 at 10:21 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -15,16 +15,18 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `pap`
+-- Database: `vitech`
 --
+CREATE DATABASE IF NOT EXISTS `vitech` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `vitech`;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `acoes`
+-- Table structure for table `acoes`
 --
 
 CREATE TABLE `acoes` (
@@ -32,20 +34,23 @@ CREATE TABLE `acoes` (
   `id_ticket` int(9) DEFAULT NULL,
   `id_user` int(9) DEFAULT NULL,
   `data_acao` timestamp NOT NULL DEFAULT current_timestamp(),
-  `acao` varchar(255) DEFAULT NULL
+  `acao` varchar(255) DEFAULT NULL,
+  `status_change` char(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Extraindo dados da tabela `acoes`
+-- Dumping data for table `acoes`
 --
 
-INSERT INTO `acoes` (`id_acao`, `id_ticket`, `id_user`, `data_acao`, `acao`) VALUES
-(1, 1, 2, '2024-05-03 09:40:21', 'Adicionou um Comentário no ticket');
+INSERT INTO `acoes` (`id_acao`, `id_ticket`, `id_user`, `data_acao`, `acao`, `status_change`) VALUES
+(3, 5, 1, '2024-06-16 19:48:59', 'Alterou o estado no ticket', 'F'),
+(4, 6, 1, '2024-06-16 21:31:55', 'Alterou o estado no ticket', 'F'),
+(5, 5, 1, '2024-06-16 21:32:06', 'Alterou o estado no ticket', 'P');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `departamento`
+-- Table structure for table `departamento`
 --
 
 CREATE TABLE `departamento` (
@@ -55,7 +60,7 @@ CREATE TABLE `departamento` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
--- Extraindo dados da tabela `departamento`
+-- Dumping data for table `departamento`
 --
 
 INSERT INTO `departamento` (`id_departamento`, `nome`, `Status`) VALUES
@@ -65,7 +70,7 @@ INSERT INTO `departamento` (`id_departamento`, `nome`, `Status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `faq`
+-- Table structure for table `faq`
 --
 
 CREATE TABLE `faq` (
@@ -79,7 +84,7 @@ CREATE TABLE `faq` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `logfile`
+-- Table structure for table `logfile`
 --
 
 CREATE TABLE `logfile` (
@@ -94,7 +99,7 @@ CREATE TABLE `logfile` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `noticia`
+-- Table structure for table `noticia`
 --
 
 CREATE TABLE `noticia` (
@@ -109,27 +114,33 @@ CREATE TABLE `noticia` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `resposta`
+-- Table structure for table `resposta`
 --
 
 CREATE TABLE `resposta` (
   `id_resposta` int(9) NOT NULL,
   `id_user` int(9) DEFAULT NULL,
   `data` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Resposta` text NOT NULL
+  `resposta` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
--- Extraindo dados da tabela `resposta`
+-- Dumping data for table `resposta`
 --
 
-INSERT INTO `resposta` (`id_resposta`, `id_user`, `data`, `Resposta`) VALUES
-(1, 1, '2024-04-18 09:16:29', 'Olá, Como pode ver o inovar está em manutenção por isso os seus serviços encontram-se indisponiveis');
+INSERT INTO `resposta` (`id_resposta`, `id_user`, `data`, `resposta`) VALUES
+(1, 1, '2024-04-18 09:16:29', 'Olá, Como pode ver o inovar está em manutenção por isso os seus serviços encontram-se indisponiveis'),
+(2, 1, '2024-06-16 20:50:18', 'assasas'),
+(3, 1, '2024-06-16 21:18:00', 'pila'),
+(4, 1, '2024-06-16 21:20:33', 'oola\r\n'),
+(5, 1, '2024-06-16 21:37:06', 'dassdasa'),
+(6, 1, '2024-06-16 21:38:15', 'assad'),
+(7, 1, '2024-06-16 21:38:29', 'assad');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `resposta_ticket`
+-- Table structure for table `resposta_ticket`
 --
 
 CREATE TABLE `resposta_ticket` (
@@ -138,16 +149,22 @@ CREATE TABLE `resposta_ticket` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
--- Extraindo dados da tabela `resposta_ticket`
+-- Dumping data for table `resposta_ticket`
 --
 
 INSERT INTO `resposta_ticket` (`id_resposta`, `id_ticket`) VALUES
-(1, 1);
+(1, 1),
+(2, 5),
+(3, 5),
+(4, 5),
+(5, 5),
+(6, 5),
+(7, 5);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `ticket`
+-- Table structure for table `ticket`
 --
 
 CREATE TABLE `ticket` (
@@ -165,19 +182,22 @@ CREATE TABLE `ticket` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
--- Extraindo dados da tabela `ticket`
+-- Dumping data for table `ticket`
 --
 
 INSERT INTO `ticket` (`id_ticket`, `id_user`, `data`, `tipo_ticket`, `assunto_local`, `mensagem_sintomas`, `id_departamento_destino`, `urgencia`, `status`, `id_user_atribuido`, `data_atribuido`) VALUES
 (1, 2, '2024-04-17 23:00:00', 'A', 'Como entrar no Inovar', 'Olá, não sei como entrar no inovar', 'DIF', 1, 'F', 1, '2024-04-18'),
 (2, 2, '2024-04-24 09:00:00', 'I', 'Problema de Conexão', 'Estou enfrentando problemas de conexão com a rede interna.', 'DIF', 0, 'A', 1, NULL),
 (3, 2, '2024-04-24 10:30:00', 'I', 'Problema no Software', 'O software X está apresentando falhas constantes.', 'DIF', 1, 'A', 1, '2024-04-24'),
-(4, 1, '2024-05-02 12:01:23', 'I', 'Como entrar no Inovas', 'Olá, não sei como entrar no inovar', 'DIF', 1, 'P', NULL, NULL);
+(4, 1, '2024-05-02 12:01:23', 'I', 'Como entrar no Inovas', 'Olá, não sei como entrar no inovar', 'DIF', 1, 'A', NULL, NULL),
+(5, 1, '2024-06-16 19:47:03', 'I', 'aS', 'ASaS', 'ADM', 0, 'P', NULL, NULL),
+(6, 1, '2024-06-16 21:31:47', 'I', 'okok', 'uinnun', 'ADM', 0, 'F', NULL, NULL),
+(7, 1, '2024-06-16 21:36:31', 'I', 'assad', 'asdsad', 'ADM', 0, 'P', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tipo_user`
+-- Table structure for table `tipo_user`
 --
 
 CREATE TABLE `tipo_user` (
@@ -188,7 +208,7 @@ CREATE TABLE `tipo_user` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
--- Extraindo dados da tabela `tipo_user`
+-- Dumping data for table `tipo_user`
 --
 
 INSERT INTO `tipo_user` (`id_tipo_user`, `nome`, `permissoes`, `status`) VALUES
@@ -197,7 +217,7 @@ INSERT INTO `tipo_user` (`id_tipo_user`, `nome`, `permissoes`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -211,7 +231,7 @@ CREATE TABLE `user` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
--- Extraindo dados da tabela `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id_user`, `nome`, `username`, `password`, `email`, `telefone`, `status`) VALUES
@@ -221,7 +241,7 @@ INSERT INTO `user` (`id_user`, `nome`, `username`, `password`, `email`, `telefon
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `user_departamento_tipo`
+-- Table structure for table `user_departamento_tipo`
 --
 
 CREATE TABLE `user_departamento_tipo` (
@@ -232,7 +252,7 @@ CREATE TABLE `user_departamento_tipo` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
--- Extraindo dados da tabela `user_departamento_tipo`
+-- Dumping data for table `user_departamento_tipo`
 --
 
 INSERT INTO `user_departamento_tipo` (`id_user`, `id_departamento`, `id_tipo`, `id_ligacao`) VALUES
@@ -241,11 +261,11 @@ INSERT INTO `user_departamento_tipo` (`id_user`, `id_departamento`, `id_tipo`, `
 (1, 'DIF', 1, 3);
 
 --
--- Índices para tabelas despejadas
+-- Indexes for dumped tables
 --
 
 --
--- Índices para tabela `acoes`
+-- Indexes for table `acoes`
 --
 ALTER TABLE `acoes`
   ADD PRIMARY KEY (`id_acao`),
@@ -253,47 +273,47 @@ ALTER TABLE `acoes`
   ADD KEY `fk_id_user` (`id_user`);
 
 --
--- Índices para tabela `departamento`
+-- Indexes for table `departamento`
 --
 ALTER TABLE `departamento`
   ADD PRIMARY KEY (`id_departamento`);
 
 --
--- Índices para tabela `faq`
+-- Indexes for table `faq`
 --
 ALTER TABLE `faq`
   ADD PRIMARY KEY (`id_faq`),
   ADD KEY `Categoria_Dep` (`Categoria_Dep`);
 
 --
--- Índices para tabela `logfile`
+-- Indexes for table `logfile`
 --
 ALTER TABLE `logfile`
   ADD PRIMARY KEY (`id_log`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Índices para tabela `noticia`
+-- Indexes for table `noticia`
 --
 ALTER TABLE `noticia`
   ADD PRIMARY KEY (`id_noticia`);
 
 --
--- Índices para tabela `resposta`
+-- Indexes for table `resposta`
 --
 ALTER TABLE `resposta`
   ADD PRIMARY KEY (`id_resposta`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Índices para tabela `resposta_ticket`
+-- Indexes for table `resposta_ticket`
 --
 ALTER TABLE `resposta_ticket`
   ADD KEY `id_resposta` (`id_resposta`),
   ADD KEY `id_ticket` (`id_ticket`);
 
 --
--- Índices para tabela `ticket`
+-- Indexes for table `ticket`
 --
 ALTER TABLE `ticket`
   ADD PRIMARY KEY (`id_ticket`),
@@ -302,19 +322,19 @@ ALTER TABLE `ticket`
   ADD KEY `id_user_atribuido` (`id_user_atribuido`);
 
 --
--- Índices para tabela `tipo_user`
+-- Indexes for table `tipo_user`
 --
 ALTER TABLE `tipo_user`
   ADD PRIMARY KEY (`id_tipo_user`);
 
 --
--- Índices para tabela `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id_user`);
 
 --
--- Índices para tabela `user_departamento_tipo`
+-- Indexes for table `user_departamento_tipo`
 --
 ALTER TABLE `user_departamento_tipo`
   ADD PRIMARY KEY (`id_ligacao`),
@@ -323,59 +343,59 @@ ALTER TABLE `user_departamento_tipo`
   ADD KEY `fk_tipo_user` (`id_tipo`);
 
 --
--- AUTO_INCREMENT de tabelas despejadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de tabela `acoes`
+-- AUTO_INCREMENT for table `acoes`
 --
 ALTER TABLE `acoes`
-  MODIFY `id_acao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_acao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de tabela `faq`
+-- AUTO_INCREMENT for table `faq`
 --
 ALTER TABLE `faq`
   MODIFY `id_faq` int(9) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `logfile`
+-- AUTO_INCREMENT for table `logfile`
 --
 ALTER TABLE `logfile`
   MODIFY `id_log` int(9) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `noticia`
+-- AUTO_INCREMENT for table `noticia`
 --
 ALTER TABLE `noticia`
-  MODIFY `id_noticia` int(9) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_noticia` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de tabela `resposta`
+-- AUTO_INCREMENT for table `resposta`
 --
 ALTER TABLE `resposta`
-  MODIFY `id_resposta` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_resposta` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT de tabela `ticket`
+-- AUTO_INCREMENT for table `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `id_ticket` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_ticket` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT de tabela `tipo_user`
+-- AUTO_INCREMENT for table `tipo_user`
 --
 ALTER TABLE `tipo_user`
   MODIFY `id_tipo_user` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de tabela `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
   MODIFY `id_user` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de tabela `user_departamento_tipo`
+-- AUTO_INCREMENT for table `user_departamento_tipo`
 --
 ALTER TABLE `user_departamento_tipo`
   MODIFY `id_ligacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
