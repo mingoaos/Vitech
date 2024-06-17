@@ -1,3 +1,4 @@
+//Funcao para alterar a cor e pegar os filtros selecionados para a dispor os tickets na datatable
 function changeFiltro(link, color, filterIndex, tipoTicket) {
     var filtroInput = document.getElementById('filtroInput');
     var filtro = JSON.parse(filtroInput.value);
@@ -14,7 +15,7 @@ function changeFiltro(link, color, filterIndex, tipoTicket) {
 
 }
 
-
+//Funcao para dispor os tickets na datatable
 function getTickets(filtro, tipoTicket) {
 
     if (!$.fn.DataTable.isDataTable('#datatable')) {
@@ -29,7 +30,7 @@ function getTickets(filtro, tipoTicket) {
     table.clear().draw();
 
     $.ajax({
-        url: "./db/Ajax.php",
+        url: "./db/dashboardAjax.php",
         type: "POST",
         data: {
             filtro: JSON.stringify(filtro),
@@ -37,28 +38,27 @@ function getTickets(filtro, tipoTicket) {
             tipoTicket: tipoTicket
         },
         success: function (response) {
-            var tickets = JSON.parse(response);
-            console.log(tickets);
 
-            // Clear DataTable
+            var tickets = JSON.parse(response)
+
+            if (tickets != "Sem dados") {
+                // Dar append as novas rows
+                tickets.forEach(function (ticket) {
+                    var row = [
+                        ticket.id_ticket,
+                        (tipoTicket == 'Enviados' ? (ticket.nome_user_atribuido !== null ? ticket.nome_user_atribuido : 'Nenhum técnico atribuído') : ticket.nome_reportador),
+                        ticket.assunto_local,
+                        ticket.data,
+                        (ticket.urgencia == '1' ? '<span class="badge bg-danger">Urgente</span>' : '')
+                    ];
 
 
-            // Append new rows and cells based on the data received
-            tickets.forEach(function (ticket) {
-                var row = [
-                    ticket.id_ticket,
-                    (tipoTicket == 'Enviados' ? (ticket.nome_user_atribuido !== null ? ticket.nome_user_atribuido : 'Nenhum técnico atribuído') : ticket.nome_reportador),
-                    ticket.assunto_local,
-                    ticket.data,
-                    (ticket.urgencia == '1' ? '<span class="badge bg-danger">Urgente</span>' : '')
-                ];
+                    var newRow = table.row.add(row).draw().node();
 
-                // Add row to DataTable
-                var newRow = table.row.add(row).draw().node();
-
-                // Set row color based on ticket color
-                $(newRow).addClass('table-' + ticket.color);
-            });
+                    // Mudar a cor consoante o status do ticket
+                    $(newRow).addClass('table-' + ticket.color);
+                });
+            }
         },
         error: function (xhr, status, error) {
             console.error(xhr.responseText);
@@ -82,11 +82,7 @@ function hexToCssColor(hex) {
 }
 
 
-$('#btnCriarNoticia').click(function () {
-    $('#NoticiaModal').modal('show');
-});
-
-
+//Apagar Noticia
 $(document).ready(function () {
     $(document).on('click', '.delete-message', function (e) {
         e.preventDefault();
@@ -127,12 +123,12 @@ $(document).ready(function () {
 });
 
 
-
+//Update dos filtros nos cards do dashboard
 function updateFiltro(filtro, cardId) {
     $('#textoFiltro' + cardId).text('| ' + filtro);
 
     $.ajax({
-        url: "./db/Ajax.php",
+        url: "./db/dashboardAjax.php",
         type: "POST",
         data: { filtro: filtro, cardId: cardId, type: "cardsAjax" },
         success: function (response) {
@@ -146,6 +142,7 @@ function updateFiltro(filtro, cardId) {
 
 }
 
+//Set status dos tickets
 function setStatus(id_status, status, color, id_ticket) {
     $.ajax({
         url: "./db/ticketsCode.php",

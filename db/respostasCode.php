@@ -3,7 +3,7 @@ session_start();
 require "./dbcon.php";
 
 
-
+//Query para inserir respostas nos tickets
 if (isset($_POST['resposta'], $_POST['id_ticket'])) {
 
     $resposta = mysqli_real_escape_string($con, $_POST['resposta']);
@@ -22,16 +22,16 @@ if (isset($_POST['resposta'], $_POST['id_ticket'])) {
 
         if ($result_link) {
 
-            $_SESSION['alert'] = 'Resposta enviada com sucesso';
+            $_SESSION['alert'] = '<i class="bi bi-check-circle-fill"></i> Resposta enviada com sucesso';
             $_SESSION['alertClass'] = 'success';
         } else {
 
-            $_SESSION['alert'] = 'Erro ao associar a resposta ao ticket: ' . mysqli_error($con);
+            $_SESSION['alert'] = '<i class="bi bi-check-circle-fill"></i> Erro ao associar a resposta ao ticket: ' . mysqli_error($con);
             $_SESSION['alertClass'] = 'danger';
         }
     } else {
 
-        $_SESSION['alert'] = 'Erro ao inserir a resposta: ' . mysqli_error($con);
+        $_SESSION['alert'] = '<i class="bi bi-check-circle-fill"></i> Erro ao inserir a resposta: ' . mysqli_error($con);
         $_SESSION['alertClass'] = 'danger';
     }
 

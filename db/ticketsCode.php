@@ -3,6 +3,7 @@ require './libphp.php';
 require './dbcon.php';
 session_start();
 
+//Criar um ticket
 if (
     isset($_POST['assunto_local'], $_POST['tipo_ticket'], $_POST['mensagem_sintomas'], $_POST['id_departamento_destino'], $_POST['urgencia'])
 ) {
@@ -20,21 +21,25 @@ if (
 
     if ($query_exec) {
 
-        $_SESSION['alert'] = "Sucesso ao criar o ticket";
+        $_SESSION['alert'] = '<i class="bi bi-check-circle-fill"></i> Sucesso ao criar o ticket';
         $_SESSION['alertClass'] = "success";
         header('Location: .././?op=1&x=1');
     } else {
-        $_SESSION['alert'] = "Erro ao criar o ticket";
+        $_SESSION['alert'] = '<i class="bi bi-exclamation-triangle-fill"></i> Erro ao criar o ticket';
         $_SESSION['alertClass'] = "danger";
         header('Location: .././?op=7');
     }
 } else {
 
-    $_SESSION['alert'] = "Por favor, preencha todos os campos.";
+    $_SESSION['alert'] = '<i class="bi bi-exclamation-triangle-fill"></i> Por favor, preencha todos os campos.';
     $_SESSION['alertClass'] = "danger";
     header('Location: .././?op=7');
 }
 
+
+
+
+//Alterar os status de um ticket
 if (isset($_POST['id_status'], $_POST['id_ticket']) && $_POST['type'] == 'setStatus') {
     $id_status = mysqli_real_escape_string($con, $_POST['id_status']);
     $id_ticket = mysqli_real_escape_string($con, $_POST['id_ticket']);
@@ -54,5 +59,7 @@ if (isset($_POST['id_status'], $_POST['id_ticket']) && $_POST['type'] == 'setSta
 } else {
     echo "invalid request"; // Handle invalid requests
 }
+
+
 
 ?>

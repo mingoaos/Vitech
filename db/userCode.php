@@ -13,19 +13,19 @@ if (isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['username'])
     $pass_query = "SELECT nome FROM user WHERE password = '$passAntiga' AND id_user = {$_SESSION['user']['id_user']}";
     $pass_check = mysqli_query($con, $pass_query);
 
-    // Usando == para comparar
+    
     if ($pass_check && mysqli_num_rows($pass_check) == 1) {
         $nome = mysqli_real_escape_string($con, $_POST['nome']);
         $email = mysqli_real_escape_string($con, $_POST['email']);
         $username = mysqli_real_escape_string($con, $_POST['username']);
         
-        // Corrigindo a consulta para verificar se o email ou username já existem
+        
         $check_query = "SELECT nome FROM user WHERE (email = '$email' OR username = '$username') AND id_user != {$_SESSION['user']['id_user']}";
         $check = mysqli_query($con, $check_query);
 
         if ($check && mysqli_num_rows($check) >= 1) {
 
-            $_SESSION['alert'] = "Já existe alguém com esse Username/Email";
+            $_SESSION['alert'] = '<i class="bi bi-exclamation-triangle-fill"></i> Já existe alguém com esse Username/Email';
             $_SESSION['alertClass'] = "warning";
             header('Location: .././?op=6');
             exit();
@@ -62,19 +62,19 @@ if (isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['username'])
                 }
 
 
-                $_SESSION['alert'] = "Sucesso ao atualizar os detalhes";
+                $_SESSION['alert'] = '<i class="bi bi-check-circle-fill"></i> Sucesso ao atualizar os detalhes';
                 $_SESSION['alertClass'] = "success";
                 header('Location: .././?op=6');
                 exit();
             } else {
-                $_SESSION['alert'] = "Erro ao atualizar os detalhes";
+                $_SESSION['alert'] = '<i class="bi bi-exclamation-triangle-fill"></i>Erro ao atualizar os detalhes';
                 $_SESSION['alertClass'] = "danger";
                 header('Location: .././?op=6');
                 exit();
             }
         }
     } else {
-        $_SESSION['alert'] = "Palavra-passe errada";
+        $_SESSION['alert'] = '<i class="bi bi-exclamation-triangle-fill"></i>Palavra-passe errada';
         $_SESSION['alertClass'] = "danger";
         header('Location: .././?op=6');
         exit();

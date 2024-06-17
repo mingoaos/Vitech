@@ -1,11 +1,11 @@
-<?php 
+<?php
 require "./dbcon.php";
 require "./libphp.php";
 
 session_start();
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ob_start();
 
+//query para o filtro nos cards do dashboard
 if (isset($_POST['filtro']) && isset($_POST['cardId']) && $_POST['type'] == 'cardsAjax') {
     $filter = $_POST['filtro'];
     $cardId = $_POST['cardId'];
@@ -29,7 +29,7 @@ if (isset($_POST['filtro']) && isset($_POST['cardId']) && $_POST['type'] == 'car
     $count = getCount($con, $query);
 
     if ($count !== false) {
-        
+
         echo $count;
     } else {
         echo "Error retrieving count";
@@ -37,10 +37,10 @@ if (isset($_POST['filtro']) && isset($_POST['cardId']) && $_POST['type'] == 'car
 }
 
 
-
+//Query para o grafico de barras
 if ($_POST['type'] == 'barAjax') {
 
-    $resultadosReais = array(); 
+    $resultadosReais = array();
 
     $meses = array();
 
@@ -48,11 +48,11 @@ if ($_POST['type'] == 'barAjax') {
         $nomeMes = ucfirst(date('F', mktime(0, 0, 0, $mes, 1)));
         $meses[$mes] = $nomeMes;
     }
-    
 
-    $date=date_create(date("Y-m-d"));
-    date_sub($date,date_interval_create_from_date_string("5 month"));
-    $data_inic = date_format($date,"Y-m-01");
+
+    $date = date_create(date("Y-m-d"));
+    date_sub($date, date_interval_create_from_date_string("5 month"));
+    $data_inic = date_format($date, "Y-m-01");
 
 
     $query = "SELECT MONTH(data) AS mes, COUNT(*) AS total FROM ticket
@@ -73,12 +73,12 @@ if ($_POST['type'] == 'barAjax') {
                 "total" => $linha['total']
             );
         }
-   
+
 
         mysqli_free_result($resultado);
 
         echo json_encode($dados);
-        
+
     } else {
         $erro = array('erro' => 'Falha ao buscar na base de dados');
         echo json_encode($erro);
@@ -86,7 +86,7 @@ if ($_POST['type'] == 'barAjax') {
 }
 
 
-
+//Query para pegar os tickets consoando o seu filtro para a datatable
 if ($_POST['type'] == 'ticketTablesAjax') {
 
     $tipoTicket = mysqli_real_escape_string($con, $_POST['tipoTicket']);
@@ -108,28 +108,29 @@ if ($_POST['type'] == 'ticketTablesAjax') {
         default:
             break;
     }
-    if($tipoTicket != "Não atribuidos"){
-        $statusCondicao = []; 
+    if ($tipoTicket != "Não atribuidos") {
+        $statusCondicao = [];
         if (isset($filtros["1"]) && $filtros["1"]) {
             $statusCondicao[] = "t.status = 'P'";
         }
-    
+
         if (isset($filtros["2"]) && $filtros["2"]) {
             $statusCondicao[] = "t.status = 'A'";
         }
-    
+
         if (isset($filtros["3"]) && $filtros["3"]) {
             $statusCondicao[] = "t.status = 'F'";
         }
-    
-        
+
+
         if (!empty($statusCondicao)) {
             $whereClause .= " AND (" . implode(" OR ", $statusCondicao) . ") ";
-        } else{
+        } else {
             echo json_encode("Sem dados");
+            exit;
         }
     }
-  
+
 
     $query = "SELECT t.*, DATE_FORMAT(t.data, '%e %b %Y, %H:%i', 'pt_PT') as data,
                 u_reportador.nome AS nome_reportador,
@@ -145,7 +146,7 @@ if ($_POST['type'] == 'ticketTablesAjax') {
     if ($query_exec) {
         $result = array();
         while ($row = mysqli_fetch_assoc($query_exec)) {
-            // Add color to the result if needed
+          
             switch ($row['status']) {
                 case 'P':
                     $row['color'] = 'danger';
@@ -164,20 +165,10 @@ if ($_POST['type'] == 'ticketTablesAjax') {
         }
         echo json_encode($result);
     } else {
-        // Handle SQL error
+
         echo json_encode(['error' => mysqli_error($con)]);
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 
 

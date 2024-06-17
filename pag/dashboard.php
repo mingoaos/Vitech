@@ -210,7 +210,7 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
           <script>
             document.addEventListener("DOMContentLoaded", () => {
               $.ajax({
-                url: "./db/Ajax.php",
+                url: "./db/dashboardAjax.php",
                 type: "POST",
                 data: { type: "barAjax" },
 

@@ -24,7 +24,7 @@ if (isset($_GET['op']))
   <meta content="" name="description">
   <meta content="" name="keywords">
 
- 
+
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -387,7 +387,7 @@ if (isset($_GET['op']))
           </div>
 
           <div class="modal-body">
-            <form id="criarNoticia" id="noticiasForm" action="./db/form.php" method="POST">
+            <form id="criarNoticia" id="noticiasForm" action="./db/noticiasCode.php" method="POST">
               <div class="mb-3">
                 <label class="fw-bold">Data Início:</label>
                 <input id="dateInput" name="dataIni" class="flatpickr flatpickr-input form-control" type="text"
@@ -427,7 +427,7 @@ if (isset($_GET['op']))
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
         class="bi bi-arrow-up-short"></i></a>
 
-        
+
     <!-- Vendor JS Files -->
     <script src="assets/vendor/chart.js/chart.umd.js"></script>
 
@@ -435,8 +435,8 @@ if (isset($_GET['op']))
     <!-- Popper.js for Bootstrap tooltips and popovers -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 
-     <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -459,6 +459,10 @@ if (isset($_GET['op']))
     <script>
       $("#alert").fadeTo(2000, 500).slideUp(500, function () {
         $("#alert").slideUp(500);
+      });
+
+      $('#btnCriarNoticia').click(function () {
+        $('#NoticiaModal').modal('show');
       });
 
       flatpickr("#dateInput", {

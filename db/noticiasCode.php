@@ -2,31 +2,64 @@
 
 
 
-if($_SERVER["REQUEST_METHOD"] == "POST")
-{
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    session_start();
     require "./dbcon.php";
-    if(isset($_POST['noticiaId']) && $_POST['type'] == 'deleteNoticia'){
-
-        $noticiaId = mysqli_real_escape_string($con,$_POST['noticiaId']);
-
+    require "./libphp.php";
+    
+    if (isset($_POST['noticiaId']) && $_POST['type'] == 'deleteNoticia') {
+        $noticiaId = mysqli_real_escape_string($con, $_POST['noticiaId']);
         $query = "DELETE FROM noticia WHERE id_noticia = $noticiaId";
-
-        $query_exec = mysqli_query($con,$query);
+        $query_exec = mysqli_query($con, $query);
 
         if ($query_exec) {
-           
-            http_response_code(200); 
+            http_response_code(200);
             echo json_encode(array("status" => "success"));
         } else {
-         
             http_response_code(500);
             echo json_encode(array("status" => "error"));
         }
+    }
 
+    if (isset($_POST['dataIni']) && isset($_POST['dataFim']) && isset($_POST['assunto']) && isset($_POST['noticia'])) {
+        $dataini = mysqli_real_escape_string($con, $_POST['dataIni']);
+        $datafim = mysqli_real_escape_string($con, $_POST['dataFim']);
+        $assunto = mysqli_real_escape_string($con, $_POST['assunto']);
+        $noticia = mysqli_real_escape_string($con, $_POST['noticia']);
 
+        if (verificarData($dataini, $datafim)) {
+            if (!empty($dataini) && !empty($datafim) && !empty($assunto) && !empty($noticia)) {
+                $query = "INSERT INTO `noticia`(`Data_inicio`, `Data_fim`, `Assunto`, `Noticia`, `Status`) VALUES ('$dataini','$datafim','$assunto','$noticia','A');";
+                $query_exec = mysqli_query($con, $query);
+
+                if ($query_exec) {
+                    $_SESSION['alert'] = '<i class="bi bi-check-circle-fill"></i> Notícia criada com sucesso';
+                    $_SESSION['alertClass'] = "success";
+                } else {
+                    $_SESSION['alert'] = '<i class="bi bi-exclamation-triangle-fill"></i>Erro: ' . mysqli_error($con);
+                    $_SESSION['alertClass'] = "danger";
+                }
+
+                header("Location: " . $_SESSION['current_page']);
+                exit();
+            } else {
+                $_SESSION['alert'] = '<i class="bi bi-exclamation-triangle-fill"></i> Insira todos os detalhes';
+                $_SESSION['alertClass'] = "warning";
+                header("Location: " . $_SESSION['current_page']);
+                exit();
+            }
+        } else {
+            $_SESSION['alert'] = '<i class="bi bi-exclamation-triangle-fill"></i> A data de fim tem que ser depois da data de início';
+            $_SESSION['alertClass'] = "warning";
+            header("Location: " . $_SESSION['current_page']);
+            exit();
+        }
     }
 }
+
+
+
 
 
 function getNoticia($con)
@@ -38,7 +71,7 @@ function getNoticia($con)
                 DATE_FORMAT(Data_inicio, '%W, %e %M %H:%i','pt_PT') AS formatted_Data_inicio,
                 DATE_FORMAT(Data_fim, '%W, %e %M  %H:%i','pt_PT') AS formatted_Data_fim, Assunto, Noticia FROM `noticia` WHERE Data_inicio < NOW() AND Data_fim > NOW()";
 
-    $query_exec = mysqli_query($con,$query);
+    $query_exec = mysqli_query($con, $query);
 
     if ($query_exec && mysqli_num_rows($query_exec) > 0) {
         $result = array();
