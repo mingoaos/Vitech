@@ -14,7 +14,7 @@ if (isset($_GET['op']))
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-PT">
 
 <head>
   <meta charset="utf-8">
@@ -52,6 +52,13 @@ if (isset($_GET['op']))
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
   <link href="assets/css/mystyle.css" rel="stylesheet">
+
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <!-- DataTables JavaScript -->
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
 </head>
 
 <body>
@@ -317,7 +324,7 @@ if (isset($_GET['op']))
         <li class="nav-heading">Pages</li>
 
         <li class="nav-item">
-          <a class="nav-link collapsed" href="pages-faq.html">
+          <a class="nav-link collapsed" href="./?op=8">
             <i class="bi bi-question-circle"></i>
             <span>F.A.Q</span>
           </a>
@@ -364,6 +371,9 @@ if (isset($_GET['op']))
           break;
         case 7:
           $pag_file = "./pag/inserirTicketForm.php";
+          break;
+        case 8:
+          $pag_file = "./pag/faq.php";
           break;
 
         default:
@@ -435,8 +445,7 @@ if (isset($_GET['op']))
     <!-- Popper.js for Bootstrap tooltips and popovers -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
 
     <!-- Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -450,9 +459,8 @@ if (isset($_GET['op']))
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
-    <!-- DataTables JavaScript -->
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-
+   
+    
 
 
 

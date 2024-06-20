@@ -33,11 +33,11 @@ function addAcoes($id_ticket, $acao, $status_change, $con)
 {
     $id_user = $_SESSION['user']['id_user'];
     $acao = mysqli_real_escape_string($con, $acao);
-   
+
 
     $query = "INSERT INTO acoes (id_ticket, id_user, status_change, acao) 
               VALUES ('$id_ticket', '$id_user', '$status_change', '$acao')";
-    
+
     $result = mysqli_query($con, $query);
 
     if ($result) {
@@ -45,6 +45,33 @@ function addAcoes($id_ticket, $acao, $status_change, $con)
     } else {
         return false;
     }
+}
+
+function getUser($con)
+{
+    $query = "SELECT u.id_user, u.nome,u.email, 
+    GROUP_CONCAT(d.nome SEPARATOR ', ') AS departamentos,
+    GROUP_CONCAT(t.nome SEPARATOR ', ') AS tipos
+    FROM user u
+    INNER JOIN user_departamento_tipo udt ON u.id_user = udt.id_user
+    INNER JOIN departamento d ON udt.id_departamento = d.id_departamento
+    INNER JOIN tipo_user t ON udt.id_tipo = t.id_tipo_user
+    GROUP BY u.id_user, u.nome;
+    ";
+
+    $query_run = mysqli_query($con, $query);
+
+    if ($query_run && mysqli_num_rows($query_run) > 0) {
+        $user = [];
+        while ($row = mysqli_fetch_assoc($query_run)) {
+            $user[] = $row;
+        }
+        return $user;
+    } else {
+        return false;
+    }
+
+
 }
 
 
@@ -183,10 +210,10 @@ function tempoDecorrido($data_acao)
     $data_acao_datetime = new DateTime($data_acao, $timezone);
     $data_atual_datetime = new DateTime('now', $timezone);
 
- 
+
     $diferenca = $data_atual_datetime->diff($data_acao_datetime);
 
-    
+
     $dias = $diferenca->days;
     $horas = $diferenca->h;
     $minutos = $diferenca->i;
@@ -207,8 +234,9 @@ function tempoDecorrido($data_acao)
 }
 
 
-function getRespostas($con, $id_ticket) {
-    
+function getRespostas($con, $id_ticket)
+{
+
     $id_ticket = mysqli_real_escape_string($con, $id_ticket);
 
     $query = "
@@ -224,7 +252,7 @@ function getRespostas($con, $id_ticket) {
     $result = mysqli_query($con, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
-     
+
         $responses = [];
         while ($row = mysqli_fetch_assoc($result)) {
             $responses[] = $row;
@@ -235,6 +263,40 @@ function getRespostas($con, $id_ticket) {
     }
 }
 
+function getDeps($con)
+{
+    $querydeps = "SELECT id_departamento,nome FROM departamento";
+
+    $querydeps_exec = mysqli_query($con, $querydeps);
+
+
+    if ($querydeps_exec && mysqli_num_rows($querydeps_exec) > 0) {
+        while ($row = mysqli_fetch_assoc($querydeps_exec)) {
+            $result[] = $row;
+
+        }
+    } else {
+        return null;
+    }
+    return $result;
+
+}
+function getPerms($con)
+{
+
+    $queryperms = "SELECT id_tipo_user, nome FROM tipo_user";
+    $queryperms_exec = mysqli_query($con, $queryperms);
+    if ($queryperms_exec && mysqli_num_rows($queryperms_exec) > 0) {
+        while ($row = mysqli_fetch_assoc($queryperms_exec)) {
+            $result[] = $row;
+        }
+    } else {
+        return null;
+    }
+
+    return $result;
+
+}
 
 
 ?>

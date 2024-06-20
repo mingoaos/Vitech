@@ -34,18 +34,18 @@
 
                 // Verifica se encontrou resultados
                 if (mysqli_num_rows($result) > 0) {
-                    // Cria o menu suspenso
+                    
                     echo '<div class="col-md-6">';
                     echo '<label for="id_departamento_destino" class="form-label fw-bold">Departamento de Destino</label>';
                     echo '<select class="form-select" id="id_departamento_destino" name="id_departamento_destino" required>';
-                    // Loop pelos resultados e adiciona opções ao menu suspenso
+                    
                     while ($row = mysqli_fetch_assoc($result)) {
                         echo '<option value="' . $row["id_departamento"] . '">' . $row["nome"] . '</option>';
                     }
                     echo '</select>';
                     echo '</div>';
                 } else {
-                    // Cria o menu suspenso com a opção de nenhum departamento encontrado
+                   
                     echo '<div class="col-md-6">';
                     echo '<label for="id_departamento_destino" class="form-label fw-bold">Departamento de Destino</label>';
                     echo '<select class="form-select" id="id_departamento_destino" name="id_departamento_destino" required disabled>';

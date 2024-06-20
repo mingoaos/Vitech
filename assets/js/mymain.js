@@ -23,7 +23,13 @@ function getTickets(filtro, tipoTicket) {
             "columnDefs": [
                 { "className": "dt-center", "targets": "_all" }
             ],
-            order: [[4, 'desc']]
+            order: [[4, 'desc']],
+
+            "language": {
+                "url": "./assets/json/pt_pt.json"
+               
+            }
+
         });
     }
 

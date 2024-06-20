@@ -3,9 +3,7 @@
 require './dbcon.php';
 session_start();
 
-if (isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['username']) && isset($_POST['passAntiga'])) 
-{
-
+if (isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['username']) && isset($_POST['passAntiga'])) {
 
     $passAntiga = sha1($_POST['passAntiga']);
 
@@ -13,13 +11,13 @@ if (isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['username'])
     $pass_query = "SELECT nome FROM user WHERE password = '$passAntiga' AND id_user = {$_SESSION['user']['id_user']}";
     $pass_check = mysqli_query($con, $pass_query);
 
-    
+
     if ($pass_check && mysqli_num_rows($pass_check) == 1) {
         $nome = mysqli_real_escape_string($con, $_POST['nome']);
         $email = mysqli_real_escape_string($con, $_POST['email']);
         $username = mysqli_real_escape_string($con, $_POST['username']);
-        
-        
+
+
         $check_query = "SELECT nome FROM user WHERE (email = '$email' OR username = '$username') AND id_user != {$_SESSION['user']['id_user']}";
         $check = mysqli_query($con, $check_query);
 
@@ -32,7 +30,7 @@ if (isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['username'])
 
         } else {
             $update_parts = [];
-            
+
             if (!empty($_POST['passNova'])) {
                 $passNova = sha1(mysqli_real_escape_string($con, $_POST['passNova']));
                 $update_parts[] = "password = '$passNova'";
@@ -55,7 +53,7 @@ if (isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['username'])
 
                 $query_dados = "SELECT * FROM user WHERE id_user = {$_SESSION['user']['id_user']}";
                 $exec_dados = mysqli_query($con, $query_dados);
-                
+
                 if ($exec_dados && mysqli_num_rows($exec_dados) == 1) {
                     unset($_SESSION['user']);
                     $_SESSION['user'] = mysqli_fetch_assoc($exec_dados);
@@ -81,7 +79,46 @@ if (isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['username'])
     }
 }
 
-  
 
+if (isset($_POST['id_user'], $_POST['type']) && $_POST['type'] == 'verMais') {
+    $id_user = mysqli_real_escape_string($con, $_POST['id_user']);
+
+$query = "SELECT nome, username, email, telefone FROM user WHERE id_user = $id_user";
+
+$query_result = mysqli_query($con, $query);
+if ($query_result && mysqli_num_rows($query_result) > 0) {
+     
+    $row = mysqli_fetch_assoc($query_result);
+   
+
+    $queryPerms = "SELECT d.nome as departamento, t.nome as permissoes FROM user_departamento_tipo as udt
+        INNER JOIN departamento as d ON udt.id_departamento = d.id_departamento
+        INNER JOIN tipo_user as t ON udt.id_tipo = t.id_tipo_user
+        WHERE id_user = $id_user";
+
+    $queryPerms_result = mysqli_query($con, $queryPerms);
+
+    if ($queryPerms_result && mysqli_num_rows($queryPerms_result) > 0) {
+        $DepPerms = [];
+        while ($perms_row = mysqli_fetch_assoc($queryPerms_result)) { // Use $perms_row instead of $row
+            $departamento = $perms_row['departamento'];
+            $permissoes = $perms_row['permissoes'];
+
+            $DepPerms[] = [
+                'departamento' => $departamento,
+                'permissoes' => $permissoes
+            ];
+        }
+        $row['DepPerms'] = $DepPerms; // Store department permissions in $row array
+    } else {
+        $row['DepPerms'] = []; // If no department permissions found, set as empty array
+    }
+} else {
+    $row = null; // If no user found, set $row to null
+}
+
+echo json_encode($row);
+
+}
 
 ?>
