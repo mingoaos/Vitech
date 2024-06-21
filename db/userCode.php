@@ -83,28 +83,46 @@ if (isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['username'])
 if (isset($_POST['id_user'], $_POST['type']) && $_POST['type'] == 'verMais') {
     $id_user = mysqli_real_escape_string($con, $_POST['id_user']);
 
-$query = "SELECT nome, username, email, telefone FROM user WHERE id_user = $id_user";
+    $query = "SELECT nome, username, email, telefone FROM user WHERE id_user = $id_user";
 
-$query_result = mysqli_query($con, $query);
-if ($query_result && mysqli_num_rows($query_result) > 0) {
-     
-    $row = mysqli_fetch_assoc($query_result);
-    
-    $row['DepPerms'] = getDepUser($con,$id_user);
+    $query_result = mysqli_query($con, $query);
+    if ($query_result && mysqli_num_rows($query_result) > 0) {
 
-} else {
-    $row = null; 
+        $row = mysqli_fetch_assoc($query_result);
+
+        $row['DepPerms'] = getDepUser($con, $id_user);
+
+    } else {
+        $row = null;
+    }
+
+    echo json_encode($row);
+
 }
 
-echo json_encode($row);
+
+if (isset($_POST['addNome'], $_POST['addUsername'], $_POST['addEmail'], $_POST['id_user'] ) && $_POST['type'] == 'Editar') {
+
+
+    $id_user = mysqli_real_escape_string($con, $_POST['id_user']);
+
+    for ($i = 0; $i <= 5; $i++) {
+        $departamento = mysqli_real_escape_string($con, $_POST["departamentos{$i}"]);
+        $permissoes = mysqli_real_escape_string($con, $_POST["permissoes{$i}"]);
+
+        $query = "INSERT INTO user_departamento_tipo VALUES";
+
+
+    }
+
+
+
 
 }
 
 
-
-
-
-function getDepUser($con, $id_user){
+function getDepUser($con, $id_user)
+{
 
     $queryPerms = "SELECT d.id_departamento, d.nome as departamento, t.id_tipo_user, t.nome as permissoes FROM user_departamento_tipo as udt
         INNER JOIN departamento as d ON udt.id_departamento = d.id_departamento
@@ -115,7 +133,7 @@ function getDepUser($con, $id_user){
 
     if ($queryPerms_result && mysqli_num_rows($queryPerms_result) > 0) {
         $DepPerms = [];
-        while ($perms_row = mysqli_fetch_assoc($queryPerms_result)) { 
+        while ($perms_row = mysqli_fetch_assoc($queryPerms_result)) {
             $id_departamento = $perms_row['id_departamento'];
             $id_permissoes = $perms_row['id_tipo_user'];
             $departamento = $perms_row['departamento'];
@@ -124,13 +142,13 @@ function getDepUser($con, $id_user){
             $DepPerms[] = [
                 'id_departamento' => $id_departamento,
                 'departamento' => $departamento,
-                'id_permissao'=> $id_permissoes,
+                'id_permissao' => $id_permissoes,
                 'permissoes' => $permissoes
             ];
         }
-        return $DepPerms; 
+        return $DepPerms;
     } else {
-        return null; 
+        return null;
     }
 
 }

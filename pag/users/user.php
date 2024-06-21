@@ -96,6 +96,7 @@ $Perms = getPerms($con);
 
             <div class="modal-body">
                 <form action="./db/userCode.php" method="POST">
+                    <input type="hidden" id="id_user" class="hidden">
                     <input type="hidden" id="typeForm" class="hidden">
                     <div class="mb-3">
                         <label class="fw-bold">Nome:</label>
@@ -103,7 +104,8 @@ $Perms = getPerms($con);
                     </div>
                     <div class="mb-3">
                         <label class="fw-bold">Username:</label>
-                        <input id="addUsername" name="username" class="form-control" type="text" required maxlength="50">
+                        <input id="addUsername" name="username" class="form-control" type="text" required
+                            maxlength="50">
                     </div>
                     <div class="mb-3">
                         <label class="fw-bold">Email:</label>
@@ -111,13 +113,15 @@ $Perms = getPerms($con);
                     </div>
                     <div class="mb-3">
                         <label class="fw-bold">Telefone:</label>
-                        <input id="addTelefone" name="telefone" class="form-control" type="number" onKeyPress="if(this.value.length==9) return false;">
+                        <input id="addTelefone" name="telefone" class="form-control" type="number"
+                            onKeyPress="if(this.value.length==9) return false;">
                     </div>
                     <label for="departamento" class="form-label fw-bold col-md-7">Departamentos e Permissões</label>
                     <div id="addDepsPerms" class="row mb-3">
 
                     </div>
-                    <button id="addMaisDeps" type="button" class="btn btn-link mb-2"><i class="bi bi-plus-circle"></i>
+                    <button id="addMaisDeps" type="button" style="text-decoration: none;" class="btn btn-link mb-2"><i
+                            class="bi bi-plus-circle"></i>
                         Adicionar mais um departamento</button>
 
             </div>
@@ -179,6 +183,7 @@ $Perms = getPerms($con);
     $(document).ready(function () {
 
 
+
         //inicializacao da datatable e etc...
         table = $('#datatable').DataTable({
             "columnDefs": [
@@ -194,7 +199,7 @@ $Perms = getPerms($con);
         $('[data-toggle="tooltip"]').tooltip({
             trigger: 'hover'
         });
-        const MAX_ROWS = 4; 
+        const MAX_ROWS = 4;
         let currentRowCount = 0;
 
         //acoes ao pressionar em ver mais
@@ -262,7 +267,7 @@ $Perms = getPerms($con);
 
         })
         $('#addMaisDeps').click(function () {
-            if(currentRowCount>=MAX_ROWS) return;
+            if (currentRowCount >= MAX_ROWS) return;
             $('#addDepsPerms').append(createDepsPermsTemplate("", "", true));
             currentRowCount++;
         });
@@ -273,7 +278,7 @@ $Perms = getPerms($con);
             $('#row-' + idBtn).remove();
         });
 
-        
+
 
         $('.editarBtn').click(function () {
             $('#typeForm').val('Editar');
@@ -285,6 +290,7 @@ $Perms = getPerms($con);
             currentRowCount = 0
 
             var userId = $(this).data('userid');
+            $('#id_user').val(userId);
 
             $.ajax({
                 url: "./db/userCode.php",
@@ -325,20 +331,20 @@ $Perms = getPerms($con);
             let template = `
             <div class="row mb-3" id="row-${buttonIdCounter}">
                 <div class="col-md-${includeButton ? 7 : 8}">
-                    <select class="form-select" name="departamento" required>
+                    <select class="form-select" name="departamento${currentRowCount}" required>
                         <?php foreach ($Deps as $row) { ?>
-                                            <option value="<?= $row['id_departamento'] ?>" ${selectedDepartamento == '<?= $row['id_departamento'] ?>' ? 'selected' : ''}>
-                                                <?= $row['nome'] ?>
-                                            </option>
+                                                        <option value="<?= $row['id_departamento'] ?>" ${selectedDepartamento == '<?= $row['id_departamento'] ?>' ? 'selected' : ''}>
+                                                            <?= $row['nome'] ?>
+                                                        </option>
                         <?php } ?>
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <select class="form-select" name="permissoes" required>
+                    <select class="form-select" name="permissoes${currentRowCount}" required>
                         <?php foreach ($Perms as $row) { ?>
-                                            <option value="<?= $row['id_tipo_user'] ?>" ${selectedPermissoes == '<?= $row['id_tipo_user'] ?>' ? 'selected' : ''}>
-                                                <?= $row['nome'] ?>
-                                            </option>
+                                                        <option value="<?= $row['id_tipo_user'] ?>" ${selectedPermissoes == '<?= $row['id_tipo_user'] ?>' ? 'selected' : ''}>
+                                                            <?= $row['nome'] ?>
+                                                        </option>
                         <?php } ?>
                     </select>
                 </div>`;
@@ -355,7 +361,7 @@ $Perms = getPerms($con);
             return template;
         }
 
-    
+
 
     })
 
