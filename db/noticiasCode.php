@@ -14,10 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $query_exec = mysqli_query($con, $query);
 
         if ($query_exec) {
-            http_response_code(200);
+           
             echo json_encode(array("status" => "success"));
         } else {
-            http_response_code(500);
+           
             echo json_encode(array("status" => "error"));
         }
     }

@@ -49,15 +49,8 @@ function addAcoes($id_ticket, $acao, $status_change, $con)
 
 function getUser($con)
 {
-    $query = "SELECT u.id_user, u.nome,u.email, 
-    GROUP_CONCAT(d.nome SEPARATOR ', ') AS departamentos,
-    GROUP_CONCAT(t.nome SEPARATOR ', ') AS tipos
-    FROM user u
-    INNER JOIN user_departamento_tipo udt ON u.id_user = udt.id_user
-    INNER JOIN departamento d ON udt.id_departamento = d.id_departamento
-    INNER JOIN tipo_user t ON udt.id_tipo = t.id_tipo_user
-    GROUP BY u.id_user, u.nome;
-    ";
+    $query = "SELECT id_user, nome, email, telefone
+    FROM user ";
 
     $query_run = mysqli_query($con, $query);
 

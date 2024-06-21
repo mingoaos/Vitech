@@ -60,14 +60,15 @@ $Perms = getPerms($con);
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
 
-                                    <button type="button" value="<?= $row['id_user']; ?>" data-toggle="tooltip"
+                                    <button type="button" data-userid="<?= $row['id_user']; ?>" data-toggle="tooltip"
                                         data-placement="top" title="Alterar Palavra-Passe"
-                                        class="btn btn-outline-secondary btn-sm">
+                                        class="btn btn-outline-secondary btn-sm passBtn">
                                         <i class="bi bi-key-fill"></i>
                                     </button>
 
-                                    <button id="deleteUser" type="button" value="<?= $row['id_user']; ?>" data-toggle="tooltip"
-                                        data-placement="top" title="Eliminar" class="btn btn-outline-danger btn-sm">
+                                    <button type="button" data-userid="<?= $row['id_user']; ?>"
+                                        data-toggle="tooltip" data-placement="top" title="Eliminar"
+                                        class="btn btn-outline-danger btn-sm deleteBtn">
                                         <i class="bi bi-trash-fill"></i>
                                     </button>
 
@@ -96,8 +97,8 @@ $Perms = getPerms($con);
 
             <div class="modal-body">
                 <form action="./db/userCode.php" method="POST">
-                    <input type="hidden" id="id_user" class="hidden">
-                    <input type="hidden" id="typeForm" class="hidden">
+                    <input type="hidden" id="id_user" name="id_user" class="hidden">
+                    <input type="hidden" id="typeForm" name="typeForm" class="hidden">
                     <div class="mb-3">
                         <label class="fw-bold">Nome:</label>
                         <input id="addNome" name="nome" class="form-control" type="text" required maxlength="50">
@@ -109,8 +110,12 @@ $Perms = getPerms($con);
                     </div>
                     <div class="mb-3">
                         <label class="fw-bold">Email:</label>
-                        <input id="addEmail" name="email" class="form-control" type="text" required maxlength="100">
+                        <input id="addEmail" name="email" class="form-control" type="email" required maxlength="100">
                     </div>
+                    <div id="passwordAdd">
+
+                    </div>
+
                     <div class="mb-3">
                         <label class="fw-bold">Telefone:</label>
                         <input id="addTelefone" name="telefone" class="form-control" type="number"
@@ -133,6 +138,8 @@ $Perms = getPerms($con);
         </div>
     </div>
 </div>
+
+
 
 
 
@@ -179,6 +186,40 @@ $Perms = getPerms($con);
     </div>
 </div>
 
+
+
+<!-- Palavra passe Modal -->
+<div class="modal fade" id="passModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="titleModal" class="modal-title fw-bold">Alterar Palavra-Passe</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form action="./db/userCode.php" method="POST">
+                    <input type="hidden" id="passid_user" name="id_user" class="hidden">
+                    <input type="hidden" id="passtypeForm" name="typeForm" class="hidden">
+
+                    <div id="passwordAdd">
+                        <div class="mb-3">
+                            <label class="fw-bold">Nova Password:</label>
+                            <input id="novaPassword" name="password" class="form-control" type="password" required
+                                maxlength="30">
+                        </div>
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Adicionar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
 
@@ -201,6 +242,9 @@ $Perms = getPerms($con);
         });
         const MAX_ROWS = 4;
         let currentRowCount = 0;
+
+
+
 
         //acoes ao pressionar em ver mais
         $('.verMaisbtn').click(function () {
@@ -248,7 +292,10 @@ $Perms = getPerms($con);
             })
         });
 
-
+        let passwordInput = ` <div class="mb-3">
+                        <label class="fw-bold">Password:</label>
+                        <input id="addPassword" name="password" class="form-control" type="password" required maxlength="30">
+                    </div>`;
 
         //evento para o modal de adicionar
         $('#addBtn').click(function () {
@@ -258,7 +305,7 @@ $Perms = getPerms($con);
             $('#addUsername').val("");
             $('#addEmail').val("");
             $('#addTelefone').val("");
-
+            $('#passwordAdd').append(passwordInput);
             $('#addModal').modal('show');
             $('#titleModal').text('Adicionar');
             $('#addDepsPerms').empty();
@@ -279,8 +326,9 @@ $Perms = getPerms($con);
         });
 
 
-
+        //acoes ao clicar no botao de editar
         $('.editarBtn').click(function () {
+            $('#passwordAdd').empty();
             $('#typeForm').val('Editar');
             $('#addModal').modal('show');
             $('#titleModal').text('Editar');
@@ -324,6 +372,63 @@ $Perms = getPerms($con);
         })
 
 
+        $('.deleteBtn').click(function () {
+            var userId = $(this).data('userid');
+
+            Swal.fire({
+                title: 'Apagar',
+                text: 'Tem a certeza que deseja apagar este utilizador',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                confirmButtonText: 'Sim, apague',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: './db/userCode.php',
+                        method: 'POST',
+                        data: { id_user: userId, type: "delete" },
+                        success: function (response) {
+
+                            data = JSON.parse(response);
+                            if (data.status == 'success') {
+                                Swal.fire({
+                                    title: 'Apagado',
+                                    text: 'Utilizador apagado com sucesso',
+                                    icon: 'success'
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Erro',
+                                    text: 'Erro ao apagar o utilizador',
+                                    icon: 'error'
+                                })
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire('Erro', 'Erro ao apagar a notícia', 'error');
+                        }
+                    });
+                }
+            });
+
+        })
+
+
+        $('.passBtn').click(function(){
+
+            var userId = $(this).data('userid');
+
+            $('#passModal').modal('show');
+            $('#passid_user').val(userId);
+            $('#passtypeForm').val('password');
+            
+        })
+
+
         let buttonIdCounter = 0;
 
         // funcao para criar o template para os selects
@@ -333,18 +438,18 @@ $Perms = getPerms($con);
                 <div class="col-md-${includeButton ? 7 : 8}">
                     <select class="form-select" name="departamento${currentRowCount}" required>
                         <?php foreach ($Deps as $row) { ?>
-                                                        <option value="<?= $row['id_departamento'] ?>" ${selectedDepartamento == '<?= $row['id_departamento'] ?>' ? 'selected' : ''}>
-                                                            <?= $row['nome'] ?>
-                                                        </option>
+                                                                        <option value="<?= $row['id_departamento'] ?>" ${selectedDepartamento == '<?= $row['id_departamento'] ?>' ? 'selected' : ''}>
+                                                                            <?= $row['nome'] ?>
+                                                                        </option>
                         <?php } ?>
                     </select>
                 </div>
                 <div class="col-md-4">
                     <select class="form-select" name="permissoes${currentRowCount}" required>
                         <?php foreach ($Perms as $row) { ?>
-                                                        <option value="<?= $row['id_tipo_user'] ?>" ${selectedPermissoes == '<?= $row['id_tipo_user'] ?>' ? 'selected' : ''}>
-                                                            <?= $row['nome'] ?>
-                                                        </option>
+                                                                        <option value="<?= $row['id_tipo_user'] ?>" ${selectedPermissoes == '<?= $row['id_tipo_user'] ?>' ? 'selected' : ''}>
+                                                                            <?= $row['nome'] ?>
+                                                                        </option>
                         <?php } ?>
                     </select>
                 </div>`;

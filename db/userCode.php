@@ -7,7 +7,7 @@ if (isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['username'])
 
     $passAntiga = sha1($_POST['passAntiga']);
 
-    // Corrigindo a consulta para adicionar aspas na senha
+
     $pass_query = "SELECT nome FROM user WHERE password = '$passAntiga' AND id_user = {$_SESSION['user']['id_user']}";
     $pass_check = mysqli_query($con, $pass_query);
 
@@ -38,7 +38,7 @@ if (isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['username'])
 
             if (!empty($_POST['telemovel'])) {
                 $telemovel = mysqli_real_escape_string($con, $_POST['telemovel']);
-                $update_parts[] = "telemovel = '$telemovel'";
+                $update_parts[] = "telefone = '$telemovel'";
             }
 
             $update_query = "UPDATE user SET nome = '$nome', email = '$email', username = '$username'";
@@ -101,21 +101,196 @@ if (isset($_POST['id_user'], $_POST['type']) && $_POST['type'] == 'verMais') {
 }
 
 
-if (isset($_POST['addNome'], $_POST['addUsername'], $_POST['addEmail'], $_POST['id_user'] ) && $_POST['type'] == 'Editar') {
+if (isset($_POST['nome'], $_POST['username'], $_POST['email']) && $_POST['typeForm'] == 'Editar') {
+
+
 
 
     $id_user = mysqli_real_escape_string($con, $_POST['id_user']);
+    $nome = mysqli_real_escape_string($con, $_POST['nome']);
+    $username = mysqli_real_escape_string($con, $_POST['username']);
+    $email = mysqli_real_escape_string($con, $_POST['email']);
+
+
+    $query = "DELETE FROM user_departamento_tipo WHERE id_user = $id_user";
+    $queryDel_result = mysqli_query($con, $query);
+    if (!$queryDel_result) {
+        exit();
+    }
 
     for ($i = 0; $i <= 5; $i++) {
-        $departamento = mysqli_real_escape_string($con, $_POST["departamentos{$i}"]);
-        $permissoes = mysqli_real_escape_string($con, $_POST["permissoes{$i}"]);
 
-        $query = "INSERT INTO user_departamento_tipo VALUES";
+        if (isset($_POST["departamento{$i}"], $_POST["permissoes{$i}"])) {
+            $departamento = mysqli_real_escape_string($con, $_POST["departamento{$i}"]);
+            $permissoes = mysqli_real_escape_string($con, $_POST["permissoes{$i}"]);
+
+            $query = "INSERT INTO user_departamento_tipo(id_user,id_departamento,id_tipo) VALUES ('$id_user','$departamento','$permissoes')";
+
+            $queryInsert_result = mysqli_query($con, $query);
+            if (!$queryInsert_result) {
+                exit();
+            }
+        }
+    }
+
+    if (!empty($_POST['telefone'])) {
+        $telemovel = mysqli_real_escape_string($con, $_POST['telefone']);
+        $update_parts[] = "telefone = $telemovel";
+    }
+
+    $update_query = "UPDATE user SET nome = '$nome', email = '$email', username = '$username'";
+    if (!empty($update_parts)) {
+        $update_query .= ", " . implode(", ", $update_parts);
+    }
+    $update_query .= " WHERE id_user = $id_user";
 
 
+    $queryUpd_exec = mysqli_query($con, $update_query);
+
+    if ($queryUpd_exec) {
+
+
+
+        $_SESSION['alert'] = '<i class="bi bi-check-circle-fill"></i> Sucesso ao atualizar os detalhes';
+        $_SESSION['alertClass'] = "success";
+        header('Location: .././?op=5');
+        exit();
+    } else {
+        $_SESSION['alert'] = '<i class="bi bi-exclamation-triangle-fill"></i>Erro ao atualizar os detalhes';
+        $_SESSION['alertClass'] = "danger";
+        header('Location: .././?op=5');
+        exit();
     }
 
 
+}
+
+
+
+if (isset($_POST['nome'], $_POST['username'], $_POST['email'], $_POST['password']) && $_POST['typeForm'] == 'Add') {
+
+    $nome = mysqli_real_escape_string($con, $_POST['nome']);
+    $username = mysqli_real_escape_string($con, $_POST['username']);
+    $email = mysqli_real_escape_string($con, $_POST['email']);
+    $pass = sha1($_POST['password']);
+
+
+
+    $check_query = "SELECT nome FROM user WHERE (email = '$email' OR username = '$username')";
+    $check = mysqli_query($con, $check_query);
+
+    if ($check && mysqli_num_rows($check) >= 1) {
+
+        $_SESSION['alert'] = '<i class="bi bi-exclamation-triangle-fill"></i> Já existe alguém com esse Username/Email';
+        $_SESSION['alertClass'] = "warning";
+        header('Location: .././?op=5');
+        exit();
+    }
+
+
+    $telefone = 'null';
+    if (!empty($_POST['telefone'])) {
+        $telefone = mysqli_real_escape_string($con, $_POST['telefone']);
+    }
+
+    $insert_query = "INSERT INTO user(nome,username,password,email,telefone) VALUES ('$nome','$username', '$pass','$email', $telefone)";
+
+
+    $queryinsert_exec = mysqli_query($con, $insert_query);
+
+    if ($queryinsert_exec) {
+
+
+        $id_user = mysqli_insert_id($con);
+
+        $seenDepartamentos = array();
+        for ($i = 0; $i <= 5; $i++) {
+
+            if (isset($_POST["departamento{$i}"], $_POST["permissoes{$i}"])) {
+                $departamento = mysqli_real_escape_string($con, $_POST["departamento{$i}"]);
+                $permissoes = mysqli_real_escape_string($con, $_POST["permissoes{$i}"]);
+
+                if (in_array($departamento, $seenDepartamentos)) {
+                    continue;
+                }
+
+
+                $seenDepartamentos[] = $departamento;
+
+                $query = "INSERT INTO user_departamento_tipo(id_user,id_departamento,id_tipo) VALUES ('$id_user','$departamento','$permissoes')";
+
+                $queryInsert_result = mysqli_query($con, $query);
+                if (!$queryInsert_result) {
+                    exit();
+                }
+            }
+        }
+
+        $_SESSION['alert'] = '<i class="bi bi-check-circle-fill"></i> Sucesso ao criar o utilizador';
+        $_SESSION['alertClass'] = "success";
+        header('Location: .././?op=5');
+        exit();
+    } else {
+        $_SESSION['alert'] = '<i class="bi bi-exclamation-triangle-fill"></i>Erro ao criar o utilizador';
+        $_SESSION['alertClass'] = "danger";
+        header('Location: .././?op=5');
+        exit();
+    }
+
+
+}
+
+
+if (isset($_POST['id_user']) && $_POST['type'] == 'delete') {
+
+    $id_user = mysqli_real_escape_string($con, $_POST['id_user']);
+
+    $query = "DELETE FROM user WHERE id_user = '$id_user'";
+
+    $queryUser_exec = mysqli_query($con, $query);
+
+    if ($queryUser_exec) {
+
+        $query = "DELETE FROM user_departamento_tipo WHERE id_user = '$id_user'";
+        $queryDeps_exec = mysqli_query($con, $query);
+
+        if ($queryDeps_exec) {
+            echo json_encode(array("status" => "success"));
+            exit();
+        }
+    } else {
+
+        echo json_encode(array("status" => "error"));
+        exit();
+    }
+
+
+}
+
+
+if (isset($_POST['id_user'], $_POST['password']) && $_POST['typeForm'] == 'password') {
+
+    $id_user = mysqli_real_escape_string($con, $_POST['id_user']);
+    $password = sha1($_POST['password']);
+
+    $query = "UPDATE user SET password = '$password' WHERE id_user = '$id_user'";
+
+    $queryUser_exec = mysqli_query($con, $query);
+
+    if ($queryUser_exec) {
+
+        $_SESSION['alert'] = '<i class="bi bi-check-circle-fill"></i> Sucesso ao alterar a password';
+        $_SESSION['alertClass'] = "success";
+        header('Location: .././?op=5');
+        exit();
+
+    } else {
+
+        $_SESSION['alert'] = '<i class="bi bi-exclamation-triangle-fill"></i>Erro ao alterar a passwro';
+        $_SESSION['alertClass'] = "danger";
+        header('Location: .././?op=5');
+        exit();
+    }
 
 
 }
