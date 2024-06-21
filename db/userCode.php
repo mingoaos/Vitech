@@ -124,7 +124,7 @@ function getDepUser($con, $id_user){
             $DepPerms[] = [
                 'id_departamento' => $id_departamento,
                 'departamento' => $departamento,
-                'id_permissao'=> $permissoes,
+                'id_permissao'=> $id_permissoes,
                 'permissoes' => $permissoes
             ];
         }
