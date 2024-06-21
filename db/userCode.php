@@ -89,9 +89,24 @@ $query_result = mysqli_query($con, $query);
 if ($query_result && mysqli_num_rows($query_result) > 0) {
      
     $row = mysqli_fetch_assoc($query_result);
-   
+    
+    $row['DepPerms'] = getDepUser($con,$id_user);
 
-    $queryPerms = "SELECT d.nome as departamento, t.nome as permissoes FROM user_departamento_tipo as udt
+} else {
+    $row = null; 
+}
+
+echo json_encode($row);
+
+}
+
+
+
+
+
+function getDepUser($con, $id_user){
+
+    $queryPerms = "SELECT d.id_departamento, d.nome as departamento, t.id_tipo_user, t.nome as permissoes FROM user_departamento_tipo as udt
         INNER JOIN departamento as d ON udt.id_departamento = d.id_departamento
         INNER JOIN tipo_user as t ON udt.id_tipo = t.id_tipo_user
         WHERE id_user = $id_user";
@@ -100,24 +115,23 @@ if ($query_result && mysqli_num_rows($query_result) > 0) {
 
     if ($queryPerms_result && mysqli_num_rows($queryPerms_result) > 0) {
         $DepPerms = [];
-        while ($perms_row = mysqli_fetch_assoc($queryPerms_result)) { // Use $perms_row instead of $row
+        while ($perms_row = mysqli_fetch_assoc($queryPerms_result)) { 
+            $id_departamento = $perms_row['id_departamento'];
+            $id_permissoes = $perms_row['id_tipo_user'];
             $departamento = $perms_row['departamento'];
             $permissoes = $perms_row['permissoes'];
 
             $DepPerms[] = [
+                'id_departamento' => $id_departamento,
                 'departamento' => $departamento,
+                'id_permissao'=> $permissoes,
                 'permissoes' => $permissoes
             ];
         }
-        $row['DepPerms'] = $DepPerms; // Store department permissions in $row array
+        return $DepPerms; 
     } else {
-        $row['DepPerms'] = []; // If no department permissions found, set as empty array
+        return null; 
     }
-} else {
-    $row = null; // If no user found, set $row to null
-}
-
-echo json_encode($row);
 
 }
 
