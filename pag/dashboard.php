@@ -102,7 +102,7 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
               <h5 class="card-title">Alterações de estado</h5>
 
               <?php
-              $acoes = atualizarRecentes($con);
+              $acoes = atualizarRecentes($con,true);
               if (!empty($acoes)) {
                 ?>
                 <table class="table table-borderless table-hover ">

@@ -1,7 +1,7 @@
 <?php
 session_start();
 require "./dbcon.php";
-
+require "./libphp.php";
 
 //Query para inserir respostas nos tickets
 if (isset($_POST['resposta'], $_POST['id_ticket'])) {
@@ -21,9 +21,16 @@ if (isset($_POST['resposta'], $_POST['id_ticket'])) {
         $result_link = mysqli_query($con, $query_link);
 
         if ($result_link) {
+            $query = "SELECT status FROM ticket WHERE id_ticket = '$id_ticket'";
+            $result_query = mysqli_query($con, $query);
+            if ($result_query) {
+                $status = mysqli_fetch_array($result_query);
+                addAcoes($id_ticket, 'Adicionou um comentário no ticket', $status['status'], $con);
+            }
 
             $_SESSION['alert'] = '<i class="bi bi-check-circle-fill"></i> Resposta enviada com sucesso';
             $_SESSION['alertClass'] = 'success';
+
         } else {
 
             $_SESSION['alert'] = '<i class="bi bi-check-circle-fill"></i> Erro ao associar a resposta ao ticket: ' . mysqli_error($con);
@@ -36,7 +43,7 @@ if (isset($_POST['resposta'], $_POST['id_ticket'])) {
     }
 
 
-    header("Location: .././?op=4&id=".$id_ticket);
+    header("Location: .././?op=4&id=" . $id_ticket);
     exit();
 }
 

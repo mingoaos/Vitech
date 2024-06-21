@@ -160,22 +160,37 @@ function getTicket($con, $idticket)
 }
 
 
-function atualizarRecentes($con)
+function atualizarRecentes($con,$status_change = false)
 {
+    $status_clause = "";
+    if ($status_change) {
+        $status_clause = " AND a.acao = 'Alterou o estado no ticket'";
+    }
+    
+    // Assuming $db is your database connection object
+    $query = "
+        SELECT a.*, 
+               DATE_FORMAT(a.data_acao, '%e %b %Y, %H:%i', 'pt_PT') AS data_formated, 
+               t.tipo_ticket as tipo_ticket, 
+               t.assunto_local AS assunto_local, 
+               u.nome AS nome_user
+        FROM acoes AS a
+        INNER JOIN ticket AS t ON a.id_ticket = t.id_ticket
+        INNER JOIN user AS u ON a.id_user = u.id_user
+        INNER JOIN user_departamento_tipo AS udt ON u.id_user = udt.id_user
+        WHERE 
+            (
+                (t.id_user = {$_SESSION['user']['id_user']} OR t.id_user_atribuido = {$_SESSION['user']['id_user']}) OR 
+                (udt.id_tipo = 'G' AND udt.id_departamento = t.id_departamento_destino) OR 
+                udt.id_tipo = 'A'
+            ) {$status_clause}
+        GROUP BY a.id_acao  
+        ORDER BY MAX(a.data_acao) DESC
+        LIMIT 5;
+    ";
+    
 
-    $query = "SELECT a.*, DATE_FORMAT(a.data_acao, '%e %b %Y, %H:%i', 'pt_PT') AS data_formated ,t.tipo_ticket as tipo_ticket, t.assunto_local AS assunto_local, u.nome AS nome_user
-FROM acoes AS a
-INNER JOIN ticket AS t ON a.id_ticket = t.id_ticket
-INNER JOIN user AS u ON a.id_user = u.id_user
-INNER JOIN user_departamento_tipo AS udt ON u.id_user = udt.id_user
-WHERE 
-    (t.id_user = {$_SESSION['user']['id_user']} OR t.id_user_atribuido = {$_SESSION['user']['id_user']}) OR 
-    (udt.id_tipo = 'G' AND udt.id_departamento = t.id_departamento_destino) OR 
-    udt.id_tipo = 'A'
 
-GROUP BY a.id_acao  
-ORDER BY MAX(a.data_acao) DESC
-LIMIT 5;";
 
     $query_exec = mysqli_query($con, $query);
 
