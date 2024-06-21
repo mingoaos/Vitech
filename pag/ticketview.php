@@ -12,13 +12,6 @@ $resposta = getRespostas($con, $id);
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accordion Example</title>
     <style>
         .V1 {
             display: flex;
@@ -48,7 +41,8 @@ $resposta = getRespostas($con, $id);
                 margin-top: 20px;
             }
         }
-        
+
+  
     </style>
 
     <script>
@@ -62,23 +56,22 @@ $resposta = getRespostas($con, $id);
         }
 
         function aparecerlocalrespostas() {
-    var respostasDadas = document.getElementById("respostasDadas");
-    var iconBtnAparecer = $("#iconBtnAparecer");
+            var respostasDadas = document.getElementById("respostasDadas");
+            var iconBtnAparecer = $("#iconBtnAparecer");
 
-    if (respostasDadas.style.display === "none") {
-        iconBtnAparecer.removeClass("bi-plus-lg").addClass("bi-dash-lg");
-        respostasDadas.style.display = "block";
-    } else {
-        iconBtnAparecer.removeClass("bi-dash-lg").addClass("bi-plus-lg");
-        respostasDadas.style.display = "none";
-    }
-}
+            if (respostasDadas.style.display === "none") {
+                iconBtnAparecer.removeClass("bi-plus-lg").addClass("bi-dash-lg");
+                respostasDadas.style.display = "block";
+            } else {
+                iconBtnAparecer.removeClass("bi-dash-lg").addClass("bi-plus-lg");
+                respostasDadas.style.display = "none";
+            }
+        }
 
 
 
     </script>
 
-</head>
 
 <body>
     <div class="container" style="max-width: 2000px;">
@@ -110,7 +103,7 @@ $resposta = getRespostas($con, $id);
                                                 </div>
 
                                             </div>
-                                           
+
                                         </div>
                                     </h2>
                                     <div class="accordion-collapse collapse show" aria-labelledby="headingOne"
@@ -149,7 +142,7 @@ $resposta = getRespostas($con, $id);
                             </div>
                             <hr style="width: 100%; margin-top: 15px; border-width: 0.01em;">
                             <div style="display: flex; align-items: center; gap: 10px; margin-top: -5px;">
-                                <button class="btn grandão" 
+                                <button class="btn grandão"
                                     style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background-color: #EEEEEE; color: black"
                                     onclick="aparecerlocalrespostas()">
                                     <i id="iconBtnAparecer" class="bi bi-plus-lg"></i>
@@ -158,45 +151,47 @@ $resposta = getRespostas($con, $id);
                             </div>
 
                             <div id="respostasDadas" style="display: none;">
-                            
-                                <?php 
-                                if (!empty($resposta) && is_array($resposta)){
 
-                                
-                                foreach ($resposta as $index => $row) { ?>
-                                    <div style="display: flex; margin-top: 20px;">
-                                        <i class="bi bi-person-circle" style="font-size: 50px; margin-right: 15px;"></i>
-                                        <div class="accordion" id="accordionExample" style="width: 100%">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="heading<?= $index ?>">
-                                                    <div class="fs20"
-                                                        style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: flex; height: 40px; align-items: center; padding-left: 10px; background-color: transparent; border-bottom: 1px solid gray;">
-                                                        <div style="display: flex;">
-                                                            <div class="mx-2"
-                                                                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                                <?= $row['nome'] ?>
+                                <?php
+                                if (!empty($resposta) && is_array($resposta)) {
+
+
+                                    foreach ($resposta as $index => $row) { ?>
+                                        <div style="display: flex; margin-top: 20px;">
+                                            <i class="bi bi-person-circle" style="font-size: 50px; margin-right: 15px;"></i>
+                                            <div class="accordion" id="accordionExample" style="width: 100%">
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="heading<?= $index ?>">
+                                                        <div class="fs20"
+                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: flex; height: 40px; align-items: center; padding-left: 10px; background-color: transparent; border-bottom: 1px solid gray;">
+                                                            <div style="display: flex;">
+                                                                <div class="mx-2"
+                                                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                                    <?= $row['nome'] ?>
+                                                                </div>
+                                                                <span
+                                                                    style="color: gray; font-size: 15px; display:flex; align-items: last baseline; margin-bottom: 3px;">
+                                                                    <?= $row['data'] ?>
+                                                                </span>
                                                             </div>
-                                                            <span
-                                                                style="color: gray; font-size: 15px; display:flex; align-items: last baseline; margin-bottom: 3px;">
-                                                                 <?= $row['data'] ?>
-                                                            </span>
+                                                            <div style="margin-left: auto; margin-right: 13px;">
+                                                                <button style="font-size: 20px; color:red;" class="btn"><i
+                                                                        class="bi bi-trash-fill"></i></button>
+                                                            </div>
                                                         </div>
-                                                        <div style="margin-left: auto; margin-right: 13px;">
-                                                            <button style="font-size: 20px; color:red;" class="btn"><i class="bi bi-trash-fill"></i></button>
+                                                    </h2>
+                                                    <div id="collapse<?= $index ?>" class="accordion-collapse collapse show"
+                                                        aria-labelledby="heading<?= $index ?>"
+                                                        data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <?= $row['resposta'] ?>
                                                         </div>
-                                                    </div>
-                                                </h2>
-                                                <div id="collapse<?= $index ?>" class="accordion-collapse collapse show"
-                                                    aria-labelledby="heading<?= $index ?>"
-                                                    data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
-                                                        <?= $row['resposta'] ?>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                <?php } }?>
+                                    <?php }
+                                } ?>
                             </div>
 
                             <hr style="border-width: 0.01em; width: 100%; margin-top: 15px;">
@@ -254,8 +249,8 @@ $resposta = getRespostas($con, $id);
                                                             aria-haspopup="true" aria-expanded="false">
                                                             <i class="bi bi-gear-fill"></i>
                                                         </a>
-                                                        <div class="dropdown-menu" style="z-index: 1050;"
-                                                            aria-labelledby="dropdownMenuButton">
+                                                        <div class="dropdown-menu" style="z-index: 1060;" aria-labelledby="dropdownMenuButton">
+                                                            <h6 class="dropdown-header">Estados</h6>
                                                             <a class="dropdown-item" href="#"
                                                                 onclick="setStatus('P', 'Pendente','red','<?= $ticket['id_ticket'] ?>')"><i
                                                                     class="mx-2 bi bi-circle-fill"
@@ -291,15 +286,28 @@ $resposta = getRespostas($con, $id);
                                             <div style="display:flex;">
                                                 <span>Técnico atribuído</span>
                                             </div>
-                                            <div style="display: flex; align-items: center; margin-top: 3px;">
+                                            <div
+                                                style="display: flex; align-items: center; margin-top: 3px; position: relative; z-index: 1050;">
                                                 <i class="bi bi-person-circle"
                                                     style="margin-right: 10px; font-size: 25px;"></i>
-                                                <span><?= !empty($ticket['user_atribuido']) ? $ticket['user_atribuido'] : 'Nenhum Técnico atribuído' ?></span>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary-overlay dropdown-toggle"
+                                                        type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                        Dropdown button
+                                                    </button>
+                                                    <ul class="dropdown-menu pt-0" aria-labelledby="dropdownMenuButton1"
+                                                        style="position: absolute; z-index: 1060;">
+                                                        <input type="text"
+                                                            class="form-control border-0 border-bottom shadow-none mb-2"
+                                                            placeholder="Search..." oninput="handleInput()">
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <hr style="border-width: 0.01em; width: 100%; margin: 0px;">
+                                    <hr style="z-index: 1000;border-width: 0.01em; width: 100%; margin: 0px;">
                                 </div>
                             </div>
                         </div>
@@ -311,4 +319,6 @@ $resposta = getRespostas($con, $id);
     </div>
 </body>
 
-</html>
+<script>
+    
+</script>
