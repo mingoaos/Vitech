@@ -250,7 +250,7 @@ $Perms = getPerms($con);
         $('.verMaisbtn').click(function () {
 
             var userId = $(this).data('userid');
-
+            
             $.ajax({
                 url: "./db/userCode.php",
                 type: "POST",
@@ -409,7 +409,7 @@ $Perms = getPerms($con);
                             }
                         },
                         error: function (xhr, status, error) {
-                            Swal.fire('Erro', 'Erro ao apagar a notícia', 'error');
+                            Swal.fire('Erro', 'Erro ao apagar o utilizador', 'error');
                         }
                     });
                 }

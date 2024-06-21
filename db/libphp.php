@@ -67,6 +67,27 @@ function getUser($con)
 
 }
 
+function getDep($con)
+{
+    $query = "SELECT id_departamento, nome
+    FROM departamento ";
+
+
+    $query_run = mysqli_query($con, $query);
+
+    if ($query_run && mysqli_num_rows($query_run) > 0) {
+        $dep = [];
+        while ($row = mysqli_fetch_assoc($query_run)) {
+            $dep[] = $row;
+        }
+        return $dep;
+    } else {
+        return false;
+    }
+
+
+}
+
 
 function getTicket($con, $idticket)
 {

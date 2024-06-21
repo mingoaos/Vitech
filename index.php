@@ -312,7 +312,7 @@ if (isset($_GET['op']))
               </a>
             </li>
             <li>
-              <a href="tables-data.html">
+              <a href="./?op=8">
                 <i class="bi bi-circle"></i><span>Departamentos</span>
               </a>
             </li>
@@ -373,7 +373,7 @@ if (isset($_GET['op']))
           $pag_file = "./pag/inserirTicketForm.php";
           break;
         case 8:
-          $pag_file = "./pag/faq.php";
+          $pag_file = "./pag/departamento.php";
           break;
 
         default:
