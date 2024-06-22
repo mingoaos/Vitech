@@ -301,22 +301,24 @@ $resposta = getRespostas($con, $id);
                                                 style="display: flex; align-items: center; margin-top: 3px; position: relative; z-index: 1050;">
                                                 <i class="bi bi-person-circle"
                                                     style="margin-right: 10px; font-size: 25px;"></i>
-
                                                 <div class="dropdown">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                        id="dropdownMenuButton1" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false">
-                                                        Open this select menu
+                                                    <button class="btn btn-secondary-overlay dropdown-toggle"
+                                                        type="button" id="userDropdown" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                        <?= !empty($ticket['user_atribuido']) ? $ticket['user_atribuido'] : 'Nenhum Técnico atribuído' ?>
                                                     </button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                        <input type="text" placeholder="Search.." id="myInput"
-                                                            class="form-control">
-                                                        <a class="dropdown-item" href="#" data-value="1">One</a>
-                                                        <a class="dropdown-item" href="#" data-value="2">Two</a>
-                                                        <a class="dropdown-item" href="#" data-value="3">Three</a>
-                                                    </div>
-                                                </div>
+                                                    <ul class="dropdown-menu pt-0" aria-labelledby="userDropdown"
+                                                        id="divDropdown" style="position: absolute; z-index: 1060;">
+                                                        <input type="text" id="input"
+                                                            class="form-control border-0 border-bottom shadow-none mb-2"
+                                                            placeholder="Search..." onkeyup="filterFunction()">
+                                                        <a class="btn btnUserAtrib" data-userid="null" href="#">Nenhum
+                                                            Técnico</a>
+                                                        <div id="addUserDiv">
 
+                                                        </div>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -337,29 +339,47 @@ $resposta = getRespostas($con, $id);
 
 
     $(document).ready(function () {
-        var userid = <?= json_encode($ticket['id_user_atribuido']); ?>;
         var allusers = <?= json_encode(getUser($con)); ?>;
+        var id_ticket = <?= json_encode($id); ?>;
+        var html = ``;
 
         allusers.forEach((user) => {
-
-            if (userid == id) {
-                html = '<a class="btn w-100" href="#">aaaa</a>';
-            }
-
+            html += `<a class="btn btnUserAtrib" data-userid="${user.id_user}" href="#">${user.nome}</a>`;
         });
 
-    })
+        $('#addUserDiv').append(html);
 
 
-    function addUserDropdown(id, nome) {
+        $(document).on('click', '.btnUserAtrib', function () {
+            var userId = $(this).data('userid');
 
 
-    }
+            $.ajax({
+                url: './db/userAtribCode.php',
+                type: 'POST',
+                data: { id_ticket: id_ticket, id_user: userId, type: 'mudarAtribuido' },
+                success(response) {
+
+                    var data = JSON.parse(response)[0];
+                    if (data.action === "success") {
+                        $('#userDropdown').text(data.nome);
+                    }
+
+                }
+            })
+
+
+        });
+    });
+
+
+
+
 
 
     function filterFunction() {
-        const input = $('#myInput').val().toUpperCase();
-        const div = $('#myDropdown');
+        const input = $('#input').val().toUpperCase();
+        const div = $('#divDropdown');
         const a = div.find('a');
 
         a.each(function () {
@@ -370,5 +390,5 @@ $resposta = getRespostas($con, $id);
                 $(this).hide();
             }
         });
-    }   
+    }
 </script>
