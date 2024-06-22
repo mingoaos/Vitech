@@ -36,7 +36,7 @@ if (isset($_POST['id_user'], $_POST['id_ticket'], $_POST['type']) && $_POST['typ
             $row = mysqli_fetch_array($result_query);
             $nome = isset($row['nome']) ? $row['nome'] : "Nenhum Técnico atribuído";
 
-            if (addAcoes($id_ticket, 'Alterou o Técnico atribuído no ticket', $row['status'], $con)) {
+            if (addAcoes($id_ticket, 'alterou o Técnico atribuído no ticket', $row['status'], $con)) {
 
                 $data[] = [
                     'action' => 'success',
