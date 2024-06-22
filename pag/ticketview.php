@@ -12,65 +12,71 @@ $resposta = getRespostas($con, $id);
 
 ?>
 
-    <style>
+<style>
+    .V1 {
+        display: flex;
+    }
+
+    .V2 {
+        width: 75%;
+    }
+
+    .V3 {
+        width: 25%;
+        margin-left: auto;
+    }
+
+    @media (max-width: 1080px) {
         .V1 {
-            display: flex;
+            display: block;
         }
 
         .V2 {
-            width: 75%;
+            width: 100%;
         }
 
         .V3 {
-            width: 25%;
-            margin-left: auto;
+            width: 100%;
+            margin-left: 0;
+            margin-top: 20px;
         }
+    }
 
-        @media (max-width: 1080px) {
-            .V1 {
-                display: block;
-            }
 
-            .V2 {
-                width: 100%;
-            }
+    #addUserDiv a {
+        display: block;
+        margin-right: 0;
+        box-sizing: border-box;
+        text-align: left;
+    }
+</style>
 
-            .V3 {
-                width: 100%;
-                margin-left: 0;
-                margin-top: 20px;
-            }
+<script>
+    function aparecerlocalresponder() {
+        var responseDiv = document.getElementById("responseDiv");
+        if (responseDiv.style.display === "none") {
+            responseDiv.style.display = "block";
+        } else {
+            responseDiv.style.display = "none";
         }
+    }
 
-  
-    </style>
+    function aparecerlocalrespostas() {
+        var respostasDadas = document.getElementById("respostasDadas");
+        var iconBtnAparecer = $("#iconBtnAparecer");
 
-    <script>
-        function aparecerlocalresponder() {
-            var responseDiv = document.getElementById("responseDiv");
-            if (responseDiv.style.display === "none") {
-                responseDiv.style.display = "block";
-            } else {
-                responseDiv.style.display = "none";
-            }
+        if (respostasDadas.style.display === "none") {
+            iconBtnAparecer.removeClass("bi-plus-lg").addClass("bi-dash-lg");
+            respostasDadas.style.display = "block";
+        } else {
+            iconBtnAparecer.removeClass("bi-dash-lg").addClass("bi-plus-lg");
+            respostasDadas.style.display = "none";
         }
-
-        function aparecerlocalrespostas() {
-            var respostasDadas = document.getElementById("respostasDadas");
-            var iconBtnAparecer = $("#iconBtnAparecer");
-
-            if (respostasDadas.style.display === "none") {
-                iconBtnAparecer.removeClass("bi-plus-lg").addClass("bi-dash-lg");
-                respostasDadas.style.display = "block";
-            } else {
-                iconBtnAparecer.removeClass("bi-dash-lg").addClass("bi-plus-lg");
-                respostasDadas.style.display = "none";
-            }
-        }
+    }
 
 
 
-    </script>
+</script>
 
 
 <body>
@@ -174,10 +180,13 @@ $resposta = getRespostas($con, $id);
                                                                     <?= $row['data'] ?>
                                                                 </span>
                                                             </div>
-                                                            <div style="margin-left: auto; margin-right: 13px;">
-                                                                <button style="font-size: 20px; color:red;" class="btn"><i
-                                                                        class="bi bi-trash-fill"></i></button>
-                                                            </div>
+                                                            <?php if ($row['id_user'] == $_SESSION['user']['id_user']): ?>
+                                                                <div style="margin-left: auto; margin-right: 13px;">
+                                                                    <button style="font-size: 20px; color:red;" class="btn"><i
+                                                                            class="bi bi-trash-fill"></i></button>
+                                                                </div>
+                                                            <?php endif; ?>
+
                                                         </div>
                                                     </h2>
                                                     <div id="collapse<?= $index ?>" class="accordion-collapse collapse show"
@@ -249,7 +258,8 @@ $resposta = getRespostas($con, $id);
                                                             aria-haspopup="true" aria-expanded="false">
                                                             <i class="bi bi-gear-fill"></i>
                                                         </a>
-                                                        <div class="dropdown-menu" style="z-index: 1060;" aria-labelledby="dropdownMenuButton">
+                                                        <div class="dropdown-menu" style="z-index: 1060;"
+                                                            aria-labelledby="dropdownMenuButton">
                                                             <h6 class="dropdown-header">Estados</h6>
                                                             <a class="dropdown-item" href="#"
                                                                 onclick="setStatus('P', 'Pendente','red','<?= $ticket['id_ticket'] ?>')"><i
@@ -281,7 +291,8 @@ $resposta = getRespostas($con, $id);
                                         </div>
                                     </div>
                                     <hr style="border-width: 0.01em; width: 100%; margin: 0px;">
-                                    <div class="accordion-body" style="overflow: hidden; text-overflow: ellipsis;">
+                                    <div class="accordion-body"
+                                        style="overflow: visible !important; text-overflow: ellipsis;">
                                         <div>
                                             <div style="display:flex;">
                                                 <span>Técnico atribuído</span>
@@ -290,19 +301,22 @@ $resposta = getRespostas($con, $id);
                                                 style="display: flex; align-items: center; margin-top: 3px; position: relative; z-index: 1050;">
                                                 <i class="bi bi-person-circle"
                                                     style="margin-right: 10px; font-size: 25px;"></i>
+
                                                 <div class="dropdown">
-                                                    <button class="btn btn-secondary-overlay dropdown-toggle"
-                                                        type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        Dropdown button
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                        id="dropdownMenuButton1" data-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false">
+                                                        Open this select menu
                                                     </button>
-                                                    <ul class="dropdown-menu pt-0" aria-labelledby="dropdownMenuButton1"
-                                                        style="position: absolute; z-index: 1060;">
-                                                        <input type="text"
-                                                            class="form-control border-0 border-bottom shadow-none mb-2"
-                                                            placeholder="Search..." oninput="handleInput()">
-                                                    </ul>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                        <input type="text" placeholder="Search.." id="myInput"
+                                                            class="form-control">
+                                                        <a class="dropdown-item" href="#" data-value="1">One</a>
+                                                        <a class="dropdown-item" href="#" data-value="2">Two</a>
+                                                        <a class="dropdown-item" href="#" data-value="3">Three</a>
+                                                    </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -320,5 +334,41 @@ $resposta = getRespostas($con, $id);
 </body>
 
 <script>
-    
+
+
+    $(document).ready(function () {
+        var userid = <?= json_encode($ticket['id_user_atribuido']); ?>;
+        var allusers = <?= json_encode(getUser($con)); ?>;
+
+        allusers.forEach((user) => {
+
+            if (userid == id) {
+                html = '<a class="btn w-100" href="#">aaaa</a>';
+            }
+
+        });
+
+    })
+
+
+    function addUserDropdown(id, nome) {
+
+
+    }
+
+
+    function filterFunction() {
+        const input = $('#myInput').val().toUpperCase();
+        const div = $('#myDropdown');
+        const a = div.find('a');
+
+        a.each(function () {
+            const txtValue = $(this).text();
+            if (txtValue.toUpperCase().indexOf(input) > -1) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    }   
 </script>

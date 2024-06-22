@@ -103,6 +103,7 @@ function getTicket($con, $idticket)
         t.urgencia,
         t.status,
         u2.nome AS user_atribuido,
+        u2.id_user AS id_user_atribuido,
         t.data_atribuido
     FROM
         ticket t
@@ -269,7 +270,7 @@ function getRespostas($con, $id_ticket)
     $id_ticket = mysqli_real_escape_string($con, $id_ticket);
 
     $query = "
-        SELECT r.*,DATE_FORMAT(r.data, '%W, %e %M,  %H:%i','pt_PT') as data, u.nome 
+        SELECT r.*,DATE_FORMAT(r.data, '%W, %e %M,  %H:%i','pt_PT') as data, u.nome, u.id_user
         FROM resposta AS r 
         INNER JOIN resposta_ticket AS rt
         ON rt.id_resposta = r.id_resposta 
