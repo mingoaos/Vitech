@@ -266,62 +266,6 @@ function tempoDecorrido($data_acao)
 
 
 
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\Exception;
-    require_once 'vendor/autoload.php';
-    
-function sendEmail($id_ticket, $text, $con)
-{
-    
-    // Fetch email addresses and other details
-    $query = "SELECT u1.email as emailUser, u2.email as emailTec
-    FROM ticket t 
-    INNER JOIN user u1 ON t.id_user = u1.id_user 
-    INNER JOIN user u2 ON t.id_user_atribuido = u2.id_user 
-    WHERE id_ticket = $id_ticket";
-
-    $query_result = mysqli_query($con, $query);
-    if (mysqli_num_rows($query_result) > 0) {
-        $row = mysqli_fetch_array($query_result);
-
-        $emailUser = $row['emailUser'];
-        $emailTec = $row['emailTec'];
-    }
-    // Create a new PHPMailer instance
-    $mail = new PHPMailer(true);
-    
-    try {
-        // Server settings
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';  
-        $mail->SMTPAuth = true;
-        $mail->Username = 'vitech.informacoes@gmail.com'; 
-        $mail->Password = 'joni1227';        
-        $mail->SMTPSecure = 'tls';        
-        $mail->Port = 587;                
-
-        // Recipients
-        $mail->setFrom('vitech.informacoes@gmail.com', 'Vitech');
-        $mail->addAddress($emailUser);
-        $mail->addAddress($emailTec);
-        $mail->addCC('vitech.informacoes@gmail.com');
-
-        // Content
-        $mail->isHTML(true);
-        $mail->Subject = "Alteração no ticket $id_ticket";
-        $mail->Body    = $text;
-
-        $mail->send();
-        return true; // Email sent successfully
-    } catch (Exception $e) {
-        error_log("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
-        return false; // Email sending failed
-    }
-}
-
-
-
-
 function getRespostas($con, $id_ticket)
 {
 

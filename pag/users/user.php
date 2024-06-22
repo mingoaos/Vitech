@@ -66,9 +66,8 @@ $Perms = getPerms($con);
                                         <i class="bi bi-key-fill"></i>
                                     </button>
 
-                                    <button type="button" data-userid="<?= $row['id_user']; ?>"
-                                        data-toggle="tooltip" data-placement="top" title="Eliminar"
-                                        class="btn btn-outline-danger btn-sm deleteBtn">
+                                    <button type="button" data-userid="<?= $row['id_user']; ?>" data-toggle="tooltip"
+                                        data-placement="top" title="Eliminar" class="btn btn-outline-danger btn-sm deleteBtn">
                                         <i class="bi bi-trash-fill"></i>
                                     </button>
 
@@ -250,7 +249,7 @@ $Perms = getPerms($con);
         $('.verMaisbtn').click(function () {
 
             var userId = $(this).data('userid');
-            
+
             $.ajax({
                 url: "./db/userCode.php",
                 type: "POST",
@@ -418,14 +417,14 @@ $Perms = getPerms($con);
         })
 
 
-        $('.passBtn').click(function(){
+        $('.passBtn').click(function () {
 
             var userId = $(this).data('userid');
 
             $('#passModal').modal('show');
             $('#passid_user').val(userId);
             $('#passtypeForm').val('password');
-            
+
         })
 
 
@@ -438,18 +437,18 @@ $Perms = getPerms($con);
                 <div class="col-md-${includeButton ? 7 : 8}">
                     <select class="form-select" name="departamento${currentRowCount}" required>
                         <?php foreach ($Deps as $row) { ?>
-                                                                        <option value="<?= $row['id_departamento'] ?>" ${selectedDepartamento == '<?= $row['id_departamento'] ?>' ? 'selected' : ''}>
-                                                                            <?= $row['nome'] ?>
-                                                                        </option>
+                                                                            <option value="<?= $row['id_departamento'] ?>" ${selectedDepartamento == '<?= $row['id_departamento'] ?>' ? 'selected' : ''}>
+                                                                                <?= $row['nome'] ?>
+                                                                            </option>
                         <?php } ?>
                     </select>
                 </div>
                 <div class="col-md-4">
                     <select class="form-select" name="permissoes${currentRowCount}" required>
                         <?php foreach ($Perms as $row) { ?>
-                                                                        <option value="<?= $row['id_tipo_user'] ?>" ${selectedPermissoes == '<?= $row['id_tipo_user'] ?>' ? 'selected' : ''}>
-                                                                            <?= $row['nome'] ?>
-                                                                        </option>
+                                                                            <option value="<?= $row['id_tipo_user'] ?>" ${selectedPermissoes == '<?= $row['id_tipo_user'] ?>' ? 'selected' : ''}>
+                                                                                <?= $row['nome'] ?>
+                                                                            </option>
                         <?php } ?>
                     </select>
                 </div>`;
@@ -465,9 +464,6 @@ $Perms = getPerms($con);
             buttonIdCounter++;
             return template;
         }
-
-
-
     })
 
 

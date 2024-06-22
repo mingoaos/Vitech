@@ -26,10 +26,10 @@ if (isset($_POST['resposta'], $_POST['id_ticket'])) {
             if ($result_query) {
                 $status = mysqli_fetch_array($result_query);
                 addAcoes($id_ticket, 'adicionou um comentário no ticket', $status['status'], $con);
-                if(sendEmail($id_ticket,'Foi adicionado um comentário em um dos seus tickets',$con)){
-                    $_SESSION['alert'] = '<i class="bi bi-check-circle-fill"></i> Resposta enviada com sucesso';
-                    $_SESSION['alertClass'] = 'success';
-                }
+
+                $_SESSION['alert'] = '<i class="bi bi-check-circle-fill"></i> Resposta enviada com sucesso';
+                $_SESSION['alertClass'] = 'success';
+
             }
 
             $_SESSION['alert'] = '<i class="bi bi-check-circle-fill"></i> Erro ao associar a resposta ao ticket: ' . mysqli_error($con);
