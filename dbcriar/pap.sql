@@ -145,7 +145,10 @@ INSERT INTO `resposta` (`id_resposta`, `id_user`, `data`, `resposta`) VALUES
 
 CREATE TABLE `resposta_ticket` (
   `id_resposta` int(9) NOT NULL,
-  `id_ticket` int(9) NOT NULL
+  `id_ticket` int(9) NOT NULL,
+  PRIMARY KEY (`id_resposta`, `id_ticket`),
+  FOREIGN KEY (`id_resposta`) REFERENCES `resposta` (`id_resposta`) ON DELETE CASCADE,
+  FOREIGN KEY (`id_ticket`) REFERENCES `ticket` (`id_ticket`) ON DELETE CASCADE
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
@@ -186,13 +189,13 @@ CREATE TABLE `ticket` (
 --
 
 INSERT INTO `ticket` (`id_ticket`, `id_user`, `data`, `tipo_ticket`, `assunto_local`, `mensagem_sintomas`, `id_departamento_destino`, `urgencia`, `status`, `id_user_atribuido`, `data_atribuido`) VALUES
-(1, 2, '2024-04-17 23:00:00', 'A', 'Como entrar no Inovar', 'Olá, não sei como entrar no inovar', 'DIF', 1, 'F', 1, '2024-04-18'),
-(2, 2, '2024-04-24 09:00:00', 'I', 'Problema de Conexão', 'Estou enfrentando problemas de conexão com a rede interna.', 'DIF', 0, 'A', 1, NULL),
-(3, 2, '2024-04-24 10:30:00', 'I', 'Problema no Software', 'O software X está apresentando falhas constantes.', 'DIF', 1, 'A', 1, '2024-04-24'),
-(4, 1, '2024-05-02 12:01:23', 'I', 'Como entrar no Inovas', 'Olá, não sei como entrar no inovar', 'DIF', 1, 'A', NULL, NULL),
-(5, 1, '2024-06-16 19:47:03', 'I', 'aS', 'ASaS', 'ADM', 0, 'P', NULL, NULL),
-(6, 1, '2024-06-16 21:31:47', 'I', 'okok', 'uinnun', 'ADM', 0, 'F', NULL, NULL),
-(7, 1, '2024-06-16 21:36:31', 'I', 'assad', 'asdsad', 'ADM', 0, 'P', NULL, NULL);
+(1, 2, '2024-04-17 23:00:00', 'A', 'Como entrar no Inovar', 'Olá, não sei como entrar no inovar', 2, 1, 'F', 1, '2024-04-18'),
+(2, 2, '2024-04-24 09:00:00', 'I', 'Problema de Conexão', 'Estou enfrentando problemas de conexão com a rede interna.', 2, 0, 'A', 1, NULL),
+(3, 2, '2024-04-24 10:30:00', 'I', 'Problema no Software', 'O software X está apresentando falhas constantes.', 2, 1, 'A', 1, '2024-04-24'),
+(4, 1, '2024-05-02 12:01:23', 'I', 'Como entrar no Inovas', 'Olá, não sei como entrar no inovar', 2, 1, 'A', NULL, NULL),
+(5, 1, '2024-06-16 19:47:03', 'I', 'aS', 'ASaS', 1, 0, 'P', NULL, NULL),
+(6, 1, '2024-06-16 21:31:47', 'I', 'okok', 'uinnun', 1, 0, 'F', NULL, NULL),
+(7, 1, '2024-06-16 21:36:31', 'I', 'assad', 'asdsad', 1, 0, 'P', NULL, NULL);
 
 -- --------------------------------------------------------
 

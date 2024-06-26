@@ -171,10 +171,10 @@ function atualizarRecentes($con, $status_change = false)
     // Assuming $db is your database connection object
     $query = "
         SELECT a.*, 
-               DATE_FORMAT(a.data_acao, '%e %b %Y, %H:%i', 'pt_PT') AS data_formated, 
-               t.tipo_ticket as tipo_ticket, 
-               t.assunto_local AS assunto_local, 
-               u.nome AS nome_user
+                DATE_FORMAT(a.data_acao, '%e %b %Y, %H:%i', 'pt_PT') AS data_formated, 
+                t.tipo_ticket as tipo_ticket, 
+                t.assunto_local AS assunto_local, 
+                u.nome AS nome_user
         FROM acoes AS a
         INNER JOIN ticket AS t ON a.id_ticket = t.id_ticket
         INNER JOIN user AS u ON a.id_user = u.id_user
@@ -189,8 +189,6 @@ function atualizarRecentes($con, $status_change = false)
         ORDER BY MAX(a.data_acao) DESC
         LIMIT 5;
     ";
-
-
 
 
     $query_exec = mysqli_query($con, $query);
@@ -274,10 +272,8 @@ function getRespostas($con, $id_ticket)
     $query = "
         SELECT r.*,DATE_FORMAT(r.data, '%W, %e %M,  %H:%i','pt_PT') as data, u.nome, u.id_user
         FROM resposta AS r 
-        INNER JOIN resposta_ticket AS rt
-        ON rt.id_resposta = r.id_resposta 
-        INNER JOIN user AS u 
-        ON u.id_user = r.id_user 
+        INNER JOIN resposta_ticket AS rt ON rt.id_resposta = r.id_resposta 
+        INNER JOIN user AS u ON u.id_user = r.id_user 
         WHERE rt.id_ticket = $id_ticket
         ORDER BY r.data DESC
     ";

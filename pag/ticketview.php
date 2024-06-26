@@ -9,7 +9,7 @@ $ticket = getTicket($con, $id);
 
 $resposta = getRespostas($con, $id);
 
-
+$isfechado = ($ticket['status'] == 'F') ? true : false;
 ?>
 
 <style>
@@ -53,24 +53,24 @@ $resposta = getRespostas($con, $id);
 
 <script>
     function aparecerlocalresponder() {
-        var responseDiv = document.getElementById("responseDiv");
-        if (responseDiv.style.display === "none") {
-            responseDiv.style.display = "block";
+        var responseDiv = $("#responseDiv");
+        if (responseDiv.css("display") === "none") {
+            responseDiv.css("display", "block");
         } else {
-            responseDiv.style.display = "none";
+            responseDiv.css("display", "none");
         }
     }
 
     function aparecerlocalrespostas() {
-        var respostasDadas = document.getElementById("respostasDadas");
+        var respostasDadas = $("#respostasDadas");
         var iconBtnAparecer = $("#iconBtnAparecer");
 
-        if (respostasDadas.style.display === "none") {
+        if (respostasDadas.css("display") === "none") {
             iconBtnAparecer.removeClass("bi-plus-lg").addClass("bi-dash-lg");
-            respostasDadas.style.display = "block";
+            respostasDadas.css("display", "block");
         } else {
             iconBtnAparecer.removeClass("bi-dash-lg").addClass("bi-plus-lg");
-            respostasDadas.style.display = "none";
+            respostasDadas.css("display", "none");
         }
     }
 
@@ -130,7 +130,7 @@ $resposta = getRespostas($con, $id);
                                             style="border: none; border-bottom: 1px solid gray; border-radius: 0%;"></textarea>
                                         <input type="hidden" id="id_ticket" name="id_ticket"
                                             value="<?= $ticket['id_ticket'] ?>" />
-                                        <button type="submit" class="btn btn-primary grandão"
+                                        <button type="submit" class="btn btn-primary grandão" id="btnResponder" <?=$isfechado ? 'disabled' : ''?>
                                             style="display: flex; height: 150px; width: 70px; align-items: center; justify-content: center;">
                                             <i class="bi bi-arrow-up-short" style="font-size: 50px;"></i>
                                         </button>
@@ -139,7 +139,7 @@ $resposta = getRespostas($con, $id);
                             </div>
 
                             <div style="margin-top: 20px; display: flex; gap: 5px; margin-top: -4px;">
-                                <button class="btn btn-success"
+                                <button class="btn btn-success" id="btnAparecerResponder" <?=$isfechado ? 'disabled' : ''?>
                                     style="height: 35px; display: flex; align-items: center;"
                                     onclick="aparecerlocalresponder()">
                                     <i class="bi bi-arrow-left-right" style="margin-right: 8px;"></i>Responder
@@ -182,7 +182,7 @@ $resposta = getRespostas($con, $id);
                                                             </div>
                                                             <?php if ($row['id_user'] == $_SESSION['user']['id_user']): ?>
                                                                 <div style="margin-left: auto; margin-right: 13px;">
-                                                                    <button style="font-size: 20px; color:red;" class="btn"><i
+                                                                    <button style="font-size: 20px; color:red;" data-respostaId="<?=$row['id_resposta']?>" class="btn btnApagarResposta"><i
                                                                             class="bi bi-trash-fill"></i></button>
                                                                 </div>
                                                             <?php endif; ?>
@@ -302,7 +302,7 @@ $resposta = getRespostas($con, $id);
                                                 <i class="bi bi-person-circle"
                                                     style="margin-right: 10px; font-size: 25px;"></i>
                                                 <div class="dropdown">
-                                                    <button class="btn btn-secondary-overlay dropdown-toggle"
+                                                    <button class="btn btn-secondary-overlay dropdown-toggle" <?=$isfechado ? 'disabled' : ''?>
                                                         type="button" id="userDropdown" data-bs-toggle="dropdown"
                                                         aria-expanded="false">
                                                         <?= !empty($ticket['user_atribuido']) ? $ticket['user_atribuido'] : 'Nenhum Técnico atribuído' ?>
@@ -368,9 +368,44 @@ $resposta = getRespostas($con, $id);
                 }
             })
 
+        })
 
+        $(document).on('click', '.btnApagarResposta', function () {
+            var respostaId = $(this).data('respostaId')
+            var button = $(this);
+
+            Swal.fire({
+                title: 'Apagar',
+                text: 'Tem a certeza que deseja apagar esta resposta',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                confirmButtonText: 'Sim, apague',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                $.ajax({
+                    url: './db/respostasCode.php',
+                    type: 'POST',
+                    data: {id_resposta: respostaId, type: 'deleteResposta'},
+                    success(response) {
+                        console.log(response);
+                        var data = JSON.parse(response);
+
+                        if(data === 'success'){
+                            button.closest('.accordion-item').remove();
+                            Swal.fire('Apagado!', 'A resposta foi apagada com sucesso.', 'success');
+                        }else{
+                            Swal.fire('Erro!', 'Ocorreu um erro ao apagar a resposta.', 'error');
+                        }
+
+                    
+
+                    }
+                })
+            });
         });
-    });
+
+    })
 
 
 

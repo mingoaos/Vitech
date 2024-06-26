@@ -44,7 +44,6 @@ function getTickets(filtro, tipoTicket) {
             tipoTicket: tipoTicket
         },
         success: function (response) {
-
             var tickets = JSON.parse(response)
 
             if (tickets != "Sem dados") {
@@ -159,6 +158,16 @@ function setStatus(id_status, status, color, id_ticket) {
             type: "setStatus"
         },
         success: function (response) {
+            if(id_status == 'F'){
+                $("#userDropdown").attr('disabled', 'disabled');
+                $("#btnResponder").attr('disabled', 'disabled');
+                $("#btnAparecerResponder").attr('disabled', 'disabled');
+
+            }else{
+                $("#userDropdown").removeAttr("disabled");
+                $("#btnResponder").removeAttr("disabled");
+                $("#btnAparecerResponder").removeAttr("disabled");
+            }
             $("#estadoBola").css('color', color);
             $("#estadoText").text(status);
         },

@@ -292,7 +292,7 @@ if (isset($_GET['op']))
             </li>
           </ul>
         </li><!-- End Forms Nav -->
-
+      
 
         <li class="nav-item">
           <a class="nav-link collapsed" href="./?op=3">
@@ -320,17 +320,7 @@ if (isset($_GET['op']))
         </li><!-- End Tables Nav -->
 
 
-
-        <li class="nav-heading">Pages</li>
-
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="./?op=8">
-            <i class="bi bi-question-circle"></i>
-            <span>F.A.Q</span>
-          </a>
-        </li><!-- End F.A.Q Page Nav -->
-
-
+        
       </ul>
 
     </aside><!-- End Sidebar-->

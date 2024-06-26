@@ -92,7 +92,7 @@ if ($_POST['type'] == 'ticketTablesAjax') {
     $tipoTicket = mysqli_real_escape_string($con, $_POST['tipoTicket']);
     $filtros = json_decode($_POST['filtro'], true);
 
-    $whereClause = " WHERE 1 ";
+    $whereClause = "";
 
 
     switch ($tipoTicket) {
@@ -132,41 +132,47 @@ if ($_POST['type'] == 'ticketTablesAjax') {
     }
 
 
-    $query = "SELECT t.*, DATE_FORMAT(t.data, '%e %b %Y, %H:%i', 'pt_PT') as data,
+    $departmentIdsString = implode(",", $_SESSION['user']['departamento']);
+    if (!empty($departmentIdsString)) {
+
+        $query = "SELECT t.*, DATE_FORMAT(t.data, '%e %b %Y, %H:%i', 'pt_PT') as data,
                 u_reportador.nome AS nome_reportador,
                 u_atribuido.nome AS nome_user_atribuido
             FROM ticket t
             JOIN user u_reportador ON t.id_user = u_reportador.id_user
             LEFT JOIN user u_atribuido ON t.id_user_atribuido = u_atribuido.id_user
+            JOIN departamento d ON t.id_departamento_destino  = d.id_departamento
+            WHERE d.id_departamento IN ($departmentIdsString)
             {$whereClause}";
 
 
-    $query_exec = mysqli_query($con, $query);
+        $query_exec = mysqli_query($con, $query);
 
-    if ($query_exec) {
-        $result = array();
-        while ($row = mysqli_fetch_assoc($query_exec)) {
-          
-            switch ($row['status']) {
-                case 'P':
-                    $row['color'] = 'danger';
-                    break;
-                case 'A':
-                    $row['color'] = 'warning';
-                    break;
-                case 'F':
-                    $row['color'] = 'success';
-                    break;
-                default:
-                    $row['color'] = 'dark';
-                    break;
+        if ($query_exec) {
+            $result = array();
+            while ($row = mysqli_fetch_assoc($query_exec)) {
+
+                switch ($row['status']) {
+                    case 'P':
+                        $row['color'] = 'danger';
+                        break;
+                    case 'A':
+                        $row['color'] = 'warning';
+                        break;
+                    case 'F':
+                        $row['color'] = 'success';
+                        break;
+                    default:
+                        $row['color'] = 'dark';
+                        break;
+                }
+                $result[] = $row;
             }
-            $result[] = $row;
-        }
-        echo json_encode($result);
-    } else {
+            echo json_encode($result);
+        } else {
 
-        echo json_encode(['error' => mysqli_error($con)]);
+            echo json_encode(['error' => mysqli_error($con)]);
+        }
     }
 }
 

@@ -2,6 +2,7 @@
 unset($_SESSION['current_page']);
 $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
 
+var_dump($_SESSION['user']['departamento']);
 ?>
 <div class="pagetitle">
   <h1>Página inicial</h1>
@@ -39,7 +40,7 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
                 </div>
               </div>
             </div>
-
+              
           </div>
         </div>
 
