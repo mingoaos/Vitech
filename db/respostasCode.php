@@ -73,4 +73,6 @@ if (isset($_POST["id_resposta"]) && $_POST["type"] == 'deleteResposta') {
 }
 
 
+
+
 ?>

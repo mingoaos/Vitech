@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 17, 2024 at 10:21 PM
+-- Generation Time: Jun 28, 2024 at 12:39 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,6 +29,7 @@ USE `vitech`;
 -- Table structure for table `acoes`
 --
 
+DROP TABLE IF EXISTS `acoes`;
 CREATE TABLE `acoes` (
   `id_acao` int(11) NOT NULL,
   `id_ticket` int(9) DEFAULT NULL,
@@ -45,7 +46,21 @@ CREATE TABLE `acoes` (
 INSERT INTO `acoes` (`id_acao`, `id_ticket`, `id_user`, `data_acao`, `acao`, `status_change`) VALUES
 (3, 5, 1, '2024-06-16 19:48:59', 'Alterou o estado no ticket', 'F'),
 (4, 6, 1, '2024-06-16 21:31:55', 'Alterou o estado no ticket', 'F'),
-(5, 5, 1, '2024-06-16 21:32:06', 'Alterou o estado no ticket', 'P');
+(5, 5, 1, '2024-06-16 21:32:06', 'Alterou o estado no ticket', 'P'),
+(6, 4, 1, '2024-06-25 17:23:42', 'alterou o Técnico atribuído no ticket', 'A'),
+(7, 4, 1, '2024-06-25 17:25:14', 'alterou o Técnico atribuído no ticket', 'A'),
+(8, 4, 1, '2024-06-25 17:31:20', 'adicionou um comentário no ticket', 'A'),
+(9, 4, 1, '2024-06-25 17:38:15', 'adicionou um comentário no ticket', 'A'),
+(10, 5, 1, '2024-06-26 16:39:44', 'alterou o estado no ticket', 'F'),
+(11, 5, 1, '2024-06-26 16:39:48', 'alterou o estado no ticket', 'P'),
+(12, 5, 1, '2024-06-26 16:39:50', 'alterou o estado no ticket', 'F'),
+(13, 5, 1, '2024-06-27 22:30:36', 'alterou o estado no ticket', 'P'),
+(14, 5, 1, '2024-06-27 22:30:49', 'alterou o Técnico atribuído no ticket', 'P'),
+(15, 5, 1, '2024-06-27 22:32:15', 'alterou o estado no ticket', 'F'),
+(16, 5, 1, '2024-06-27 22:32:17', 'alterou o estado no ticket', 'A'),
+(17, 5, 1, '2024-06-27 22:32:18', 'alterou o estado no ticket', 'P'),
+(18, 5, 1, '2024-06-27 22:32:37', 'adicionou um comentário no ticket', 'P'),
+(19, 5, 1, '2024-06-27 22:32:56', 'alterou o Técnico atribuído no ticket', 'P');
 
 -- --------------------------------------------------------
 
@@ -53,8 +68,9 @@ INSERT INTO `acoes` (`id_acao`, `id_ticket`, `id_user`, `data_acao`, `acao`, `st
 -- Table structure for table `departamento`
 --
 
+DROP TABLE IF EXISTS `departamento`;
 CREATE TABLE `departamento` (
-  `id_departamento` varchar(3) NOT NULL,
+  `id_departamento` int(9) NOT NULL,
   `nome` varchar(50) NOT NULL,
   `Status` char(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
@@ -64,8 +80,8 @@ CREATE TABLE `departamento` (
 --
 
 INSERT INTO `departamento` (`id_departamento`, `nome`, `Status`) VALUES
-('ADM', 'Admin', 'A'),
-('DIF', 'Departamento de Informática', 'A');
+(1, 'Admin', 'A'),
+(2, 'Departamento de Informática', 'A');
 
 -- --------------------------------------------------------
 
@@ -73,6 +89,7 @@ INSERT INTO `departamento` (`id_departamento`, `nome`, `Status`) VALUES
 -- Table structure for table `faq`
 --
 
+DROP TABLE IF EXISTS `faq`;
 CREATE TABLE `faq` (
   `id_faq` int(9) NOT NULL,
   `Categoria_Dep` varchar(3) DEFAULT NULL,
@@ -87,6 +104,7 @@ CREATE TABLE `faq` (
 -- Table structure for table `logfile`
 --
 
+DROP TABLE IF EXISTS `logfile`;
 CREATE TABLE `logfile` (
   `id_log` int(9) NOT NULL,
   `data` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -102,6 +120,7 @@ CREATE TABLE `logfile` (
 -- Table structure for table `noticia`
 --
 
+DROP TABLE IF EXISTS `noticia`;
 CREATE TABLE `noticia` (
   `id_noticia` int(9) NOT NULL,
   `Data_inicio` date NOT NULL,
@@ -117,6 +136,7 @@ CREATE TABLE `noticia` (
 -- Table structure for table `resposta`
 --
 
+DROP TABLE IF EXISTS `resposta`;
 CREATE TABLE `resposta` (
   `id_resposta` int(9) NOT NULL,
   `id_user` int(9) DEFAULT NULL,
@@ -130,12 +150,13 @@ CREATE TABLE `resposta` (
 
 INSERT INTO `resposta` (`id_resposta`, `id_user`, `data`, `resposta`) VALUES
 (1, 1, '2024-04-18 09:16:29', 'Olá, Como pode ver o inovar está em manutenção por isso os seus serviços encontram-se indisponiveis'),
-(2, 1, '2024-06-16 20:50:18', 'assasas'),
+(9, 1, '2024-06-25 17:38:15', 'oi'),
 (3, 1, '2024-06-16 21:18:00', 'pila'),
 (4, 1, '2024-06-16 21:20:33', 'oola\r\n'),
 (5, 1, '2024-06-16 21:37:06', 'dassdasa'),
 (6, 1, '2024-06-16 21:38:15', 'assad'),
-(7, 1, '2024-06-16 21:38:29', 'assad');
+(7, 1, '2024-06-16 21:38:29', 'assad'),
+(10, 1, '2024-06-27 22:32:37', 'assadsad');
 
 -- --------------------------------------------------------
 
@@ -143,12 +164,10 @@ INSERT INTO `resposta` (`id_resposta`, `id_user`, `data`, `resposta`) VALUES
 -- Table structure for table `resposta_ticket`
 --
 
+DROP TABLE IF EXISTS `resposta_ticket`;
 CREATE TABLE `resposta_ticket` (
   `id_resposta` int(9) NOT NULL,
-  `id_ticket` int(9) NOT NULL,
-  PRIMARY KEY (`id_resposta`, `id_ticket`),
-  FOREIGN KEY (`id_resposta`) REFERENCES `resposta` (`id_resposta`) ON DELETE CASCADE,
-  FOREIGN KEY (`id_ticket`) REFERENCES `ticket` (`id_ticket`) ON DELETE CASCADE
+  `id_ticket` int(9) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
@@ -162,7 +181,9 @@ INSERT INTO `resposta_ticket` (`id_resposta`, `id_ticket`) VALUES
 (4, 5),
 (5, 5),
 (6, 5),
-(7, 5);
+(7, 5),
+(9, 4),
+(10, 5);
 
 -- --------------------------------------------------------
 
@@ -170,6 +191,7 @@ INSERT INTO `resposta_ticket` (`id_resposta`, `id_ticket`) VALUES
 -- Table structure for table `ticket`
 --
 
+DROP TABLE IF EXISTS `ticket`;
 CREATE TABLE `ticket` (
   `id_ticket` int(9) NOT NULL,
   `id_user` int(9) NOT NULL,
@@ -189,13 +211,13 @@ CREATE TABLE `ticket` (
 --
 
 INSERT INTO `ticket` (`id_ticket`, `id_user`, `data`, `tipo_ticket`, `assunto_local`, `mensagem_sintomas`, `id_departamento_destino`, `urgencia`, `status`, `id_user_atribuido`, `data_atribuido`) VALUES
-(1, 2, '2024-04-17 23:00:00', 'A', 'Como entrar no Inovar', 'Olá, não sei como entrar no inovar', 2, 1, 'F', 1, '2024-04-18'),
-(2, 2, '2024-04-24 09:00:00', 'I', 'Problema de Conexão', 'Estou enfrentando problemas de conexão com a rede interna.', 2, 0, 'A', 1, NULL),
-(3, 2, '2024-04-24 10:30:00', 'I', 'Problema no Software', 'O software X está apresentando falhas constantes.', 2, 1, 'A', 1, '2024-04-24'),
-(4, 1, '2024-05-02 12:01:23', 'I', 'Como entrar no Inovas', 'Olá, não sei como entrar no inovar', 2, 1, 'A', NULL, NULL),
-(5, 1, '2024-06-16 19:47:03', 'I', 'aS', 'ASaS', 1, 0, 'P', NULL, NULL),
-(6, 1, '2024-06-16 21:31:47', 'I', 'okok', 'uinnun', 1, 0, 'F', NULL, NULL),
-(7, 1, '2024-06-16 21:36:31', 'I', 'assad', 'asdsad', 1, 0, 'P', NULL, NULL);
+(1, 2, '2024-04-17 23:00:00', 'A', 'Como entrar no Inovar', 'Olá, não sei como entrar no inovar', '2', 1, 'F', 1, '2024-04-18'),
+(2, 2, '2024-04-24 09:00:00', 'I', 'Problema de Conexão', 'Estou enfrentando problemas de conexão com a rede interna.', '2', 0, 'A', 1, NULL),
+(3, 2, '2024-04-24 10:30:00', 'I', 'Problema no Software', 'O software X está apresentando falhas constantes.', '2', 1, 'A', 1, '2024-04-24'),
+(4, 1, '2024-05-02 12:01:23', 'I', 'Como entrar no Inovas', 'Olá, não sei como entrar no inovar', '2', 1, 'A', 2, '2024-06-25'),
+(5, 1, '2024-06-16 19:47:03', 'I', 'aS', 'ASaS', '1', 0, 'P', 0, '2024-06-27'),
+(6, 1, '2024-06-16 21:31:47', 'I', 'okok', 'uinnun', '1', 0, 'F', NULL, NULL),
+(7, 1, '2024-06-16 21:36:31', 'I', 'assad', 'asdsad', '1', 0, 'P', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -203,6 +225,7 @@ INSERT INTO `ticket` (`id_ticket`, `id_user`, `data`, `tipo_ticket`, `assunto_lo
 -- Table structure for table `tipo_user`
 --
 
+DROP TABLE IF EXISTS `tipo_user`;
 CREATE TABLE `tipo_user` (
   `id_tipo_user` int(9) NOT NULL,
   `nome` varchar(30) NOT NULL,
@@ -223,6 +246,7 @@ INSERT INTO `tipo_user` (`id_tipo_user`, `nome`, `permissoes`, `status`) VALUES
 -- Table structure for table `user`
 --
 
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id_user` int(9) NOT NULL,
   `nome` varchar(50) NOT NULL,
@@ -247,9 +271,10 @@ INSERT INTO `user` (`id_user`, `nome`, `username`, `password`, `email`, `telefon
 -- Table structure for table `user_departamento_tipo`
 --
 
+DROP TABLE IF EXISTS `user_departamento_tipo`;
 CREATE TABLE `user_departamento_tipo` (
   `id_user` int(9) DEFAULT NULL,
-  `id_departamento` varchar(3) DEFAULT NULL,
+  `id_departamento` int(9) DEFAULT NULL,
   `id_tipo` int(9) DEFAULT NULL,
   `id_ligacao` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
@@ -259,9 +284,8 @@ CREATE TABLE `user_departamento_tipo` (
 --
 
 INSERT INTO `user_departamento_tipo` (`id_user`, `id_departamento`, `id_tipo`, `id_ligacao`) VALUES
-(1, 'ADM', 1, 1),
-(2, 'ADM', 1, 2),
-(1, 'DIF', 1, 3);
+(2, 1, 1, 2),
+(1, 1, 1, 5);
 
 --
 -- Indexes for dumped tables
@@ -312,6 +336,7 @@ ALTER TABLE `resposta`
 -- Indexes for table `resposta_ticket`
 --
 ALTER TABLE `resposta_ticket`
+  ADD PRIMARY KEY (`id_resposta`,`id_ticket`),
   ADD KEY `id_resposta` (`id_resposta`),
   ADD KEY `id_ticket` (`id_ticket`);
 
@@ -353,7 +378,7 @@ ALTER TABLE `user_departamento_tipo`
 -- AUTO_INCREMENT for table `acoes`
 --
 ALTER TABLE `acoes`
-  MODIFY `id_acao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_acao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `faq`
@@ -377,7 +402,7 @@ ALTER TABLE `noticia`
 -- AUTO_INCREMENT for table `resposta`
 --
 ALTER TABLE `resposta`
-  MODIFY `id_resposta` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_resposta` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `ticket`
@@ -401,7 +426,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `user_departamento_tipo`
 --
 ALTER TABLE `user_departamento_tipo`
-  MODIFY `id_ligacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_ligacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
