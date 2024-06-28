@@ -47,10 +47,12 @@ function addAcoes($id_ticket, $acao, $status_change, $con)
     }
 }
 
-function getUser($con)
+function getUser($con, $id_criador = 0)
 {
+   (!empty($id_criador) ? $whereclause = "WHERE id_user != {$id_criador}" : $whereclause = "");
+    
     $query = "SELECT id_user, nome, email, telefone
-    FROM user ";
+    FROM user {$whereclause} ";
 
     $query_run = mysqli_query($con, $query);
 
@@ -95,6 +97,7 @@ function getTicket($con, $idticket)
     SELECT 
         t.id_ticket,
         u1.nome AS user_criado,
+        u1.id_user as id_criador,
         DATE_FORMAT(t.data  , '%W, %e de %M %Y, %H:%i ','pt_PT') AS data,
         t.tipo_ticket,
         t.assunto_local,

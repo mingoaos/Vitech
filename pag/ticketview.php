@@ -130,7 +130,7 @@ $isfechado = ($ticket['status'] == 'F') ? true : false;
                                             style="border: none; border-bottom: 1px solid gray; border-radius: 0%;"></textarea>
                                         <input type="hidden" id="id_ticket" name="id_ticket"
                                             value="<?= $ticket['id_ticket'] ?>" />
-                                        <button type="submit" class="btn btn-primary grandão" id="btnResponder" <?=$isfechado ? 'disabled' : ''?>
+                                        <button type="submit" class="btn btn-primary grandão" id="btnResponder" <?=$isfechado || $ticket['id_criador'] == $_SESSION['user']['id_user'] ? 'disabled' : ''?>
                                             style="display: flex; height: 150px; width: 70px; align-items: center; justify-content: center;">
                                             <i class="bi bi-arrow-up-short" style="font-size: 50px;"></i>
                                         </button>
@@ -139,7 +139,7 @@ $isfechado = ($ticket['status'] == 'F') ? true : false;
                             </div>
 
                             <div style="margin-top: 20px; display: flex; gap: 5px; margin-top: -4px;">
-                                <button class="btn btn-success" id="btnAparecerResponder" <?=$isfechado ? 'disabled' : ''?>
+                                <button class="btn btn-success" id="btnAparecerResponder" <?=$isfechado || $ticket['id_criador'] == $_SESSION['user']['id_user'] ? 'disabled' : ''?>
                                     style="height: 35px; display: flex; align-items: center;"
                                     onclick="aparecerlocalresponder()">
                                     <i class="bi bi-arrow-left-right" style="margin-right: 8px;"></i>Responder
@@ -163,7 +163,7 @@ $isfechado = ($ticket['status'] == 'F') ? true : false;
 
 
                                     foreach ($resposta as $index => $row) { ?>
-                                        <div style="display: flex; margin-top: 20px;">
+                                        <div class="resposta" style="display: flex; margin-top: 20px;">
                                             <i class="bi bi-person-circle" style="font-size: 50px; margin-right: 15px;"></i>
                                             <div class="accordion" id="accordionExample" style="width: 100%">
                                                 <div class="accordion-item">
@@ -182,7 +182,7 @@ $isfechado = ($ticket['status'] == 'F') ? true : false;
                                                             </div>
                                                             <?php if ($row['id_user'] == $_SESSION['user']['id_user']): ?>
                                                                 <div style="margin-left: auto; margin-right: 13px;">
-                                                                    <button style="font-size: 20px; color:red;" data-respostaId="<?=$row['id_resposta']?>" class="btn btnApagarResposta"><i
+                                                                    <button style="font-size: 20px; color:red;" data-respostaid="<?=$row['id_resposta']?>" class="btn btnApagarResposta"><i
                                                                             class="bi bi-trash-fill"></i></button>
                                                                 </div>
                                                             <?php endif; ?>
@@ -302,7 +302,7 @@ $isfechado = ($ticket['status'] == 'F') ? true : false;
                                                 <i class="bi bi-person-circle"
                                                     style="margin-right: 10px; font-size: 25px;"></i>
                                                 <div class="dropdown">
-                                                    <button class="btn btn-secondary-overlay dropdown-toggle" <?=$isfechado ? 'disabled' : ''?>
+                                                    <button class="btn btn-secondary-overlay dropdown-toggle" <?=$isfechado || $ticket['id_criador'] == $_SESSION['user']['id_user'] ? 'disabled' : ''?>
                                                         type="button" id="userDropdown" data-bs-toggle="dropdown"
                                                         aria-expanded="false">
                                                         <?= !empty($ticket['user_atribuido']) ? $ticket['user_atribuido'] : 'Nenhum Técnico atribuído' ?>
@@ -339,7 +339,7 @@ $isfechado = ($ticket['status'] == 'F') ? true : false;
 
 
     $(document).ready(function () {
-        var allusers = <?= json_encode(getUser($con)); ?>;
+        var allusers = <?= json_encode(getUser($con,$ticket['id_criador'])); ?>;
         var id_ticket = <?= json_encode($id); ?>;
         var html = ``;
 
@@ -371,9 +371,9 @@ $isfechado = ($ticket['status'] == 'F') ? true : false;
         })
 
         $(document).on('click', '.btnApagarResposta', function () {
-            var respostaId = $(this).data('respostaId')
+            var id_resposta = $(this).data('respostaid')
             var button = $(this);
-
+            console.log(id_resposta);
             Swal.fire({
                 title: 'Apagar',
                 text: 'Tem a certeza que deseja apagar esta resposta',
@@ -386,22 +386,19 @@ $isfechado = ($ticket['status'] == 'F') ? true : false;
                 $.ajax({
                     url: './db/respostasCode.php',
                     type: 'POST',
-                    data: {id_resposta: respostaId, type: 'deleteResposta'},
+                    data: { id_resposta: id_resposta, type: 'deleteResposta' },
                     success(response) {
-                        console.log(response);
+                    
                         var data = JSON.parse(response);
 
-                        if(data === 'success'){
-                            button.closest('.accordion-item').remove();
+                        if (data === 'success') {
+                            button.closest('.resposta').remove();
                             Swal.fire('Apagado!', 'A resposta foi apagada com sucesso.', 'success');
-                        }else{
+                        } else {
                             Swal.fire('Erro!', 'Ocorreu um erro ao apagar a resposta.', 'error');
                         }
-
-                    
-
-                    }
-                })
+                    },
+                });
             });
         });
 

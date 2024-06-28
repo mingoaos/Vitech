@@ -53,8 +53,10 @@ if (isset($_POST['resposta'], $_POST['id_ticket'])) {
     exit();
 }
 
-if (isset($_POST["id_resposta"]) && $_POST["type"] == 'deleteResposta') {
 
+
+if (isset($_POST["id_resposta"]) && $_POST["type"] == 'deleteResposta') {
+   
     $id_resposta = mysqli_real_escape_string($con, $_POST['id_resposta']);
     
     $query = "DELETE FROM resposta WHERE id_resposta = $id_resposta";
@@ -62,11 +64,9 @@ if (isset($_POST["id_resposta"]) && $_POST["type"] == 'deleteResposta') {
 
     $queryconect = "DELETE FROM resposta_ticket WHERE id_resposta = $id_resposta";
     $resultconect = mysqli_query($con, $queryconect);
-    error_log($resultconect,$result);
 
     if ($result && $resultconect) {
         echo json_encode('success');
-
     } else {
         echo json_encode('error');
     }
