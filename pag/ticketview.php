@@ -130,7 +130,7 @@ $isfechado = ($ticket['status'] == 'F') ? true : false;
                                             style="border: none; border-bottom: 1px solid gray; border-radius: 0%;"></textarea>
                                         <input type="hidden" id="id_ticket" name="id_ticket"
                                             value="<?= $ticket['id_ticket'] ?>" />
-                                        <button type="submit" class="btn btn-primary grandão" id="btnResponder" <?=$isfechado || $ticket['id_criador'] == $_SESSION['user']['id_user'] ? 'disabled' : ''?>
+                                        <button type="submit" class="btn btn-primary grandão" id="btnResponder" <?=$isfechado ? 'disabled' : ''?>
                                             style="display: flex; height: 150px; width: 70px; align-items: center; justify-content: center;">
                                             <i class="bi bi-arrow-up-short" style="font-size: 50px;"></i>
                                         </button>
@@ -139,7 +139,7 @@ $isfechado = ($ticket['status'] == 'F') ? true : false;
                             </div>
 
                             <div style="margin-top: 20px; display: flex; gap: 5px; margin-top: -4px;">
-                                <button class="btn btn-success" id="btnAparecerResponder" <?=$isfechado || $ticket['id_criador'] == $_SESSION['user']['id_user'] ? 'disabled' : ''?>
+                                <button class="btn btn-success" id="btnAparecerResponder" <?=$isfechado ? 'disabled' : ''?>
                                     style="height: 35px; display: flex; align-items: center;"
                                     onclick="aparecerlocalresponder()">
                                     <i class="bi bi-arrow-left-right" style="margin-right: 8px;"></i>Responder
@@ -255,7 +255,7 @@ $isfechado = ($ticket['status'] == 'F') ? true : false;
                                                     <div class="dropdown" style="margin-left: auto;">
                                                         <a style=" text-decoration: none; color: black;" type="button"
                                                             id="dropdownMenuButton" data-bs-toggle="dropdown"
-                                                            aria-haspopup="true" aria-expanded="false">
+                                                            aria-haspopup="true" aria-expanded="false" <?=$ticket['id_criador'] == $_SESSION['user']['id_user'] ? 'disabled' : ''?>
                                                             <i class="bi bi-gear-fill"></i>
                                                         </a>
                                                         <div class="dropdown-menu" style="z-index: 1060;"
