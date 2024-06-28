@@ -267,7 +267,7 @@ if (isset($_GET['op']))
 
         <li class="nav-item">
           <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-layout-text-window-reverse"></i><span>Admin</span><i class="bi bi-chevron-down ms-auto"></i>
+            <i class="bi bi-layout-text-window-reverse"></i><span>Administração</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
           <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
             <li>
