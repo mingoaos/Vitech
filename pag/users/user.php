@@ -117,8 +117,8 @@ $Perms = getPerms($con);
 
                     <div class="mb-3">
                         <label class="fw-bold">Telefone:</label>
-                        <input id="addTelefone" name="telefone" class="form-control" type="number"
-                            onKeyPress="if(this.value.length==9) return false;">
+                        <input id="addTelefone" name="telefone" class="form-control" type="tel"
+                        maxlength="9" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);">
                     </div>
                     <label for="departamento" class="form-label fw-bold col-md-7">Departamentos e Permissões</label>
                     <div id="addDepsPerms" class="row mb-3">

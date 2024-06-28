@@ -72,7 +72,6 @@ DROP TABLE IF EXISTS `departamento`;
 CREATE TABLE `departamento` (
   `id_departamento` int(9) NOT NULL,
   `nome` varchar(50) NOT NULL,
-  `Status` char(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
@@ -80,39 +79,8 @@ CREATE TABLE `departamento` (
 --
 
 INSERT INTO `departamento` (`id_departamento`, `nome`, `Status`) VALUES
-(1, 'Admin', 'A'),
-(2, 'Departamento de Informática', 'A');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `faq`
---
-
-DROP TABLE IF EXISTS `faq`;
-CREATE TABLE `faq` (
-  `id_faq` int(9) NOT NULL,
-  `Categoria_Dep` varchar(3) DEFAULT NULL,
-  `Questao` varchar(30) NOT NULL,
-  `Informacao` varchar(50) NOT NULL,
-  `Status` char(1) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `logfile`
---
-
-DROP TABLE IF EXISTS `logfile`;
-CREATE TABLE `logfile` (
-  `id_log` int(9) NOT NULL,
-  `data` timestamp NOT NULL DEFAULT current_timestamp(),
-  `id_user` int(9) DEFAULT NULL,
-  `tabela` varchar(50) DEFAULT NULL,
-  `operacao` char(1) DEFAULT NULL,
-  `descricao` text DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+(1, 'Admin'),
+(2, 'Departamento de Informática');
 
 -- --------------------------------------------------------
 
@@ -127,7 +95,6 @@ CREATE TABLE `noticia` (
   `Data_fim` date NOT NULL,
   `Assunto` varchar(20) NOT NULL,
   `Noticia` text NOT NULL,
-  `Status` char(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 -- --------------------------------------------------------

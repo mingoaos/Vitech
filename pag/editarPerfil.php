@@ -32,7 +32,7 @@
                                 value="<?php if (!empty($_SESSION['user']['telefone'])) {
                                     echo $_SESSION['user']['telefone'];
                                 } ?>"
-                                maxlength="9" minlength="9" pattern="\d{9}" title="O número de telefone deve ter 9 dígitos">
+                                maxlength="9" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);">
                           </div>
                         </div>
                     </div>

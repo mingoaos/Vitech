@@ -8,7 +8,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $username = mysqli_real_escape_string($con, $_POST['username']);
     $pass = sha1($_POST['password']);
 
-    $query = "SELECT id_user,nome FROM user WHERE username = '$username' and password = '$pass'";
+    $query = "SELECT id_user,nome,email,username,telefone FROM user WHERE username = '$username' and password = '$pass'";
 
     $login = mysqli_query($con, $query);
 

@@ -18,18 +18,22 @@ function changeFiltro(link, color, filterIndex, tipoTicket) {
 //Funcao para dispor os tickets na datatable
 function getTickets(filtro, tipoTicket) {
 
+    $.fn.dataTable.ext.order['urgency-precedence'] = function (settings, colIdx) {
+        return this.api().column(colIdx, { order: 'index' }).nodes().map(function (td, i) {
+            return $('span', td).length ? 'Urgente' : 'Normal';
+        });
+    };
+    
     if (!$.fn.DataTable.isDataTable('#datatable')) {
         table = $('#datatable').DataTable({
             "columnDefs": [
-                { "className": "dt-center", "targets": "_all" }
+                { "className": "dt-center", "targets": "_all" },
+                { "type": "urgency-precedence", "targets": 4 }  
             ],
             order: [[4, 'desc']],
-
             "language": {
                 "url": "./assets/json/pt_pt.json"
-               
             }
-
         });
     }
 

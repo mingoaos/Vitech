@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (verificarData($dataini, $datafim)) {
             if (!empty($dataini) && !empty($datafim) && !empty($assunto) && !empty($noticia)) {
-                $query = "INSERT INTO `noticia`(`Data_inicio`, `Data_fim`, `Assunto`, `Noticia`, `Status`) VALUES ('$dataini','$datafim','$assunto','$noticia','A');";
+                $query = "INSERT INTO `noticia`(`Data_inicio`, `Data_fim`, `Assunto`, `Noticia`) VALUES ('$dataini','$datafim','$assunto','$noticia');";
                 $query_exec = mysqli_query($con, $query);
 
                 if ($query_exec) {
