@@ -253,9 +253,9 @@ $isfechado = ($ticket['status'] == 'F') ? true : false;
                                                     <span>Estado</span>
 
                                                     <div class="dropdown" style="margin-left: auto;">
-                                                        <a style=" text-decoration: none; color: black;" type="button"
+                                                        <a style=" text-decoration: none; color: black;" type="button" <?=$ticket['id_criador'] == $_SESSION['user']['id_user'] ? 'disabled' : ''?>
                                                             id="dropdownMenuButton" data-bs-toggle="dropdown"
-                                                            aria-haspopup="true" aria-expanded="false" <?=$ticket['id_criador'] == $_SESSION['user']['id_user'] ? 'disabled' : ''?>
+                                                            aria-haspopup="true" aria-expanded="false">
                                                             <i class="bi bi-gear-fill"></i>
                                                         </a>
                                                         <div class="dropdown-menu" style="z-index: 1060;"
