@@ -171,8 +171,8 @@ function atualizarRecentes($con, $status_change = false)
     if ($status_change) {
         $status_clause = " AND a.acao = 'Alterou o estado no ticket'";
     }
-
-    // Assuming $db is your database connection object
+    $departmentIdsString = implode(",", $_SESSION['user']['departamento']);
+   
     $query = "
         SELECT a.*, 
                 DATE_FORMAT(a.data_acao, '%e %b %Y, %H:%i', 'pt_PT') AS data_formated, 
@@ -186,7 +186,7 @@ function atualizarRecentes($con, $status_change = false)
         WHERE 
             (
                 (t.id_user = {$_SESSION['user']['id_user']} OR t.id_user_atribuido = {$_SESSION['user']['id_user']}) OR 
-                (udt.id_tipo = 'G' AND udt.id_departamento = t.id_departamento_destino) OR 
+                (udt.id_tipo = 'G' AND t.id_departamento_destino  IN ($departmentIdsString)) OR 
                 udt.id_tipo = 'A'
             ) {$status_clause}
         GROUP BY a.id_acao  

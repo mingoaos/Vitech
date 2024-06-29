@@ -10,12 +10,14 @@ if (isset($_POST['filtro']) && isset($_POST['cardId']) && $_POST['type'] == 'car
     $filter = $_POST['filtro'];
     $cardId = $_POST['cardId'];
 
+    $departmentIdsString = implode(",", $_SESSION['user']['departamento']);
+
     switch ($cardId) {
         case 1:
-            $query = "SELECT COUNT(*) FROM ticket WHERE status = 'A'";
+            $query = "SELECT COUNT(*) FROM ticket WHERE status = 'A' AND id_departamento_destino  IN ($departmentIdsString)";
             break;
         case 2:
-            $query = "SELECT COUNT(*) FROM ticket WHERE status = 'P'";
+            $query = "SELECT COUNT(*) FROM ticket WHERE status = 'P' AND id_departamento_destino  IN ($departmentIdsString)";
             break;
         default:
             echo "Invalid card type";
@@ -92,18 +94,18 @@ if ($_POST['type'] == 'ticketTablesAjax') {
     $tipoTicket = mysqli_real_escape_string($con, $_POST['tipoTicket']);
     $filtros = json_decode($_POST['filtro'], true);
 
-    $whereClause = "";
-
+    $whereClause = "WHERE 1";
+    $departmentIdsString = implode(",", $_SESSION['user']['departamento']);
 
     switch ($tipoTicket) {
         case 'Enviados':
             $whereClause .= " AND t.id_user = {$_SESSION['user']['id_user']}";
             break;
         case 'Recebidos':
-            $whereClause .= " AND t.id_user_atribuido = {$_SESSION['user']['id_user']}";
+            $whereClause .= " AND t.id_user_atribuido = {$_SESSION['user']['id_user']} AND d.id_departamento IN ($departmentIdsString)";
             break;
         case 'Não atribuidos':
-            $whereClause .= " AND t.id_user_atribuido IS NULL";
+            $whereClause .= " AND t.id_user_atribuido IS NULL AND d.id_departamento IN ($departmentIdsString)";
             break;
         default:
             break;
@@ -142,7 +144,7 @@ if ($_POST['type'] == 'ticketTablesAjax') {
             JOIN user u_reportador ON t.id_user = u_reportador.id_user
             LEFT JOIN user u_atribuido ON t.id_user_atribuido = u_atribuido.id_user
             JOIN departamento d ON t.id_departamento_destino  = d.id_departamento
-            WHERE d.id_departamento IN ($departmentIdsString)
+            
             {$whereClause}";
 
 

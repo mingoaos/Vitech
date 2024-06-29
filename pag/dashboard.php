@@ -2,6 +2,7 @@
 unset($_SESSION['current_page']);
 $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
 
+$departmentIdsString = implode(",", $_SESSION['user']['departamento']);
 ?>
 <div class="pagetitle">
   <h1>Página inicial</h1>
@@ -35,11 +36,11 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
                   <i class="ri-mail-open-line"></i>
                 </div>
                 <div class="ps-3">
-                  <h6><?= getCount($con, "SELECT COUNT(*) FROM ticket WHERE status = 'A'") ?></h6>
+                  <h6><?= getCount($con, "SELECT COUNT(*) FROM ticket WHERE status = 'A' AND id_departamento_destino  IN ($departmentIdsString)") ?></h6>
                 </div>
               </div>
             </div>
-              
+
           </div>
         </div>
 
@@ -63,7 +64,7 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
                   <i class="ri-mail-settings-line"></i>
                 </div>
                 <div class="ps-3">
-                  <h6><?= getCount($con, "SELECT COUNT(*) FROM ticket WHERE status = 'P'") ?></h6>
+                  <h6><?= getCount($con, "SELECT COUNT(*) FROM ticket WHERE status = 'P' AND id_departamento_destino  IN ($departmentIdsString)") ?></h6>
                 </div>
               </div>
             </div>
@@ -80,7 +81,7 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
                   <i class="ri-mail-close-line"></i>
                 </div>
                 <div class="ps-3">
-                  <h6><?= getCount($con, "SELECT COUNT(*) FROM ticket WHERE id_user_atribuido IS NULL") ?></h6>
+                  <h6><?= getCount($con, "SELECT COUNT(*) FROM ticket WHERE id_user_atribuido IS NULL AND id_departamento_destino  IN ($departmentIdsString)") ?></h6>
                 </div>
               </div>
             </div>
@@ -102,7 +103,7 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
               <h5 class="card-title">Alterações de estado</h5>
 
               <?php
-              $acoes = atualizarRecentes($con,true);
+              $acoes = atualizarRecentes($con, true);
               if (!empty($acoes)) {
                 ?>
                 <table class="table table-borderless table-hover ">
@@ -132,10 +133,10 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
                           <td><?= $row['nome_user'] ?></td>
                           <td class="fw-bold text-dark"><?= $row['assunto_local'] ?></td>
                           <td><?= $row['data_formated'] ?></td>
-                          <td><?=  ($row['tipo_ticket'] == 'I') ? 'Informação' : 'Avaria'  ?></td>
+                          <td><?= ($row['tipo_ticket'] == 'I') ? 'Informação' : 'Avaria' ?></td>
                           <td><span class="badge bg-<?= $row['color'] ?>"><?= $row['status'] ?></span></td>
                         </tr>
-                        
+
                         <?php
                       }
                     }
@@ -216,7 +217,7 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
 
                 success: function (response) {
                   try {
-                 
+
                     const data = JSON.parse(response);
                     const labels = data.map(item => item.mes);
                     const chartData = data.map(item => item.total);
@@ -269,15 +270,12 @@ $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
 
               // Fazer as table rows clicaveis
 
-              const rows = document.querySelectorAll(".table tbody tr");
+              const rows = $(".table tbody tr");
 
-              rows.forEach(row => {
-                row.addEventListener("click", function () {
-
-                  const href = this.querySelector("td:first-child").getAttribute("href");
-
+              rows.each(function () {
+                $(this).on("click", function () {
+                  const href = $(this).find("td:first-child").attr("href");
                   if (href && href !== "") {
-
                     window.location.href = href;
                   }
                 });

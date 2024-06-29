@@ -49,7 +49,7 @@ function getTickets(filtro, tipoTicket) {
         },
         success: function (response) {
             var tickets = JSON.parse(response)
-
+            
             if (tickets != "Sem dados") {
                 // Dar append as novas rows
                 tickets.forEach(function (ticket) {
