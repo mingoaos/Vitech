@@ -50,6 +50,7 @@ function addAcoes($id_ticket, $acao, $status_change, $con)
 function getUser($con, $id_criador = 0)
 {
    (!empty($id_criador) ? $whereclause = "WHERE id_user != {$id_criador}" : $whereclause = "");
+
     
     $query = "SELECT id_user, nome, email, telefone
     FROM user {$whereclause} ";

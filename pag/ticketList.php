@@ -92,7 +92,7 @@ if (isset($_SESSION['tipoTicket'])) {
   <script>
 
 
-    document.addEventListener('DOMContentLoaded', function () {
+    $(document).ready(function () {
 
       var filtro = <?= json_encode($filtro) ?>;
       var tipoTicket = '<?= $tipoTicket ?>';
@@ -103,18 +103,20 @@ if (isset($_SESSION['tipoTicket'])) {
 
 
 
-      document.querySelector('#datatable tbody').addEventListener('click', function (event) {
-        tr = event.target.closest('tr');
-        var firstTd = tr.querySelector('td:first-child');
-        TdText = firstTd.textContent.trim();
-        if (TdText) {
-          var href = './?op=4&id=' + TdText;
-          console.log(href);
-          if (href) {
-            window.location = href;
+      $('#datatable tbody').on('click', 'tr', function (event) {
+        var firstTd = $(this).find('td:first-child');
+        if (!firstTd.hasClass('dataTables_empty')) {
+          var TdText = firstTd.text().trim();
+          if (TdText) {
+            var href = './?op=4&id=' + TdText;
+            console.log(href);
+            if (href) {
+              window.location = href;
+            }
           }
         }
       });
+
 
 
     });

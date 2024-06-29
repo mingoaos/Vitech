@@ -149,7 +149,30 @@ if (isset($_POST['nome'], $_POST['username'], $_POST['email']) && $_POST['typeFo
 
     if ($queryUpd_exec) {
 
+        $query = "SELECT id_user,nome,email,username,telefone FROM user WHERE id_user = $id_user";
 
+        $login = mysqli_query($con, $query);
+        $user = mysqli_fetch_assoc($login);
+        $id_user = $user['id_user'];
+
+        $query = "SELECT d.id_departamento as departamento FROM departamento d
+        INNER JOIN user_departamento_tipo udt ON d.id_departamento = udt.id_departamento
+        INNER JOIN user u ON u.id_user = udt.id_user
+        INNER JOIN tipo_user tu ON udt.id_tipo = tu.id_tipo_user
+        WHERE u.id_user = $id_user";
+
+        $getdeps = mysqli_query($con, $query);
+
+        $deps = array();
+
+
+        while ($row = mysqli_fetch_assoc($getdeps)) {
+        $deps[] = $row["departamento"];
+        }
+
+
+        $_SESSION['user'] = $user;
+        $_SESSION['user']['departamento'] = $deps;
 
         $_SESSION['alert'] = '<i class="bi bi-check-circle-fill"></i> Sucesso ao atualizar os detalhes';
         $_SESSION['alertClass'] = "success";

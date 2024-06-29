@@ -65,13 +65,13 @@ $Perms = getPerms($con);
                                         class="btn btn-outline-secondary btn-sm passBtn">
                                         <i class="bi bi-key-fill"></i>
                                     </button>
+                                    <?php if ($_SESSION['user']['id_user'] != $row['id_user']): ?>
+                                        <button type="button" data-userid="<?= $row['id_user']; ?>" data-toggle="tooltip"
+                                            data-placement="top" title="Eliminar" class="btn btn-outline-danger btn-sm deleteBtn">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
 
-                                    <button type="button" data-userid="<?= $row['id_user']; ?>" data-toggle="tooltip"
-                                        data-placement="top" title="Eliminar" class="btn btn-outline-danger btn-sm deleteBtn">
-                                        <i class="bi bi-trash-fill"></i>
-                                    </button>
-
-
+                                    <?php endif; ?>
 
                                 </td>
                             </tr>
@@ -117,8 +117,8 @@ $Perms = getPerms($con);
 
                     <div class="mb-3">
                         <label class="fw-bold">Telefone:</label>
-                        <input id="addTelefone" name="telefone" class="form-control" type="tel"
-                        maxlength="9" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);">
+                        <input id="addTelefone" name="telefone" class="form-control" type="tel" maxlength="9"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);">
                     </div>
                     <label for="departamento" class="form-label fw-bold col-md-7">Departamentos e Permissões</label>
                     <div id="addDepsPerms" class="row mb-3">
@@ -437,18 +437,18 @@ $Perms = getPerms($con);
                 <div class="col-md-${includeButton ? 7 : 8}">
                     <select class="form-select" name="departamento${currentRowCount}" required>
                         <?php foreach ($Deps as $row) { ?>
-                                                                            <option value="<?= $row['id_departamento'] ?>" ${selectedDepartamento == '<?= $row['id_departamento'] ?>' ? 'selected' : ''}>
-                                                                                <?= $row['nome'] ?>
-                                                                            </option>
+                                                                                <option value="<?= $row['id_departamento'] ?>" ${selectedDepartamento == '<?= $row['id_departamento'] ?>' ? 'selected' : ''}>
+                                                                                    <?= $row['nome'] ?>
+                                                                                </option>
                         <?php } ?>
                     </select>
                 </div>
                 <div class="col-md-4">
                     <select class="form-select" name="permissoes${currentRowCount}" required>
                         <?php foreach ($Perms as $row) { ?>
-                                                                            <option value="<?= $row['id_tipo_user'] ?>" ${selectedPermissoes == '<?= $row['id_tipo_user'] ?>' ? 'selected' : ''}>
-                                                                                <?= $row['nome'] ?>
-                                                                            </option>
+                                                                                <option value="<?= $row['id_tipo_user'] ?>" ${selectedPermissoes == '<?= $row['id_tipo_user'] ?>' ? 'selected' : ''}>
+                                                                                    <?= $row['nome'] ?>
+                                                                                </option>
                         <?php } ?>
                     </select>
                 </div>`;
