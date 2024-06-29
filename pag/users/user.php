@@ -437,18 +437,18 @@ $Perms = getPerms($con);
                 <div class="col-md-${includeButton ? 7 : 8}">
                     <select class="form-select" name="departamento${currentRowCount}" required>
                         <?php foreach ($Deps as $row) { ?>
-                                                                                <option value="<?= $row['id_departamento'] ?>" ${selectedDepartamento == '<?= $row['id_departamento'] ?>' ? 'selected' : ''}>
-                                                                                    <?= $row['nome'] ?>
-                                                                                </option>
+                            <option value="<?= $row['id_departamento'] ?>" ${selectedDepartamento == '<?= $row['id_departamento'] ?>' ? 'selected' : ''}>
+                                <?= $row['nome'] ?>
+                            </option>
                         <?php } ?>
                     </select>
                 </div>
                 <div class="col-md-4">
                     <select class="form-select" name="permissoes${currentRowCount}" required>
                         <?php foreach ($Perms as $row) { ?>
-                                                                                <option value="<?= $row['id_tipo_user'] ?>" ${selectedPermissoes == '<?= $row['id_tipo_user'] ?>' ? 'selected' : ''}>
-                                                                                    <?= $row['nome'] ?>
-                                                                                </option>
+                            <option value="<?= $row['id_tipo_user'] ?>" ${selectedPermissoes == '<?= $row['id_tipo_user'] ?>' ? 'selected' : ''}>
+                                <?= $row['nome'] ?>
+                            </option>
                         <?php } ?>
                     </select>
                 </div>`;
