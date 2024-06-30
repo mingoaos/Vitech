@@ -51,15 +51,31 @@ if (isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['username'])
 
             if ($query_exec) {
 
-                $query_dados = "SELECT * FROM user WHERE id_user = {$_SESSION['user']['id_user']}";
-                $exec_dados = mysqli_query($con, $query_dados);
 
-                if ($exec_dados && mysqli_num_rows($exec_dados) == 1) {
-                    unset($_SESSION['user']);
-                    $_SESSION['user'] = mysqli_fetch_assoc($exec_dados);
+                $query = "SELECT id_user,nome,email,username,telefone FROM user WHERE id_user = {$_SESSION['user']['id_user']}";
+
+                $login = mysqli_query($con, $query);
+                $user = mysqli_fetch_assoc($login);
+
+                $query = "SELECT d.id_departamento as departamento FROM departamento d
+                    INNER JOIN user_departamento_tipo udt ON d.id_departamento = udt.id_departamento
+                    INNER JOIN user u ON u.id_user = udt.id_user
+                    INNER JOIN tipo_user tu ON udt.id_tipo = tu.id_tipo_user
+                    WHERE u.id_user = {$_SESSION['user']['id_user']}";
+
+                $getdeps = mysqli_query($con, $query);
+
+                $deps = array();
+
+
+                while ($row = mysqli_fetch_assoc($getdeps)) {
+                    $deps[] = $row["departamento"];
                 }
 
-
+                unset($_SESSION['user']);
+                $_SESSION['user'] = $user;
+                $_SESSION['user']['departamento'] = $deps;
+                
                 $_SESSION['alert'] = '<i class="bi bi-check-circle-fill"></i> Sucesso ao atualizar os detalhes';
                 $_SESSION['alertClass'] = "success";
                 header('Location: .././?op=6');
@@ -153,7 +169,6 @@ if (isset($_POST['nome'], $_POST['username'], $_POST['email']) && $_POST['typeFo
 
         $login = mysqli_query($con, $query);
         $user = mysqli_fetch_assoc($login);
-        $id_user = $user['id_user'];
 
         $query = "SELECT d.id_departamento as departamento FROM departamento d
         INNER JOIN user_departamento_tipo udt ON d.id_departamento = udt.id_departamento
@@ -167,7 +182,7 @@ if (isset($_POST['nome'], $_POST['username'], $_POST['email']) && $_POST['typeFo
 
 
         while ($row = mysqli_fetch_assoc($getdeps)) {
-        $deps[] = $row["departamento"];
+            $deps[] = $row["departamento"];
         }
 
 
