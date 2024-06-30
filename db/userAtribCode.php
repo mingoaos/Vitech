@@ -6,8 +6,10 @@ session_start();
 if (isset($_POST['id_user'], $_POST['id_ticket'], $_POST['type']) && $_POST['type'] == 'mudarAtribuido') {
     $id_user = mysqli_real_escape_string($con, $_POST['id_user']);
     $id_ticket = mysqli_real_escape_string($con, $_POST['id_ticket']);
-
-    $query = "UPDATE ticket SET id_user_atribuido = '$id_user', data_atribuido = CURDATE() WHERE id_ticket = $id_ticket";
+    if (empty($id_user)) {
+        $id_user = 'NULL';
+    }
+    $query = "UPDATE ticket SET id_user_atribuido = $id_user, data_atribuido = CURDATE() WHERE id_ticket = $id_ticket";
     $query_exec = mysqli_query($con, $query);
 
 
